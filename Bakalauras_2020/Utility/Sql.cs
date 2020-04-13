@@ -52,7 +52,7 @@ namespace Bakalauras_2020.Utility
             {
                 int i = 0;
                 string sqlInput = string.Empty;
-                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,5}",Elapsed+"ms")}] {Command}(";
+                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,10}",Elapsed+"ms")}] {Command}(";
                 if (Args != null)
                 {
                     if ((Args != null) && (Args.Length > 0))
