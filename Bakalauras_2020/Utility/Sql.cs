@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Bakalauras_2020.Utility
         public static string ErrorLogLoc = "../../Data/ErrorLog.txt";
         public static string SqlLogLoc = "../../Data/SqlLog.txt";
 
-        public static void LogError(string errorMsg, string Command, object[] Args = null)
+        public static void LogError(string errorMsg, string Command, object[] Args = null, string Elapsed = "")
         {
             using (StreamWriter writer = File.AppendText(ErrorLogLoc))
             {
@@ -45,13 +46,13 @@ namespace Bakalauras_2020.Utility
             }
         }
 
-        public static void LogSql(string Command, object[] Args = null)
+        public static void LogSql(string Command, object[] Args = null, string Elapsed = "")
         {
             using (StreamWriter writer = File.AppendText(SqlLogLoc))
             {
                 int i = 0;
                 string sqlInput = string.Empty;
-                sqlInput += "[" + DateTime.Now + "] " + Command + "( ";
+                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,5}",Elapsed+"ms")}] {Command}(";
                 if (Args != null)
                 {
                     if ((Args != null) && (Args.Length > 0))
@@ -92,8 +93,11 @@ namespace Bakalauras_2020.Utility
                     }
                 }
                 DataTable dt = new DataTable();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 sda.Fill(dt);
-                LogSql(CommandName, Args);
+                stopwatch.Stop();
+                LogSql(CommandName, Args, stopwatch.ElapsedMilliseconds.ToString());
                 return dt;
             }
             catch (Exception E)
@@ -112,8 +116,11 @@ namespace Bakalauras_2020.Utility
                 sda.SelectCommand.CommandType = CommandType.Text;
                 if (UseTransaction) sda.SelectCommand.Transaction = transaction;
                 DataTable dt = new DataTable();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 sda.Fill(dt);
-                LogSql(Query);
+                stopwatch.Stop();
+                LogSql(Query, Elapsed:stopwatch.ElapsedMilliseconds.ToString());
                 return dt;
             }
             catch (Exception E)
@@ -131,8 +138,11 @@ namespace Bakalauras_2020.Utility
                 SqlCommand comm = new SqlCommand(SqlStatement, conn);
                 comm.CommandType = CommandType.Text;
                 if (UseTransaction) comm.Transaction = transaction;
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 int res = comm.ExecuteNonQuery();
-                LogSql(SqlStatement);
+                stopwatch.Stop();
+                LogSql(SqlStatement, Elapsed:stopwatch.ElapsedMilliseconds.ToString());
                 return res;
             }
             catch (Exception E)
@@ -160,8 +170,11 @@ namespace Bakalauras_2020.Utility
                         i = i + 2;
                     }
                 }
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 int res = comm.ExecuteNonQuery();
-                LogSql(CommandName, Args);
+                stopwatch.Stop();
+                LogSql(CommandName, Args, stopwatch.ElapsedMilliseconds.ToString());
                 return res;
             }
             catch (Exception E)
@@ -217,8 +230,11 @@ namespace Bakalauras_2020.Utility
                         i = i + 2;
                     }
                 }
-                object res = comm.ExecuteScalar();
-                LogSql(CommandName, Args);
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                object res = comm.ExecuteNonQuery();
+                stopwatch.Stop();
+                LogSql(CommandName, Args, stopwatch.ElapsedMilliseconds.ToString());
                 if (res != null) return res.ToString();
                 else return "0";
             }
@@ -246,8 +262,11 @@ namespace Bakalauras_2020.Utility
                         i = i + 2;
                     }
                 }
-                object res = comm.ExecuteScalar();
-                LogSql(CommandName, Args);
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                object res = comm.ExecuteNonQuery();
+                stopwatch.Stop();
+                LogSql(CommandName, Args, stopwatch.ElapsedMilliseconds.ToString());
                 if (res != null) return res.ToString();
                 else return "";
             }
@@ -387,8 +406,11 @@ namespace Bakalauras_2020.Utility
 
                 sda.SelectCommand.CommandType = CommandType.Text;
                 if (UseTransaction) sda.SelectCommand.Transaction = transaction;
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 object res = sda.SelectCommand.ExecuteScalar().ToString();
-                LogSql(Query);
+                stopwatch.Stop();
+                LogSql(Query, Elapsed:stopwatch.ElapsedMilliseconds.ToString());
                 if (res != null) return res.ToString();
                 else return string.Empty;
             }

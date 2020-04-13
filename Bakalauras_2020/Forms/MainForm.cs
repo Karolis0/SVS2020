@@ -6,6 +6,7 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using System.Linq;
+using Bakalauras_2020.Forms.Receiving;
 
 namespace Bakalauras_2020.Forms
 {
@@ -91,6 +92,12 @@ namespace Bakalauras_2020.Forms
         private void sandėlioZonosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WarehouseZones frm = new WarehouseZones();
+            frm.Show();
+        }
+
+        private void priėmimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReceivingDocs frm = new ReceivingDocs();
             frm.Show();
         }
     }

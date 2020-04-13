@@ -51,6 +51,7 @@
             this.sep4 = new System.Windows.Forms.ToolStripSeparator();
             this.tConfig = new System.Windows.Forms.ToolStripButton();
             this.lUserInfo = new System.Windows.Forms.Label();
+            this.priėmimoDokumentaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tModuleButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,8 +80,9 @@
             // 
             this.tReceiving.AutoSize = false;
             this.tReceiving.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.priėmimoUžsakymaiToolStripMenuItem,
-            this.pristatymaiToolStripMenuItem});
+            this.pristatymaiToolStripMenuItem,
+            this.priėmimoDokumentaiToolStripMenuItem,
+            this.priėmimoUžsakymaiToolStripMenuItem});
             this.tReceiving.Image = ((System.Drawing.Image)(resources.GetObject("tReceiving.Image")));
             this.tReceiving.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tReceiving.Name = "tReceiving";
@@ -91,13 +93,14 @@
             // priėmimoUžsakymaiToolStripMenuItem
             // 
             this.priėmimoUžsakymaiToolStripMenuItem.Name = "priėmimoUžsakymaiToolStripMenuItem";
-            this.priėmimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.priėmimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.priėmimoUžsakymaiToolStripMenuItem.Text = "Priėmimo užsakymai";
+            this.priėmimoUžsakymaiToolStripMenuItem.Click += new System.EventHandler(this.priėmimoUžsakymaiToolStripMenuItem_Click);
             // 
             // pristatymaiToolStripMenuItem
             // 
             this.pristatymaiToolStripMenuItem.Name = "pristatymaiToolStripMenuItem";
-            this.pristatymaiToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.pristatymaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.pristatymaiToolStripMenuItem.Text = "Pristatymai";
             // 
             // toolStripSeparator1
@@ -240,6 +243,12 @@
             this.lUserInfo.TabIndex = 4;
             this.lUserInfo.Text = "Vartotojo informacija";
             // 
+            // priėmimoDokumentaiToolStripMenuItem
+            // 
+            this.priėmimoDokumentaiToolStripMenuItem.Name = "priėmimoDokumentaiToolStripMenuItem";
+            this.priėmimoDokumentaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.priėmimoDokumentaiToolStripMenuItem.Text = "Priėmimo dokumentai";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,5 +289,6 @@
         private System.Windows.Forms.ToolStripButton tConfig;
         private System.Windows.Forms.ToolStripMenuItem klaidųSąrašasToolStripMenuItem;
         private System.Windows.Forms.Label lUserInfo;
+        private System.Windows.Forms.ToolStripMenuItem priėmimoDokumentaiToolStripMenuItem;
     }
 }

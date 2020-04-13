@@ -80,7 +80,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             if (string.IsNullOrEmpty(tCountry.Text))
             {
                 tCountry.Invalidate();
-                errorMsg += "Negalimas šalies\n";
+                errorMsg += "Negalimas šalies pavadinimas\n";
             }
 
             if (string.IsNullOrEmpty(tCity.Text))

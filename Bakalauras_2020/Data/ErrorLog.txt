@@ -59,3 +59,9 @@
 [4/11/2020 11:38:17 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
 [4/11/2020 11:38:39 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
 [4/11/2020 11:40:21 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[4/12/2020 8:51:57 PM] <Error: Procedure or function 'SelectReceivingDocs' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/12/2020 8:53:14 PM] <Error: Procedure or function 'SelectReceivingDocs' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/12/2020 8:53:57 PM] <Error: Procedure or function 'SelectReceivingDocs' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/12/2020 8:55:18 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/12/2020 8:56:18 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/12/2020 8:56:26 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 

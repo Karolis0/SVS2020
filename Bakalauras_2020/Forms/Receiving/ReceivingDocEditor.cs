@@ -16,9 +16,11 @@ namespace Bakalauras_2020.Forms.Receiving
     public partial class ReceivingDocEditor : Form
     {
         public int DocId = -1;
-        public static readonly string SelectProcedure = "GetWarehouseById";
-        public static readonly string SaveProcedure = "SaveWarehouse";
-        public static readonly string UpdateProcedure = "UpdateWarehouse";    
+        private int SelectedPartnerId = -1;
+        private int StateId = 1;
+        public static readonly string SelectProcedure = "GetRcvDocByID";
+        public static readonly string SaveProcedure = "SaveRcvDoc";
+        public static readonly string UpdateProcedure = "UpdateRcvDoc";    
 
         public ReceivingDocEditor()
         {
@@ -28,56 +30,55 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void SetupForm()
         {
-            SetupComboboxes();
+            this.Load += ReceivingDocEditor_Load;
             tCreateDate.Enabled = false;
             tUpdated.Enabled = false;
-            cWarehouseLocId.DropDownHeight = 1;
-            cWarehouseLocId.DropDown += CWarehouseLocId_DropDown;
+            tWarehouse.Enabled = false;
+            tState.Enabled = false;
+            tSupplier.Enter += TSupplier_GotFocus;
+            tSupplier.ReadOnly = true;
+            dtArrivalPlanned.Format = DateTimePickerFormat.Custom;
+            dtArrivalPlanned.CustomFormat = "dd-MM-yyyy";
         }
 
-        private void CWarehouseLocId_DropDown(object sender, EventArgs e)
+        private void ReceivingDocEditor_Load(object sender, EventArgs e)
         {
-            int LocId = WarehouseLocMapper.SelectLocId();
-            if (!((DataTable)cWarehouseLocId.DataSource).AsEnumerable().Any(row => LocId == row.Field<int>("LocationId")))
-            {
-                LoadWarehouseCombo();
-            }
-            cWarehouseLocId.SelectedValue = LocId;
-            cWarehouseLocId.DroppedDown = false;
-            cWarehouseLocId.Focus();
+            this.ActiveControl = label1;
         }
 
-        private void SetupComboboxes()
+        private void TSupplier_GotFocus(object sender, EventArgs e)
         {
-            LoadWarehouseCombo();
-        }
-
-        private void LoadWarehouseCombo()
-        {
-            DataTable dTable = Sql.GetTable("SelectLocationsComboBox");
-            cWarehouseLocId.DataSource = dTable;
-            cWarehouseLocId.DisplayMember = "LocationCode";
-            cWarehouseLocId.ValueMember = "LocationId";
-            cWarehouseLocId.SelectedIndex = 0;
+            SelectedPartnerId = PartnerMapper.SelectPartnerId(Supplier: true);
+            tSupplier.Text = Sql.GetString($"SELECT dbo.GetPartnerName('{SelectedPartnerId}')");
         }
 
         private void Save()
         {
             if (DocId == -1)
                 Sql.ExecuteCmd(SaveProcedure, new object[] {
-                    "@WarehouseCode", tCode.Text,
-                    "@WarehouseName", tName.Text,
-                    "@LocationId", cWarehouseLocId.SelectedValue,
+                    "@DocNo", tDocNo.Text,
+                    "@PartnerId", SelectedPartnerId,
+                    "@PlannedArrival", dtArrivalPlanned.Value.ToShortDateString(),
+                    "@TruckNo", tTruckNo.Text,
+                    "@TrailerNo", tTrailerNo.Text,
+                    "@Driver", tDriver.Text,
+                    "@State", 1,
+                    "@WarehouseId", GlobalUser.CurrentWarehouseId,
                     "@CreateDate", DateTime.Now.ToShortDateString(),
                     "@UpdateDate", DateTime.Now.ToShortDateString()
                 });
             else
                 Sql.ExecuteCmd(UpdateProcedure, new object[] {
-                    "@WarehouseCode", tCode.Text,
-                    "@WarehouseName", tName.Text,
-                    "@LocationId", cWarehouseLocId.SelectedValue,
+                    "@DocNo", tDocNo.Text,
+                    "@PartnerId", SelectedPartnerId,
+                    "@PlannedArrival", dtArrivalPlanned.Value.ToShortDateString(),
+                    "@TruckNo", tTruckNo.Text,
+                    "@TrailerNo", tTrailerNo.Text,
+                    "@Driver", tDriver.Text,
+                    "@State", StateId,
                     "@WarehouseId", GlobalUser.CurrentWarehouseId,
-                    "@UpdateDate", DateTime.Now.ToShortDateString()
+                    "@UpdateDate", DateTime.Now.ToShortDateString(),
+                    "@RcvDocId", DocId
                 });
             LogAction(DocId == -1 ? SaveProcedure : UpdateProcedure);
             DialogResult = DialogResult.OK;
@@ -94,30 +95,14 @@ namespace Bakalauras_2020.Forms.Receiving
         private bool ValidInput()
         {
             string errorMsg = string.Empty;
-            if (string.IsNullOrEmpty(tCode.Text))
+            if (string.IsNullOrEmpty(tDocNo.Text))
             {
-                tCode.Invalidate();
-                errorMsg += "Negalimas sandėlio kodas\n";
+                tDocNo.Text = NullCheck.IsNullString(Sql.GetTable("GenerateDocNo").Rows[0][0]);
             }
-            if (string.IsNullOrEmpty(tName.Text))
+            if (string.IsNullOrEmpty(tSupplier.Text))
             {
-                tName.Invalidate();
-                errorMsg += "Negalimas sandėlio pavadinimas\n";
-            }
-
-            int Exists = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateWarehouse('{tCode.Text}', '{tName.Text}')"));
-
-            if (Exists > 0 && DocId < 0)
-            {
-                errorMsg += "Sandėlio kodo ir pavadinimo kombinacija nėra unikali\n";
-            }
-
-            if (Exists > 0 && DocId > 0)
-            {
-                if (NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.CheckIfWarehouseIsUnique('{DocId}','{tName.Text}','{tCode.Text}')")) == 0)
-                {
-                    errorMsg += "Sandėlio kodo ir pavadinimo kombinacija nėra unikali\n";
-                }
+                tSupplier.Invalidate();
+                errorMsg += "Negalimas partneris\n";
             }
 
             if (!string.IsNullOrEmpty(errorMsg))
@@ -135,14 +120,21 @@ namespace Bakalauras_2020.Forms.Receiving
 
         public void LoadData()
         {
-            DataTable dt = Sql.GetTable(SelectProcedure, new object[] { "@WarehouseId", DocId });
+            DataTable dt = Sql.GetTable(SelectProcedure, new object[] { "@RcvDocId", DocId });
             if (dt.Rows.Count > 0)
             {
-                tCode.Text = NullCheck.IsNullString(dt.Rows[0]["WarehouseCode"]);
-                tName.Text = NullCheck.IsNullString(dt.Rows[0]["WarehouseName"]);
-                cWarehouseLocId.SelectedValue = NullCheck.IsNullString(dt.Rows[0]["LocationId"]);
+                tDocNo.Text = NullCheck.IsNullString(dt.Rows[0]["DocCode"]);
+                tSupplier.Text = NullCheck.IsNullString(dt.Rows[0]["PartnerName"]);
+                dtArrivalPlanned.Value = NullCheck.IsNullDate(dt.Rows[0]["ArrivalPlaned"]);
+                tTruckNo.Text = NullCheck.IsNullString(dt.Rows[0]["TruckNo"]);
+                tTrailerNo.Text = NullCheck.IsNullString(dt.Rows[0]["TrailerNo"]);
+                tDriver.Text = NullCheck.IsNullString(dt.Rows[0]["Driver"]);
+                tState.Text = NullCheck.IsNullString(dt.Rows[0]["IOStateName"]);
                 tCreateDate.Text = NullCheck.IsNullDate(dt.Rows[0]["CreateDate"]).ToShortDateString();
-                tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();            }
+                tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();
+                SelectedPartnerId = NullCheck.IsNullInt(dt.Rows[0]["SupplierId"]);
+                StateId = NullCheck.IsNullInt(dt.Rows[0]["StateId"]);
+            }
         }
 
         protected override void OnShown(EventArgs e)
@@ -173,11 +165,16 @@ namespace Bakalauras_2020.Forms.Receiving
             Sql.LogAction(new object[] {
                 "Procedure", Command,
                 "@Obj1", DocId, "@Obj1Name", nameof(DocId),
-                "@Obj2", tCode.Text, "@Obj2Name", nameof(tCode).Substring(1),
-                "@Obj3", tName.Text, "@Obj3Name", nameof(tName).Substring(1),
-                "@Obj4", cWarehouseLocId.SelectedValue, "@Obj4Name", nameof(cWarehouseLocId).Substring(1),
-                "@Obj5", DateTime.Now.ToShortDateString(), "@Obj5Name", nameof(DateTime),
-                "@Obj6", DateTime.Now.ToShortDateString(), "@Obj6Name", nameof(DateTime)
+                "@Obj2", tDocNo.Text, "@Obj2Name", nameof(tDocNo).Substring(1),
+                "@Obj3", tSupplier.Text, "@Obj3Name", nameof(tSupplier).Substring(1),
+                "@Obj4", dtArrivalPlanned.Value.ToShortDateString(), "@Obj4Name", nameof(dtArrivalPlanned).Substring(2),
+                "@Obj5", tTruckNo.Text, "@Obj5Name", nameof(tTruckNo).Substring(1),
+                "@Obj6", tTrailerNo.Text, "@Obj6Name", nameof(tTrailerNo).Substring(1),
+                "@Obj7", tDriver.Text, "@Obj7Name", nameof(tDriver).Substring(1),
+                "@Obj8", tState.Text, "@Obj8Name", nameof(tState).Substring(1),
+                "@Obj9", tWarehouse.Text, "@Obj9Name", nameof(tWarehouse).Substring(1),
+                "@Obj10", DateTime.Now.ToShortDateString(), "@Obj10Name", nameof(DateTime),
+                "@Obj11", DateTime.Now.ToShortDateString(), "@Obj11Name", nameof(DateTime)
             });
         }
     }

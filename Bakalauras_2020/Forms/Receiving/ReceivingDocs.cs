@@ -1,4 +1,5 @@
-﻿using Bakalauras_2020.Utility;
+﻿using Bakalauras_2020.Forms.Mappers;
+using Bakalauras_2020.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,10 @@ namespace Bakalauras_2020.Forms.Receiving
 {
     public partial class ReceivingDocs : BTpl
     {
+        private int? CurrentRcvDocId = -1;
         public readonly string GetRecDocItems = "GetOrderedItemsByReceivingDocId";
+        public readonly string SaveRcvDocDet = "SaveOrderedItem";
+        public readonly string UpdateRcvDocDet = "UpdateOrderedItem";
 
         public ReceivingDocs()
         {
@@ -33,19 +37,31 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             dataGridView2.Visible = false;
             ModifyGrid(AccessGrid());
-            ModifyGridDet(dataGridView2);
         }
 
         private void ModifyGridDet(DataGridView dView)
         {
             ResizeColumns(dView);
             ProcessGridControls(dView);
-            ProcessReadOnlyCells(dView);
         }
 
         private void ProcessReadOnlyCells(DataGridView dView)
         {
-
+            dView.Columns["Name"].ReadOnly = true;
+            dView.Columns["Code"].ReadOnly = true;
+            dView.Columns["Barcode"].ReadOnly = true;
+            dView.Columns["Description"].ReadOnly = true;
+            dView.Columns["ItemTypeName"].ReadOnly = true;
+            dView.Columns["NetWeight"].ReadOnly = true;
+            dView.Columns["TotalNetto"].ReadOnly = true;
+            dView.Columns["BrutoWeight"].ReadOnly = true;
+            dView.Columns["TotalBruto"].ReadOnly = true;
+            dView.Columns["UnitName"].ReadOnly = true;
+            dView.Columns["Volume"].ReadOnly = true;
+            dView.Columns["Width"].ReadOnly = true;
+            dView.Columns["Height"].ReadOnly = true;
+            dView.Columns["Created"].ReadOnly = true;
+            dView.Columns["Updated"].ReadOnly = true;
         }
 
         private void ProcessGridControls(DataGridView dView)
@@ -66,13 +82,41 @@ namespace Bakalauras_2020.Forms.Receiving
                 {
                     if (!ValidateRow(row))
                         return;
-                    SaveRow();
+                    SaveRow(row);
                 }
+            }
+        }
+
+        public void SaveRow(DataGridViewRow row)
+        {
+            int rowAffected = Sql.ExecuteCmd(NullCheck.IsNullInt(row.Cells["OrderedItemsId"].Value) <= 0 ? SaveRcvDocDet : UpdateRcvDocDet, new object[]
+            {
+                "@OrderedItemId", NullCheck.IsNullInt(row.Cells["OrderedItemsId"].Value),
+                "@Quantity", NullCheck.IsNullDecimal(row.Cells["Quantity"].Value),
+                "@Created", DateTime.Now,
+                "@Updated", DateTime.Now,
+                "@ItemId", NullCheck.IsNullInt(row.Cells["ItemId"].Value),
+                "@RcvDocId", CurrentRcvDocId
+            });
+
+            if (rowAffected > 0)
+            {
+                dataGridView2.Rows.Add();
             }
         }
 
         private bool ValidateRow(DataGridViewRow row)
         {
+            if (NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) <= 0)
+            {
+                return false;
+            }
+
+            decimal TotalNetto = NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) * NullCheck.IsNullDecimal(row.Cells["NetWeight"].Value);
+            decimal TotalBruto = NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) * NullCheck.IsNullDecimal(row.Cells["BrutoWeight"].Value);
+            row.Cells["TotalNetto"].Value = TotalNetto;
+            row.Cells["TotalBruto"].Value = TotalBruto;
+
             return true;
         }
 
@@ -94,7 +138,7 @@ namespace Bakalauras_2020.Forms.Receiving
         private void DView_SelectionChanged(object sender, EventArgs e)
         {
             ChangeButtonBehaviour(AccessGrid());
-            if (AccessGrid().SelectedRows.Count > 0)
+            if (AccessGrid().SelectedRows.Count > 0 && NullCheck.IsNullInt(AccessGrid().SelectedRows[0].Cells["ReceivingDocId"].Value) > 0)
             {
                 dataGridView2.Visible = true;
                 MapOrderedItemData(NullCheck.IsNullInt(AccessGrid().SelectedRows[0].Cells["ReceivingDocId"].Value));
@@ -107,9 +151,52 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void MapOrderedItemData(int RcvDocId)
         {
+            CurrentRcvDocId = RcvDocId;
             DataTable dt = Sql.GetTable(GetRecDocItems, new object[] { "@ReceivingDocId", RcvDocId});
             dataGridView2.DataSource = dt;
+            dt.Rows.Add();
+            ModifyGridDet(dataGridView2);
             TranslateColumnsDet(dataGridView2);
+            HideColumnsDet(dataGridView2);
+            ProcessReadOnlyCells(dataGridView2);
+            dataGridView2.CellClick += DataGridView2_CellClick; ;
+        }
+
+        private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+                if (row.Cells["Name"].Selected || row.Cells["Code"].Selected)
+                {
+                    int SelectedItemId = ItemMapper.SelectItemId();
+                    if (SelectedItemId > 0)
+                    {
+                        DataTable dt = Sql.GetTable("SelectItemList", new object[] { "@ItemId", SelectedItemId });
+                        if (dt != null && dt.Rows.Count > 0)
+                        {
+                            row.Cells["Name"].Value = NullCheck.IsNullString(dt.Rows[0]["Name"]);
+                            row.Cells["Code"].Value = NullCheck.IsNullString(dt.Rows[0]["Code"]);
+                            row.Cells["Barcode"].Value = NullCheck.IsNullString(dt.Rows[0]["Barcode"]);
+                            row.Cells["Description"].Value = NullCheck.IsNullString(dt.Rows[0]["Description"]);
+                            row.Cells["ItemTypeName"].Value = NullCheck.IsNullString(dt.Rows[0]["Name"]);
+                            row.Cells["NetWeight"].Value = NullCheck.IsNullString(dt.Rows[0]["NetWeight"]);
+                            row.Cells["BrutoWeight"].Value = NullCheck.IsNullString(dt.Rows[0]["BrutoWeight"]);
+                            row.Cells["UnitName"].Value = NullCheck.IsNullString(dt.Rows[0]["UnitName"]);
+                            row.Cells["Volume"].Value = NullCheck.IsNullString(dt.Rows[0]["Volume"]);
+                            row.Cells["Width"].Value = NullCheck.IsNullString(dt.Rows[0]["Width"]);
+                            row.Cells["Height"].Value = NullCheck.IsNullString(dt.Rows[0]["Height"]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HideColumnsDet(DataGridView dView)
+        {
+            dView.Columns["OrderedItemId"].Visible = false;
+            dView.Columns["ItemId"].Visible = false;
+            dView.Columns["ReceivingDocId"].Visible = false;
         }
 
         private void TranslateColumnsDet(DataGridView dView)
@@ -128,8 +215,8 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Volume"].HeaderText = "Tūris";
             dView.Columns["Width"].HeaderText = "Plotis";
             dView.Columns["Height"].HeaderText = "Aukštis";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
-            dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
+            dView.Columns["Created"].HeaderText = "Sukūrimo data";
+            dView.Columns["Updated"].HeaderText = "Atnaujinta";
         }
 
         private void ChangeButtonBehaviour(DataGridView dView)
@@ -162,6 +249,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Driver"].HeaderText = "Vairuotojas";
             dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
+            dView.Columns["IOStateName"].HeaderText = "Būsena";
         }
 
         private void ResizeColumns(DataGridView dView)
