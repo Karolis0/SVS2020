@@ -33,6 +33,9 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             tUpdated.Enabled = false;
             tSpotWidth.Enabled = false;
             tSpotHeight.Enabled = false;
+            tZoneLength.Enabled = false;
+            tZoneRemainingVolume.Enabled = false;
+            tZoneVolume.Enabled = false;
             ModifyGrid(AccessGrid());
             ModifyPanel(AccessPanel());
             ModifyTreeView();
@@ -113,6 +116,9 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 tUpdated.Text = NullCheck.IsNullString(dt.Rows[0]["UpdateDate"]);
                 tSpotHeight.Text = NullCheck.IsNullString(dt.Rows[0]["SpotHeight"]);
                 tSpotWidth.Text = NullCheck.IsNullString(dt.Rows[0]["SpotWidth"]);
+                tZoneLength.Text = NullCheck.IsNullString(dt.Rows[0]["SpotLength"]);
+                tZoneVolume.Text = NullCheck.IsNullString(dt.Rows[0]["SpotVolume"]);
+                tZoneRemainingVolume.Text = NullCheck.IsNullString(dt.Rows[0]["SpotRemainingVolume"]);
             }
         }
 

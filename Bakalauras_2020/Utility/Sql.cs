@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bakalauras_2020.StaticClass;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -52,7 +53,7 @@ namespace Bakalauras_2020.Utility
             {
                 int i = 0;
                 string sqlInput = string.Empty;
-                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,10}",Elapsed+"ms")}] {Command}(";
+                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,10}",Elapsed+"ms")} User: {string.Format("{0,8}", GlobalUser.Username)}] {Command}(";
                 if (Args != null)
                 {
                     if ((Args != null) && (Args.Length > 0))

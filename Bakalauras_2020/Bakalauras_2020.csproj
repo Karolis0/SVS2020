@@ -108,6 +108,30 @@
     <Compile Include="Forms\Partners\PartnerEditor.Designer.cs">
       <DependentUpon>PartnerEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Receiving\ShipmentEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Receiving\ShipmentEditor.Designer.cs">
+      <DependentUpon>ShipmentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Receiving\Shipment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Receiving\Shipment.Designer.cs">
+      <DependentUpon>Shipment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Receiving\ReceivingOrderEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Receiving\ReceivingOrderEditor.Designer.cs">
+      <DependentUpon>ReceivingOrderEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Receiving\ReceivingOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Receiving\ReceivingOrder.Designer.cs">
+      <DependentUpon>ReceivingOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Receiving\ReceivingDocs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +215,18 @@
     <EmbeddedResource Include="Forms\Partners\PartnerEditor.resx">
       <DependentUpon>PartnerEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Receiving\ShipmentEditor.resx">
+      <DependentUpon>ShipmentEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Receiving\Shipment.resx">
+      <DependentUpon>Shipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Receiving\ReceivingOrderEditor.resx">
+      <DependentUpon>ReceivingOrderEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Receiving\ReceivingOrder.resx">
+      <DependentUpon>ReceivingOrder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Receiving\ReceivingDocs.resx">
       <DependentUpon>ReceivingDocs.cs</DependentUpon>
     </EmbeddedResource>
@@ -235,6 +271,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Forms\Interfaces\" />
     <Folder Include="Forms\Templates\" />
   </ItemGroup>
   <ItemGroup>

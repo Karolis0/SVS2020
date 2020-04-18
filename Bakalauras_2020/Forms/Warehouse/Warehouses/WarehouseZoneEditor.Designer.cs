@@ -46,11 +46,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tSpotWidth = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tSpotLength = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tSpotVolume = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // bSave
             // 
-            this.bSave.Location = new System.Drawing.Point(111, 233);
+            this.bSave.Location = new System.Drawing.Point(112, 323);
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(75, 23);
             this.bSave.TabIndex = 0;
@@ -60,7 +64,7 @@
             // 
             // bCancel
             // 
-            this.bCancel.Location = new System.Drawing.Point(190, 233);
+            this.bCancel.Location = new System.Drawing.Point(191, 323);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 1;
@@ -112,14 +116,14 @@
             // 
             // tUpdated
             // 
-            this.tUpdated.Location = new System.Drawing.Point(165, 199);
+            this.tUpdated.Location = new System.Drawing.Point(165, 253);
             this.tUpdated.Name = "tUpdated";
             this.tUpdated.Size = new System.Drawing.Size(100, 20);
             this.tUpdated.TabIndex = 27;
             // 
             // tCreated
             // 
-            this.tCreated.Location = new System.Drawing.Point(165, 173);
+            this.tCreated.Location = new System.Drawing.Point(165, 227);
             this.tCreated.Name = "tCreated";
             this.tCreated.Size = new System.Drawing.Size(100, 20);
             this.tCreated.TabIndex = 26;
@@ -127,7 +131,7 @@
             // lUpdated
             // 
             this.lUpdated.AutoSize = true;
-            this.lUpdated.Location = new System.Drawing.Point(12, 202);
+            this.lUpdated.Location = new System.Drawing.Point(12, 256);
             this.lUpdated.Name = "lUpdated";
             this.lUpdated.Size = new System.Drawing.Size(57, 13);
             this.lUpdated.TabIndex = 25;
@@ -136,7 +140,7 @@
             // lCreated
             // 
             this.lCreated.AutoSize = true;
-            this.lCreated.Location = new System.Drawing.Point(12, 176);
+            this.lCreated.Location = new System.Drawing.Point(12, 230);
             this.lCreated.Name = "lCreated";
             this.lCreated.Size = new System.Drawing.Size(47, 13);
             this.lCreated.TabIndex = 24;
@@ -151,7 +155,7 @@
             // 
             // tParent
             // 
-            this.tParent.Location = new System.Drawing.Point(165, 146);
+            this.tParent.Location = new System.Drawing.Point(165, 200);
             this.tParent.Name = "tParent";
             this.tParent.Size = new System.Drawing.Size(100, 20);
             this.tParent.TabIndex = 30;
@@ -159,7 +163,7 @@
             // lStreetName
             // 
             this.lStreetName.AutoSize = true;
-            this.lStreetName.Location = new System.Drawing.Point(12, 149);
+            this.lStreetName.Location = new System.Drawing.Point(12, 203);
             this.lStreetName.Name = "lStreetName";
             this.lStreetName.Size = new System.Drawing.Size(39, 13);
             this.lStreetName.TabIndex = 29;
@@ -171,6 +175,7 @@
             this.tSpotHeight.Name = "tSpotHeight";
             this.tSpotHeight.Size = new System.Drawing.Size(100, 20);
             this.tSpotHeight.TabIndex = 34;
+            this.tSpotHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tSpotHeight_KeyPress);
             // 
             // label1
             // 
@@ -187,6 +192,7 @@
             this.tSpotWidth.Name = "tSpotWidth";
             this.tSpotWidth.Size = new System.Drawing.Size(100, 20);
             this.tSpotWidth.TabIndex = 32;
+            this.tSpotWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tSpotWidth_KeyPress);
             // 
             // label2
             // 
@@ -197,11 +203,49 @@
             this.label2.TabIndex = 31;
             this.label2.Text = "Vietos plotis:";
             // 
+            // tSpotLength
+            // 
+            this.tSpotLength.Location = new System.Drawing.Point(165, 146);
+            this.tSpotLength.Name = "tSpotLength";
+            this.tSpotLength.Size = new System.Drawing.Size(100, 20);
+            this.tSpotLength.TabIndex = 40;
+            this.tSpotLength.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tSpotLength_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 149);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 13);
+            this.label3.TabIndex = 39;
+            this.label3.Text = "Vietos ilgis:";
+            // 
+            // tSpotVolume
+            // 
+            this.tSpotVolume.Location = new System.Drawing.Point(165, 173);
+            this.tSpotVolume.Name = "tSpotVolume";
+            this.tSpotVolume.Size = new System.Drawing.Size(100, 20);
+            this.tSpotVolume.TabIndex = 37;
+            this.tSpotVolume.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tSpotVolume_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 176);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(61, 13);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Vietos tūris:";
+            // 
             // WarehouseZoneEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 268);
+            this.ClientSize = new System.Drawing.Size(278, 358);
+            this.Controls.Add(this.tSpotLength);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tSpotVolume);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.tSpotHeight);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tSpotWidth);
@@ -247,5 +291,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tSpotWidth;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tSpotLength;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tSpotVolume;
+        private System.Windows.Forms.Label label5;
     }
 }

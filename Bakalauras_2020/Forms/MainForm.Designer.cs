@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tModuleButtons = new System.Windows.Forms.ToolStrip();
             this.tReceiving = new System.Windows.Forms.ToolStripSplitButton();
-            this.priėmimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pristatymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.priėmimoDokumentaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.priėmimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tDistOrders = new System.Windows.Forms.ToolStripSplitButton();
             this.išsiuntimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,6 @@
             this.sep4 = new System.Windows.Forms.ToolStripSeparator();
             this.tConfig = new System.Windows.Forms.ToolStripButton();
             this.lUserInfo = new System.Windows.Forms.Label();
-            this.priėmimoDokumentaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tModuleButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,18 +90,26 @@
             this.tReceiving.Text = "Priėmimas";
             this.tReceiving.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // pristatymaiToolStripMenuItem
+            // 
+            this.pristatymaiToolStripMenuItem.Name = "pristatymaiToolStripMenuItem";
+            this.pristatymaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.pristatymaiToolStripMenuItem.Text = "Pristatymai";
+            this.pristatymaiToolStripMenuItem.Click += new System.EventHandler(this.pristatymaiToolStripMenuItem_Click);
+            // 
+            // priėmimoDokumentaiToolStripMenuItem
+            // 
+            this.priėmimoDokumentaiToolStripMenuItem.Name = "priėmimoDokumentaiToolStripMenuItem";
+            this.priėmimoDokumentaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.priėmimoDokumentaiToolStripMenuItem.Text = "Priėmimo dokumentai";
+            this.priėmimoDokumentaiToolStripMenuItem.Click += new System.EventHandler(this.priėmimoDokumentaiToolStripMenuItem_Click);
+            // 
             // priėmimoUžsakymaiToolStripMenuItem
             // 
             this.priėmimoUžsakymaiToolStripMenuItem.Name = "priėmimoUžsakymaiToolStripMenuItem";
             this.priėmimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.priėmimoUžsakymaiToolStripMenuItem.Text = "Priėmimo užsakymai";
             this.priėmimoUžsakymaiToolStripMenuItem.Click += new System.EventHandler(this.priėmimoUžsakymaiToolStripMenuItem_Click);
-            // 
-            // pristatymaiToolStripMenuItem
-            // 
-            this.pristatymaiToolStripMenuItem.Name = "pristatymaiToolStripMenuItem";
-            this.pristatymaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.pristatymaiToolStripMenuItem.Text = "Pristatymai";
             // 
             // toolStripSeparator1
             // 
@@ -243,21 +251,16 @@
             this.lUserInfo.TabIndex = 4;
             this.lUserInfo.Text = "Vartotojo informacija";
             // 
-            // priėmimoDokumentaiToolStripMenuItem
-            // 
-            this.priėmimoDokumentaiToolStripMenuItem.Name = "priėmimoDokumentaiToolStripMenuItem";
-            this.priėmimoDokumentaiToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.priėmimoDokumentaiToolStripMenuItem.Text = "Priėmimo dokumentai";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1032, 645);
+            this.ClientSize = new System.Drawing.Size(1008, 645);
             this.Controls.Add(this.lUserInfo);
             this.Controls.Add(this.tModuleButtons);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tModuleButtons.ResumeLayout(false);
             this.tModuleButtons.PerformLayout();
             this.ResumeLayout(false);

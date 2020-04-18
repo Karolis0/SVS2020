@@ -107,7 +107,7 @@ namespace Bakalauras_2020.Forms.Receiving
 
             if (!string.IsNullOrEmpty(errorMsg))
             {
-                MessageBox.Show("Negalima išsaugoti sandėlio:\n" + errorMsg, "Klaida", MessageBoxButtons.OK);
+                MessageBox.Show("Negalima išsaugoti priėmimo užsakymo:\n" + errorMsg, "Klaida", MessageBoxButtons.OK);
                 return false;
             }
             return true;

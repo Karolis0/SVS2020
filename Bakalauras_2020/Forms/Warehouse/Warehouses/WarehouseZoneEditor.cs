@@ -17,6 +17,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
     {
         public int WarehouseZoneId = -1;
         public int FZoneParentId = -1;
+        private decimal RemainingVolume = -1;
         public static readonly string SelectProcedure = "GetWarehouseZoneById";
         public static readonly string SaveProcedure = "SaveWarehouseZone";
         public static readonly string UpdateProcedure = "UpdateWarehouseZone";    
@@ -33,8 +34,6 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             tUpdated.Enabled = false;
             tWarehouse.Enabled = false;
             tParent.Enabled = false;
-            tSpotWidth.Enabled = false;
-            tSpotHeight.Enabled = false;
         }
 
         private void Save()
@@ -48,7 +47,9 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                     "@Created", DateTime.Now.ToShortDateString(),
                     "@Updated", DateTime.Now.ToShortDateString(),
                     "@SpotHeight", tSpotHeight.Text,
-                    "@SpotWidth", tSpotWidth.Text
+                    "@SpotWidth", tSpotWidth.Text,
+                    "@SpotLength", tSpotLength.Text,
+                    "@SpotVolume", tSpotVolume.Text
                 });
             else
                 Sql.ExecuteCmd(UpdateProcedure, new object[] {
@@ -59,7 +60,9 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                     "@FZoneId", WarehouseZoneId,
                     "@Updated", DateTime.Now.ToShortDateString(),
                     "@SpotHeight", tSpotHeight.Text,
-                    "@SpotWidth", tSpotWidth.Text
+                    "@SpotWidth", tSpotWidth.Text,
+                    "@SpotLength", tSpotLength.Text,
+                    "@SpotVolume", tSpotVolume.Text
                 });
             LogAction(WarehouseZoneId == -1 ? SaveProcedure : UpdateProcedure);
             DialogResult = DialogResult.OK;
@@ -127,6 +130,20 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 tCreated.Text = NullCheck.IsNullDate(dt.Rows[0]["CreateDate"]).ToShortDateString();
                 tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();
                 FZoneParentId = NullCheck.IsNullInt(dt.Rows[0]["ParentID"]);
+                tSpotHeight.Text = NullCheck.IsNullString(dt.Rows[0]["SpotHeight"]);
+                tSpotLength.Text = NullCheck.IsNullString(dt.Rows[0]["SpotLength"]);
+                tSpotWidth.Text = NullCheck.IsNullString(dt.Rows[0]["SpotWidth"]);
+                tSpotVolume.Text = NullCheck.IsNullString(dt.Rows[0]["SpotVolume"]);
+            }
+
+
+            RemainingVolume = NullCheck.IsNullDecimal(Sql.GetString($"SELECT dbo.RemainingZoneVolume('{WarehouseZoneId}')"));
+            if (NullCheck.IsNullDecimal(dt.Rows[0]["SpotVolume"]) != RemainingVolume)
+            {
+                tSpotHeight.Enabled = false;
+                tSpotLength.Enabled = false;
+                tSpotVolume.Enabled = false;
+                tSpotWidth.Enabled = false;
             }
         }
 
@@ -141,7 +158,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             }
         }
 
-        private void tVolume_KeyPress(object sender, KeyPressEventArgs e)
+        private void tGeneral_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
@@ -168,6 +185,26 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 "@Obj8", DateTime.Now.ToShortDateString(), "@Obj6Name", nameof(DateTime),
                 "@Obj9", DateTime.Now.ToShortDateString(), "@Obj7Name", nameof(DateTime)
             });
+        }
+
+        private void tSpotHeight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            tGeneral_KeyPress(sender, e);
+        }
+
+        private void tSpotWidth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            tGeneral_KeyPress(sender, e);
+        }
+
+        private void tSpotLength_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            tGeneral_KeyPress(sender, e);
+        }
+
+        private void tSpotVolume_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            tGeneral_KeyPress(sender, e);
         }
     }
 }

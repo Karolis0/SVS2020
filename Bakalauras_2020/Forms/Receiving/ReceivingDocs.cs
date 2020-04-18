@@ -18,6 +18,7 @@ namespace Bakalauras_2020.Forms.Receiving
         public readonly string GetRecDocItems = "GetOrderedItemsByReceivingDocId";
         public readonly string SaveRcvDocDet = "SaveOrderedItem";
         public readonly string UpdateRcvDocDet = "UpdateOrderedItem";
+        private bool _handle = true;
 
         public ReceivingDocs()
         {
@@ -43,6 +44,7 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             ResizeColumns(dView);
             ProcessGridControls(dView);
+            
         }
 
         private void ProcessReadOnlyCells(DataGridView dView)
@@ -70,15 +72,17 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Name"].Frozen = true;
             dView.Columns["Code"].Frozen = true;
             dView.Columns["Barcode"].Frozen = true;
+            dView.AllowUserToAddRows = false;
             dView.CellValueChanged += DView_CellValueChanged;
         }
 
         private void DView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > -1)
+            if (e.RowIndex > -1 && _handle)
             {
+                //add _handlers
                 DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
-                if (row != null)
+                if (row != null && row.Cells["Quantity"].Selected)
                 {
                     if (!ValidateRow(row))
                         return;
@@ -89,19 +93,24 @@ namespace Bakalauras_2020.Forms.Receiving
 
         public void SaveRow(DataGridViewRow row)
         {
-            int rowAffected = Sql.ExecuteCmd(NullCheck.IsNullInt(row.Cells["OrderedItemsId"].Value) <= 0 ? SaveRcvDocDet : UpdateRcvDocDet, new object[]
+            if (NullCheck.IsNullInt(row.Cells["ItemId"].Value) > 0 && NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) > 0)
             {
-                "@OrderedItemId", NullCheck.IsNullInt(row.Cells["OrderedItemsId"].Value),
-                "@Quantity", NullCheck.IsNullDecimal(row.Cells["Quantity"].Value),
-                "@Created", DateTime.Now,
-                "@Updated", DateTime.Now,
-                "@ItemId", NullCheck.IsNullInt(row.Cells["ItemId"].Value),
-                "@RcvDocId", CurrentRcvDocId
-            });
-
-            if (rowAffected > 0)
-            {
-                dataGridView2.Rows.Add();
+                Sql.ExecuteCmd(NullCheck.IsNullInt(row.Cells["OrderedItemId"].Value) <= 0 ? SaveRcvDocDet : UpdateRcvDocDet, new object[]
+                {
+                    "@OrderedItemId", NullCheck.IsNullInt(row.Cells["OrderedItemId"].Value),
+                    "@Quantity", NullCheck.IsNullDecimal(row.Cells["Quantity"].Value),
+                    "@Created", DateTime.Now,
+                    "@Updated", DateTime.Now,
+                    "@ItemId", NullCheck.IsNullInt(row.Cells["ItemId"].Value),
+                    "@RcvDocId", CurrentRcvDocId
+                });
+                _handle = false;
+                if (NullCheck.IsNullInt(row.Cells["OrderedItemId"].Value) <= 0)
+                {
+                    ((DataTable)dataGridView2.DataSource).Rows.Add();
+                }
+                row.Cells["OrderedItemId"].Value = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateDetSave('{NullCheck.IsNullInt(row.Cells["ItemId"].Value)}','{CurrentRcvDocId}')"));
+                _handle = true;
             }
         }
 
@@ -114,9 +123,10 @@ namespace Bakalauras_2020.Forms.Receiving
 
             decimal TotalNetto = NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) * NullCheck.IsNullDecimal(row.Cells["NetWeight"].Value);
             decimal TotalBruto = NullCheck.IsNullDecimal(row.Cells["Quantity"].Value) * NullCheck.IsNullDecimal(row.Cells["BrutoWeight"].Value);
+            _handle = false;
             row.Cells["TotalNetto"].Value = TotalNetto;
             row.Cells["TotalBruto"].Value = TotalBruto;
-
+            _handle = true;
             return true;
         }
 
@@ -167,7 +177,7 @@ namespace Bakalauras_2020.Forms.Receiving
             if (e.RowIndex > -1)
             {
                 DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
-                if (row.Cells["Name"].Selected || row.Cells["Code"].Selected)
+                if ((row.Cells["Name"].Selected || row.Cells["Code"].Selected))
                 {
                     int SelectedItemId = ItemMapper.SelectItemId();
                     if (SelectedItemId > 0)
@@ -175,6 +185,7 @@ namespace Bakalauras_2020.Forms.Receiving
                         DataTable dt = Sql.GetTable("SelectItemList", new object[] { "@ItemId", SelectedItemId });
                         if (dt != null && dt.Rows.Count > 0)
                         {
+                            _handle = false;
                             row.Cells["Name"].Value = NullCheck.IsNullString(dt.Rows[0]["Name"]);
                             row.Cells["Code"].Value = NullCheck.IsNullString(dt.Rows[0]["Code"]);
                             row.Cells["Barcode"].Value = NullCheck.IsNullString(dt.Rows[0]["Barcode"]);
@@ -186,6 +197,10 @@ namespace Bakalauras_2020.Forms.Receiving
                             row.Cells["Volume"].Value = NullCheck.IsNullString(dt.Rows[0]["Volume"]);
                             row.Cells["Width"].Value = NullCheck.IsNullString(dt.Rows[0]["Width"]);
                             row.Cells["Height"].Value = NullCheck.IsNullString(dt.Rows[0]["Height"]);
+                            row.Cells["ItemId"].Value = SelectedItemId;
+                            _handle = true;
+                            row.Cells["Name"].Selected = false;
+                            row.Cells["Code"].Selected = false;
                         }
                     }
                 }

@@ -1,12 +1,12 @@
 ﻿using Bakalauras_2020.Forms.Warehouse.Items;
 using Bakalauras_2020.StaticClass;
 using Bakalauras_2020.Utility;
-using Bakalauras_2020.Forms.Options;
 using System;
 using System.Data;
 using System.Windows.Forms;
 using System.Linq;
 using Bakalauras_2020.Forms.Receiving;
+using System.Threading.Tasks;
 
 namespace Bakalauras_2020.Forms
 {
@@ -39,11 +39,12 @@ namespace Bakalauras_2020.Forms
             {
                 MessageBox.Show("Nerastas registruotas sandėlys sistemoje.", "Ispėjimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             SetupUserInfo();
         }
+        
 
         private void SetupUserInfo()
         {
@@ -71,33 +72,86 @@ namespace Bakalauras_2020.Forms
             }
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            IsMdiContainer = true;
+        }
+
         private void veiksmųIstorijaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ActionLog frm = new ActionLog();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
             frm.Show();
+            
         }
 
         private void prekėsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Items frm = new Items();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
             frm.Show();
         }
 
         private void sandėliaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Warehouses frm = new Warehouses();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
             frm.Show();
         }
 
         private void sandėlioZonosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WarehouseZones frm = new WarehouseZones();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
             frm.Show();
         }
 
         private void priėmimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReceivingDocs frm = new ReceivingDocs();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void priėmimoDokumentaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReceivingOrder frm = new ReceivingOrder();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void pristatymaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Shipment frm = new Shipment();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
             frm.Show();
         }
     }

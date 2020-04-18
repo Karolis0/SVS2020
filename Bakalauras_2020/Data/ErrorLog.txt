@@ -65,3 +65,22 @@
 [4/12/2020 8:55:18 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
 [4/12/2020 8:56:18 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
 [4/12/2020 8:56:26 PM] <Error: Invalid object name 'ReceivingDocsBVW'.> Used Sql: SelectReceivingDocs Used arguments: @Whid:3 
+[4/18/2020 1:12:55 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[4/18/2020 1:56:12 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[4/18/2020 1:57:49 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[4/18/2020 8:49:19 PM] <Error: Cannot insert the value NULL into column 'ShipmentId', table 'Bakalauras.dbo.RcvOrders'; column does not allow nulls. INSERT fails.
+The statement has been terminated.> Used Sql: SaveRcvOrd Used arguments: @DocNo:1 @WarehouseId:3 @CreateDate:4/18/2020 @UpdateDate:4/18/2020 
+[4/18/2020 8:49:47 PM] <Error: 'ValidateSaveRcvOrd' is not a recognized built-in function name.> Used Sql: SELECT ValidateSaveRcvOrd('1') Used arguments: 
+[4/18/2020 8:49:47 PM] <Error: Procedure or function 'GetRcvDocById' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetRcvDocByID Used arguments: @RcvOrdId:0 
+[4/18/2020 8:50:56 PM] <Error: Cannot insert the value NULL into column 'ShipmentId', table 'Bakalauras.dbo.RcvOrders'; column does not allow nulls. INSERT fails.
+The statement has been terminated.> Used Sql: SaveRcvOrd Used arguments: @DocNo:2 @WarehouseId:3 @CreateDate:4/18/2020 @UpdateDate:4/18/2020 
+[4/18/2020 8:51:07 PM] <Error: Procedure or function 'GetRcvDocById' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetRcvDocByID Used arguments: @RcvOrdId:0 
+[4/18/2020 8:52:53 PM] <Error: Procedure or function 'GetRcvDocById' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetRcvDocByID Used arguments: @RcvOrdId:1 
+[4/18/2020 9:02:22 PM] <Error: Procedure or function 'GetRcvOrdById' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetRcvOrdById Used arguments: @RcvOrdId:1 
+[4/18/2020 9:03:29 PM] <Error: Procedure or function 'GetRcvOrdById' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetRcvOrdById Used arguments: @RcvOrdId:1 
+[4/18/2020 10:24:09 PM] <Error: Could not find stored procedure 'SelectShipments'.> Used Sql: SelectShipments Used arguments: @Whid:3 
+[4/18/2020 10:25:35 PM] <Error: Could not find stored procedure 'SelectShipments'.> Used Sql: SelectShipments Used arguments: @Whid:3 
+[4/18/2020 11:49:14 PM] <Error: Cannot insert the value NULL into column 'ShipmentId', table 'Bakalauras.dbo.Shipments'; column does not allow nulls. INSERT fails.
+The statement has been terminated.> Used Sql: SaveShipment Used arguments: @ShipmentId: @ShipmentNo:0000001 @PartnerId:2 @WarehouseId:3 @CreateDate:4/18/2020 @UpdateDate:4/18/2020 
+[4/18/2020 11:52:37 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @RcvOrdId:1 
+[4/18/2020 11:53:00 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @ShipmentId:1 
