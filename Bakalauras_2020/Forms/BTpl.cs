@@ -26,6 +26,20 @@ namespace Bakalauras_2020.Forms
         {
             InitializeComponent();
             LoadData();
+            SetupTemplate();
+        }
+
+        private void SetupTemplate()
+        {
+            CustomButton1.Visible = false;
+            CustomButton2.Visible = false;
+            CustomButton3.Visible = false;
+            CustomButton4.Visible = false;
+            CustomButton5.Visible = false;
+            toolStripSeparator4.Visible = false;
+            toolStripSeparator5.Visible = false;
+            toolStripSeparator6.Visible = false;
+            toolStripSeparator7.Visible = false;
         }
 
         public void LoadData()

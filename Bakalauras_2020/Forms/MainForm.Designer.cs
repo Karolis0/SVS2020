@@ -38,7 +38,6 @@
             this.tDistOrders = new System.Windows.Forms.ToolStripSplitButton();
             this.išsiuntimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.siuntosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rūšiavimasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.surinkimasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tWarehouses = new System.Windows.Forms.ToolStripSplitButton();
@@ -52,6 +51,10 @@
             this.sep4 = new System.Windows.Forms.ToolStripSeparator();
             this.tConfig = new System.Windows.Forms.ToolStripButton();
             this.lUserInfo = new System.Windows.Forms.Label();
+            this.paletėsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tipaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paletėsSandėlyjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prekėsAntPalečiųToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tModuleButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,7 +125,6 @@
             this.tDistOrders.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.išsiuntimoUžsakymaiToolStripMenuItem,
             this.siuntosToolStripMenuItem,
-            this.rūšiavimasToolStripMenuItem,
             this.surinkimasToolStripMenuItem});
             this.tDistOrders.Image = ((System.Drawing.Image)(resources.GetObject("tDistOrders.Image")));
             this.tDistOrders.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -136,24 +138,21 @@
             this.išsiuntimoUžsakymaiToolStripMenuItem.Name = "išsiuntimoUžsakymaiToolStripMenuItem";
             this.išsiuntimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.išsiuntimoUžsakymaiToolStripMenuItem.Text = "Išsiuntimo užsakymai";
+            this.išsiuntimoUžsakymaiToolStripMenuItem.Click += new System.EventHandler(this.išsiuntimoUžsakymaiToolStripMenuItem_Click);
             // 
             // siuntosToolStripMenuItem
             // 
             this.siuntosToolStripMenuItem.Name = "siuntosToolStripMenuItem";
             this.siuntosToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.siuntosToolStripMenuItem.Text = "Siuntos";
-            // 
-            // rūšiavimasToolStripMenuItem
-            // 
-            this.rūšiavimasToolStripMenuItem.Name = "rūšiavimasToolStripMenuItem";
-            this.rūšiavimasToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.rūšiavimasToolStripMenuItem.Text = "Rūšiavimas";
+            this.siuntosToolStripMenuItem.Click += new System.EventHandler(this.siuntosToolStripMenuItem_Click);
             // 
             // surinkimasToolStripMenuItem
             // 
             this.surinkimasToolStripMenuItem.Name = "surinkimasToolStripMenuItem";
             this.surinkimasToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.surinkimasToolStripMenuItem.Text = "Surinkimas";
+            this.surinkimasToolStripMenuItem.Click += new System.EventHandler(this.surinkimasToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -166,7 +165,8 @@
             this.tWarehouses.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sandėliaiToolStripMenuItem,
             this.prekėsToolStripMenuItem,
-            this.sandėlioZonosToolStripMenuItem});
+            this.sandėlioZonosToolStripMenuItem,
+            this.paletėsToolStripMenuItem});
             this.tWarehouses.Image = ((System.Drawing.Image)(resources.GetObject("tWarehouses.Image")));
             this.tWarehouses.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tWarehouses.Name = "tWarehouses";
@@ -251,6 +251,35 @@
             this.lUserInfo.TabIndex = 4;
             this.lUserInfo.Text = "Vartotojo informacija";
             // 
+            // paletėsToolStripMenuItem
+            // 
+            this.paletėsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tipaiToolStripMenuItem,
+            this.paletėsSandėlyjeToolStripMenuItem,
+            this.prekėsAntPalečiųToolStripMenuItem});
+            this.paletėsToolStripMenuItem.Name = "paletėsToolStripMenuItem";
+            this.paletėsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paletėsToolStripMenuItem.Text = "Paletės";
+            // 
+            // tipaiToolStripMenuItem
+            // 
+            this.tipaiToolStripMenuItem.Name = "tipaiToolStripMenuItem";
+            this.tipaiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tipaiToolStripMenuItem.Text = "Tipai";
+            this.tipaiToolStripMenuItem.Click += new System.EventHandler(this.tipaiToolStripMenuItem_Click);
+            // 
+            // paletėsSandėlyjeToolStripMenuItem
+            // 
+            this.paletėsSandėlyjeToolStripMenuItem.Name = "paletėsSandėlyjeToolStripMenuItem";
+            this.paletėsSandėlyjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paletėsSandėlyjeToolStripMenuItem.Text = "Paletės sandėlyje";
+            // 
+            // prekėsAntPalečiųToolStripMenuItem
+            // 
+            this.prekėsAntPalečiųToolStripMenuItem.Name = "prekėsAntPalečiųToolStripMenuItem";
+            this.prekėsAntPalečiųToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.prekėsAntPalečiųToolStripMenuItem.Text = "Prekės ant palečių";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -282,7 +311,6 @@
         private System.Windows.Forms.ToolStripMenuItem pristatymaiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem išsiuntimoUžsakymaiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem siuntosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rūšiavimasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem surinkimasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sandėliaiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prekėsToolStripMenuItem;
@@ -293,5 +321,9 @@
         private System.Windows.Forms.ToolStripMenuItem klaidųSąrašasToolStripMenuItem;
         private System.Windows.Forms.Label lUserInfo;
         private System.Windows.Forms.ToolStripMenuItem priėmimoDokumentaiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem paletėsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tipaiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem paletėsSandėlyjeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prekėsAntPalečiųToolStripMenuItem;
     }
 }

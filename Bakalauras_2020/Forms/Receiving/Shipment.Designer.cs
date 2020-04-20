@@ -42,13 +42,13 @@
             this.dataGridView2.Size = new System.Drawing.Size(800, 150);
             this.dataGridView2.TabIndex = 3;
             // 
-            // ReceivingDocs
+            // Shipment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.dataGridView2);
-            this.Name = "ReceivingDocs";
+            this.Name = "Shipment";
             this.Text = "ReceivingDocs";
             this.Controls.SetChildIndex(this.dataGridView2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();

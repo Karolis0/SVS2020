@@ -1,4 +1,5 @@
 ﻿using Bakalauras_2020.Forms.Mappers;
+using Bakalauras_2020.Properties;
 using Bakalauras_2020.Utility;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,27 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             dataGridView2.Visible = false;
             ModifyGrid(AccessGrid());
+            AccessToolStrip().Items["CustomButton1"].Visible = true;
+            AccessToolStrip().Items["CustomButton1"].Text = "Pradėti";
+            AccessToolStrip().Items["CustomButton1"].Click += Shipment_Click; ;
+
+
+        }
+
+        private void Shipment_Click(object sender, EventArgs e)
+        {
+            int SelectedShipmentId = GetSelectedItemId(AccessGrid());
+            if (SelectedShipmentId > 0)
+            {
+                DataTable dt = Sql.GetTable("GetRelatedRcvOrders", new object[] { "@ShipmentId", SelectedShipmentId });
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Sql.ExecuteCmd("StartRcvDocs", new object[] { "@RcvOrderId", row["RcvOrderId"]});
+                    }
+                }
+            }
         }
 
         private void ModifyGridDet(DataGridView dView)
@@ -176,6 +198,7 @@ namespace Bakalauras_2020.Forms.Receiving
             if (dView.SelectedRows.Count <= 0)
             {
                 MessageBox.Show("Pasirinkite eilutę, kurią norite redaguoti!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return -1;
             }
 
             return NullCheck.IsNullInt(dView.SelectedRows[0].Cells[FormMainId].Value);

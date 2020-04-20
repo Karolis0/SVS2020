@@ -154,5 +154,43 @@ namespace Bakalauras_2020.Forms
             frm.WindowState = FormWindowState.Maximized;
             frm.Show();
         }
+
+        private void išsiuntimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Shipment frm = new Shipment();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void siuntosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Shipment frm = new Shipment();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void surinkimasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tipaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PalletType frm = new PalletType();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
     }
 }

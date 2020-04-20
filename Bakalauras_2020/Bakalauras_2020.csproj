@@ -144,6 +144,18 @@
     <Compile Include="Forms\Receiving\ReceivingDocEditor.Designer.cs">
       <DependentUpon>ReceivingDocEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Warehouse\Pallets\PalletTypeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Warehouse\Pallets\PalletTypeEditor.Designer.cs">
+      <DependentUpon>PalletTypeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Warehouse\Pallets\PalletType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Warehouse\Pallets\PalletType.Designer.cs">
+      <DependentUpon>PalletType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Warehouse\Warehouses\WarehouseZoneEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +245,9 @@
     <EmbeddedResource Include="Forms\Receiving\ReceivingDocEditor.resx">
       <DependentUpon>ReceivingDocEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Warehouse\Pallets\PalletTypeEditor.resx">
+      <DependentUpon>PalletTypeEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Warehouse\Warehouses\WarehouseZoneEditor.resx">
       <DependentUpon>WarehouseZoneEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,6 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\Interfaces\" />
+    <Folder Include="Forms\Shipping\" />
     <Folder Include="Forms\Templates\" />
   </ItemGroup>
   <ItemGroup>

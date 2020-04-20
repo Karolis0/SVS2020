@@ -38,6 +38,15 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.CustomButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.CustomButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.CustomButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.CustomButton4 = new System.Windows.Forms.ToolStripButton();
+            this.CustomButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +60,16 @@
             this.bUpdate,
             this.toolStripSeparator2,
             this.bDelete,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.CustomButton1,
+            this.toolStripSeparator4,
+            this.CustomButton2,
+            this.toolStripSeparator5,
+            this.CustomButton3,
+            this.toolStripSeparator6,
+            this.CustomButton4,
+            this.toolStripSeparator7,
+            this.CustomButton5});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1042, 99);
@@ -126,6 +144,76 @@
             this.dataGridView1.Size = new System.Drawing.Size(1042, 422);
             this.dataGridView1.TabIndex = 2;
             // 
+            // CustomButton1
+            // 
+            this.CustomButton1.AutoSize = false;
+            this.CustomButton1.Image = ((System.Drawing.Image)(resources.GetObject("CustomButton1.Image")));
+            this.CustomButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CustomButton1.Name = "CustomButton1";
+            this.CustomButton1.Size = new System.Drawing.Size(90, 90);
+            this.CustomButton1.Text = " ";
+            this.CustomButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 99);
+            // 
+            // CustomButton2
+            // 
+            this.CustomButton2.AutoSize = false;
+            this.CustomButton2.Image = ((System.Drawing.Image)(resources.GetObject("CustomButton2.Image")));
+            this.CustomButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CustomButton2.Name = "CustomButton2";
+            this.CustomButton2.Size = new System.Drawing.Size(90, 90);
+            this.CustomButton2.Text = " ";
+            this.CustomButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 99);
+            // 
+            // CustomButton3
+            // 
+            this.CustomButton3.AutoSize = false;
+            this.CustomButton3.Image = ((System.Drawing.Image)(resources.GetObject("CustomButton3.Image")));
+            this.CustomButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CustomButton3.Name = "CustomButton3";
+            this.CustomButton3.Size = new System.Drawing.Size(90, 90);
+            this.CustomButton3.Text = " ";
+            this.CustomButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 99);
+            // 
+            // CustomButton4
+            // 
+            this.CustomButton4.AutoSize = false;
+            this.CustomButton4.Image = ((System.Drawing.Image)(resources.GetObject("CustomButton4.Image")));
+            this.CustomButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CustomButton4.Name = "CustomButton4";
+            this.CustomButton4.Size = new System.Drawing.Size(90, 90);
+            this.CustomButton4.Text = " ";
+            this.CustomButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // CustomButton5
+            // 
+            this.CustomButton5.AutoSize = false;
+            this.CustomButton5.Image = ((System.Drawing.Image)(resources.GetObject("CustomButton5.Image")));
+            this.CustomButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CustomButton5.Name = "CustomButton5";
+            this.CustomButton5.Size = new System.Drawing.Size(90, 90);
+            this.CustomButton5.Text = " ";
+            this.CustomButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 99);
+            // 
             // BTpl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,5 +242,14 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton bDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton CustomButton1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton CustomButton2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton CustomButton3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripButton CustomButton4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripButton CustomButton5;
     }
 }
