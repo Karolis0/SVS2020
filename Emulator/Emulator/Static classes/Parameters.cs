@@ -8,42 +8,33 @@ namespace Emulator.Static_classes
 {
     static class Parameters
     {
-        private static Dictionary<object, object> Params { get; set; }
-        private static bool Released;
+        private static Dictionary<string, string> Params { get; set; }
 
         public static void InitializeParams()
         {
-            Params = new Dictionary<object, object>();
+            Params = new Dictionary<string, string>();
         }
 
         public static void ResetPrams()
         {
-            Params = new Dictionary<object, object>();
+            Params.Clear();
         }
 
-        public static void AddParameter(string KeyId, string KeyValue)
+        public static void AddParameter(object KeyId, object KeyValue)
         {
-            Params.Add(KeyId, KeyValue);
+            if (Params.ContainsKey(KeyId.ToString()))
+            {
+                Params[KeyId.ToString()] = KeyValue.ToString();
+            }
+            else
+            {
+                Params.Add(KeyId.ToString(), KeyValue.ToString());
+            }
         }
 
-        public static object ReturnValueByKey(string KeyId)
+        public static string ReturnValueByKey(object KeyId)
         {
-            return Params[KeyId];
-        }
-
-        public static void Release()
-        {
-            Released = true;
-        }
-
-        public static void Hold()
-        {
-            Released = false;
-        }
-
-        public static bool IsReleased()
-        {
-            return Released;
+            return Params[KeyId.ToString()];
         }
     }
 }

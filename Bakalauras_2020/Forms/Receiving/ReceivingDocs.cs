@@ -44,7 +44,7 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             ResizeColumns(dView);
             ProcessGridControls(dView);
-            
+            dView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void ProcessReadOnlyCells(DataGridView dView)
@@ -138,6 +138,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.ReadOnly = true;
             dView.SelectionChanged += DView_SelectionChanged;
             dView.DoubleClick += DView_DoubleClick;
+            dView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void DView_DoubleClick(object sender, EventArgs e)

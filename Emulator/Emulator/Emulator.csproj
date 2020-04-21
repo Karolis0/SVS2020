@@ -52,6 +52,8 @@
       <DependentUpon>EmulatorScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Emulator\Login\Login.cs" />
+    <Compile Include="Emulator\Receiving\ReceivingActions.cs" />
+    <Compile Include="Emulator\Storing\StoringActions.cs" />
     <Compile Include="Enums\ActiveMenuTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,9 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Emulator\Picking\" />
-    <Folder Include="Emulator\Receiving\" />
     <Folder Include="Emulator\Shipping\" />
-    <Folder Include="Emulator\Storing\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\ErrorLog.txt" />

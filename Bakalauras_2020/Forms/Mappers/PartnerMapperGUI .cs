@@ -28,6 +28,7 @@ namespace Bakalauras_2020.Forms.Mappers
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.DoubleClick += DataGridView1_DoubleClick;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void DataGridView1_DoubleClick(object sender, EventArgs e)

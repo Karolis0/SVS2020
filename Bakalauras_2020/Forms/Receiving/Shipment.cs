@@ -88,6 +88,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.AllowUserToAddRows = false;
             dView.SelectionChanged += DView_SelectionChanged;
             dView.DoubleClick += DView_DoubleClick;
+            dView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void DView_DoubleClick(object sender, EventArgs e)

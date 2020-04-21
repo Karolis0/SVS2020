@@ -54,6 +54,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
         {
             dView.Visible = false;
             dView.Enabled = false;
+            dView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void ModifyTreeView()

@@ -1,5 +1,7 @@
 ﻿using Bakalauras_2020.StaticClass;
 using Bakalauras_2020.Utility;
+using Emulator.Emulator.Receiving;
+using Emulator.Emulator.Storing;
 using Emulator.Enums;
 using Emulator.Static_classes;
 using System;
@@ -18,7 +20,7 @@ namespace Emulator.Emulator
     {
         private ActiveMenuTypes activeMenu;
         Action processMethod;
-        string DataViewMainId = "";
+        DataTable ItemList;
 
         public EmulatorScreen()
         {
@@ -28,6 +30,8 @@ namespace Emulator.Emulator
             PrepareScreen();
         }
 
+        #region Entry point
+
         private void PrepareScreen()
         {
             Parameters.InitializeParams();
@@ -36,6 +40,7 @@ namespace Emulator.Emulator
             this.MinimizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.KeyDown += EmulatorScreen_KeyDown;
             if (GlobalUser.UserId == null)
             {
                 dView.Visible = false;
@@ -52,6 +57,29 @@ namespace Emulator.Emulator
                 tBoxInput2.KeyDown += TBoxInput_KeyDown;
                 processMethod = new Action(ValidateLogin);
             }
+            else
+            {
+                BackToMainMenu();
+            }
+        }
+
+        #endregion
+
+        #region Method processing 
+
+        private void EmulatorScreen_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if(GlobalUser.UserId == null)
+                {
+                    PrepareScreen();
+                }
+                else
+                {
+                    BackToMainMenu();
+                }
+            }
         }
 
         private void TBoxInput_KeyDown(object sender, KeyEventArgs e)
@@ -60,12 +88,31 @@ namespace Emulator.Emulator
             {
                 processMethod();
             }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (GlobalUser.UserId == null)
+                {
+                    PrepareScreen();
+                }
+                else
+                {
+                    BackToMainMenu();
+                }
+            }
+
         }
 
-        private void StoreParameters(string KeyId, string Value)
+        private void DViewDataShow_KeyDown(object sender, KeyEventArgs e)
         {
-            Parameters.AddParameter(KeyId, Value);
+            if (e.KeyCode == Keys.Enter)
+            {
+                processMethod();
+            }
         }
+
+        #endregion
+
+        #region Login processing and warehouse assignment
 
         private void ValidateLogin()
         {
@@ -114,29 +161,119 @@ namespace Emulator.Emulator
             dViewDataShow.RowHeadersVisible = false;
             dViewDataShow.Dock = DockStyle.Fill;
             dViewDataShow.Select();
-            ActiveControl = dView;
             dViewDataShow.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dViewDataShow.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dViewDataShow.Visible = true;
             processMethod = new Action(AssignWarehouse);
         }
 
-        private void DViewDataShow_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Enter)
-            {
-                processMethod();
-            }
-        }
-
         private void AssignWarehouse()
         {
             GlobalUser.SetWarehouseId(NullCheck.IsNullInt(dViewDataShow.SelectedRows[0].Cells["WarehouseId"].Value));
             activeMenu = ActiveMenuTypes.MainMenu;
-            ClearDataShow();
             HideDataShow();
             ShowMenu(new string[] { "Priėmimas", "Padėjimas", "Surinkimas", "Išvežimas" });
         }
+
+        #endregion
+
+        #region Storing
+
+        private void InitializeStoring()
+        {
+            activeMenu = ActiveMenuTypes.Storing;
+            ResetMenu();
+            ShowMenu(new string[] { "Padėti paletes" });
+        }
+
+        private void InputPalletBarcode()
+        {
+            EmptyMenu();
+            HideMenu();
+            EnableInput(true);
+            EnableRows(5);
+            EnableRows(new string[] { "t1" });
+            SetTitle("Perkėlimas");
+            SetRow5("Įveskite norimos paletės barkodą", ContentAlignment.MiddleCenter);
+            SetTextBoxLabel1("Barkodas:");
+            processMethod = new Action(ProcessMovePalletBarcode);
+        }
+
+        private void ProcessMovePalletBarcode()
+        {
+            if (string.IsNullOrEmpty(tBoxInput1.Text))
+            {
+                EnableRows(9);
+                SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            Parameters.AddParameter("@Barcode", tBoxInput1.Text);
+            CreateSelection();
+        }
+
+        private void CreateSelection()
+        {
+            DisableRows(9);
+            EnableInput();
+            DisableInfo();
+            SetTitle("Pasirinkite vietą");
+            DataTable dt = StoringActions.GetStoringZones();
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[1].HeaderText = "Zonos kodas";
+            dViewDataShow.Columns[2].HeaderText = "Zonos pavadinimas";
+            dViewDataShow.Columns[0].Visible = false;
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(ProcessSelection);
+        }
+
+        private void ProcessSelection()
+        {
+            ResetMenu();
+            HideMenu();
+            Parameters.AddParameter("@Location", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            HideDataShow();
+            SetTitle("Perkėlimas");
+            EnableRows(5);
+            EnableInput(true);
+            EnableRows(9);
+            SetRow9("T / N", ContentAlignment.MiddleCenter, Color.Red);
+            SetRow5($"Ar tikrai norite perkelti į zoną: {dViewDataShow.SelectedRows[0].Cells[2].Value} ({dViewDataShow.SelectedRows[0].Cells[1].Value})?", ContentAlignment.MiddleCenter, Color.Red);
+            ClearInput();
+            processMethod = new Action(ProcessYesNoStoringSelection);
+        }
+
+        private void ProcessYesNoStoringSelection()
+        {
+            if (string.IsNullOrEmpty(tBoxInput1.Text) && (tBoxInput1.Text.ToUpper().Equals("T".ToUpper()) || tBoxInput1.Text.ToUpper().Equals("N".ToUpper())))
+            {
+                ClearInput();
+                return;
+            }
+
+            if (tBoxInput1.Text.ToUpper() == "N")
+            {
+                CreateSelection();
+            }
+            else
+            {
+                FinalizeStoring();
+            }
+        }
+
+        private void FinalizeStoring()
+        {
+            ClearInput();
+            ClearLabels();
+            DisableInfo();
+            StoringActions.MovePallet();
+            EnableRows(5);
+            SetRow5("Prekių priėmimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
+            EnableInput();
+            this.Select();
+        }
+
+        #endregion
 
         #region Receiving
 
@@ -150,30 +287,24 @@ namespace Emulator.Emulator
         private void SelectDocument()
         {
             EmptyMenu();
-            DataTable dt = Sql.GetTable("GetInProcessRcvDocs", new object[] { "@WhId", GlobalUser.CurrentWarehouseId });
-            dView.DataSource = dt;
-            dView.Columns["DocCode"].HeaderText = "DokumentoNr";
-            dView.Columns["PartnerName"].HeaderText = "Tiekėjas";
-            dView.Columns["CreateDate"].HeaderText = "Sukurtas";
-            dView.Columns["ReceivingDocId"].Visible = false;
-            dView.KeyDown -= DView_KeyDown;
-            dView.KeyDown += DView_KeyDown1;
-        }
-
-        private void DView_KeyDown1(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                Parameters.AddParameter("@RcvDocId", NullCheck.IsNullString(dView.SelectedRows[0].Cells["ReceivingDocId"].Value));
-                StartReceiving();
-            }
+            DataTable dt = ReceivingActions.GetReceivingDocuments();
+            SetTitle("Pasirinkite dokumentą");
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[1].HeaderText = "Dokumento Nr";
+            dViewDataShow.Columns[2].HeaderText = "Tiekėjas";
+            dViewDataShow.Columns[3].HeaderText = "Sukurtas";
+            dViewDataShow.Columns[0].Visible = false;
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(StartReceiving);
         }
 
         private void StartReceiving()
         {
-            dView.KeyDown -= DView_KeyDown1;
             ResetMenu();
             HideMenu();
+            Parameters.AddParameter("@RcvDocId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            HideDataShow();
             SetTitle("Priėmimas");
             EnableRows(3);
             SetRow3("Nuskenuokite barkodą", ContentAlignment.MiddleCenter);
@@ -198,8 +329,8 @@ namespace Emulator.Emulator
             SetRow3("Nuskenuokite vietos kodą, į kurią padėsite", ContentAlignment.MiddleCenter);
             SetTextBoxLabel1("Vieta:");
             EnableRows(5);
-            SetRow5($"Siūloma vieta: {Sql.GetString($"SELECT dbo.GetFirstReceivingLocation('{GlobalUser.CurrentWarehouseId}')")}");
-            DisableRow9();
+            SetRow5($"Siūloma vieta: {ReceivingActions.GetSuggestedReceivingZone()}");
+            DisableRows(9);
             FocusInput1();
         }
 
@@ -211,7 +342,7 @@ namespace Emulator.Emulator
                 SetRow9("Negalima vieta", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            int Exists = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateReceivingLocation('{GlobalUser.CurrentWarehouseId}','{tBoxInput1.Text}')"));
+            int Exists = ReceivingActions.ZoneExists(tBoxInput1.Text);
             if (Exists <= 0)
             {
                 EnableRows(9);
@@ -226,22 +357,103 @@ namespace Emulator.Emulator
                 return;
             }
             Parameters.AddParameter("@Location", tBoxInput1.Text);
-            DisableRow9();
-            SetRow3("Nuskenuokite prekę", ContentAlignment.MiddleCenter);
-            SetTextBoxLabel1("Barkodas");
-            processMethod = new Action(ScanItem);
+            ClearInput();
+            DisableRows(9,5);
+            ItemList = ReceivingActions.GetReceivingItemList();
+            if (ItemList != null && ItemList.Rows.Count > 0)
+            {
+                CheckItemScan();
+            }
+            else
+            {
+                DisableInfo();
+                EnableRows(5);
+                SetRow5("Nėra užsakytu prekių", ContentAlignment.MiddleCenter, Color.Red);
+                processMethod = new Action(BackToMainMenu);
+            }
         }
 
-        private void ScanItem()
+        private void CheckItemScan()
         {
-            if (string.IsNullOrEmpty(tBoxInput1.Text))
+            if (ItemList.Rows.Count > 0)
+            {
+                SetScanItem();
+                processMethod = new Action(ProcessItemScan);
+            }
+            else
+                FinalizeReceiving();
+
+        }
+
+        private void SetScanItem()
+        {
+            ClearInput();
+            ClearLabels();
+            DisableInfo();
+            EnableRows(new string[] { "5", "8" });
+            SetRow5("Įrašykite gautą kiekį", ContentAlignment.MiddleCenter);
+            SetRow8($"Prekė: [{NullCheck.IsNullString(ItemList.Rows[0]["Name"])}]     Barkodas: [{NullCheck.IsNullString(ItemList.Rows[0]["Barcode"])}]", ContentAlignment.MiddleCenter, Color.Chocolate);
+            EnableRows(new string[] { "t1" });
+            SetTextBoxLabel1("Kiekis:");
+            Parameters.AddParameter("@ScanBarcode", NullCheck.IsNullString(ItemList.Rows[0]["Barcode"]));
+            EnableInput(input1:true);
+            FocusInput1();
+        }
+
+        private void ProcessItemScan()
+        {
+            decimal ScannedAmount = NullCheck.IsNullDecimal(tBoxInput1.Text);
+            if (ScannedAmount == Decimal.Zero)
             {
                 EnableRows(9);
-                SetRow9("Negalimas prekės barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                SetRow9("Netinkama įvestis", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            
+            DataRow row = ItemList.AsEnumerable().Where(x => x.Field<string>("Barcode") == Parameters.ReturnValueByKey("@ScanBarcode")).FirstOrDefault();
+            decimal RequestedAmount = NullCheck.IsNullDecimal(row["Quantity"]);
+            if (ScannedAmount > RequestedAmount)
+            {
+                EnableRows(9);
+                SetRow9("Nuskenuotas didesnis kiekis nei užsakyta", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            DisableRows(9);
+            decimal LeftQty = NullCheck.IsNullDecimal(row["Quantity"]) - ScannedAmount;
+            if (LeftQty == Decimal.Zero)
+            {
+                ItemList.Rows.Remove(row);
+            }
+            else
+            {
+                row["Quantity"] = LeftQty;
+            }
+            ClearInput();
+            if (ItemList.Rows.Count > 0)
+            {
+                if (LeftQty == Decimal.Zero)
+                {
+                    SetScanItem();
+                }
+                processMethod = new Action(ProcessItemScan);
+            }
+            else
+            {
+                CheckItemScan();
+            }
+        }
 
+        private void FinalizeReceiving()
+        {
+            ClearInput();
+            ClearLabels();
+            DisableInfo();
+            EnableRows(4);
+            ReceivingActions.SavePalletToZone();
+            ReceivingActions.SaveItemsToZoneAndPallet(Sql.GetTable("GetItemIdByRcvDocIdForStore", new object[] { "@RcvDocId", Parameters.ReturnValueByKey("@RcvDocId") }));
+            ReceivingActions.FinishReceivingDoc();
+            SetRow4("Prekių priėmimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
+            EnableInput();
+            this.Select();
         }
         #endregion
 
@@ -265,6 +477,7 @@ namespace Emulator.Emulator
         private void ClearDataShow()
         {
             dViewDataShow = new DataGridView();
+            this.Controls.Add(dViewDataShow);
         }
 
         #endregion
@@ -273,14 +486,28 @@ namespace Emulator.Emulator
 
         private void FocusInput1()
         {
+            tBoxInput1.ReadOnly = false;
             tBoxInput1.Select();
             tBoxInput1.Focus();
         }
 
         private void FocusInput2()
         {
+            tBoxInput2.ReadOnly = false;
             tBoxInput2.Select();
             tBoxInput2.Focus();
+        }
+
+        private void SetInput1(string text)
+        {
+            tBoxInput1.ReadOnly = true;
+            tBoxInput1.Text = text;
+        }
+
+        private void SetInput2(string text)
+        {
+            tBoxInput2.ReadOnly = true;
+            tBoxInput2.Text = text;
         }
 
         private void SetTitle(string _title)
@@ -369,6 +596,13 @@ namespace Emulator.Emulator
 
         #region Menu actions
 
+        private void BackToMainMenu()
+        {
+            SetTitle("Sandėlio valdymo sistema");
+            activeMenu = ActiveMenuTypes.MainMenu;
+            ShowMenu(new string[] { "Priėmimas", "Padėjimas", "Surinkimas", "Išvežimas" });
+        }
+
         private void HideMenu()
         {
             dView.Visible = false;
@@ -417,6 +651,10 @@ namespace Emulator.Emulator
             dView.KeyDown += DView_KeyDown;
         }
 
+        #endregion
+
+        #region MenuNavigation
+
         private void DView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -436,6 +674,7 @@ namespace Emulator.Emulator
                                     }
                                 case 2:
                                     {
+                                        InitializeStoring();
                                         break;
                                     }
                                 case 3:
@@ -474,7 +713,14 @@ namespace Emulator.Emulator
                     {
                         if (dView?.SelectedRows[0] != null)
                         {
-                            //switch (NullCheck.)
+                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            {
+                                case 1:
+                                    {
+                                        InputPalletBarcode();
+                                        break;
+                                    }
+                            }
                         }
                     }
                     else if (activeMenu == ActiveMenuTypes.Picking)
@@ -635,49 +881,98 @@ namespace Emulator.Emulator
             tBox2Desc.Visible = false;
         }
 
-        private void DisableRow1()
+        private void DisableRows(int row)
         {
-            row1.Visible = false;
+            DisableRows(new string[] { $"{row}" });
         }
 
-        private void DisableRow2()
+        private void DisableRows(int row1, int row2)
         {
-            row2.Visible = false;
+            DisableRows(new string[] { $"{row1}", $"{row2}" });
         }
 
-        private void DisableRow3()
+        private void DisableRows(int row1, int row2, int row3)
         {
-            row3.Visible = false;
+            DisableRows(new string[] { $"{row1}", $"{row2}", $"{row3}" });
         }
 
-        private void DisableRow4()
+        private void DisableRows(int row1, int row2, int row3, int row4)
         {
-            row4.Visible = false;
+            DisableRows(new string[] { $"{row1}", $"{row2}", $"{row3}", $"{row4}" });
         }
 
-        private void DisableRow5()
+        private void DisableRows(int row1, int row2, int row3, int row4, int row5)
         {
-            row5.Visible = false;
+            DisableRows(new string[] { $"{row1}", $"{row2}", $"{row3}", $"{row4}", $"{row5}" });
         }
 
-        private void DisableRow6()
+        private void DisableRows(string[] rows)
         {
-            row6.Visible = false;
-        }
-
-        private void DisableRow7()
-        {
-            row7.Visible = false;
-        }
-
-        private void DisableRow8()
-        {
-            row8.Visible = false;
-        }
-
-        private void DisableRow9()
-        {
-            row9.Visible = false;
+            for (int i = 0; i < rows.Length; i++)
+            {
+                switch (rows[i])
+                {
+                    case "1":
+                        {
+                            row1.Visible = false;
+                            break;
+                        }
+                    case "2":
+                        {
+                            row2.Visible = false;
+                            break;
+                        }
+                    case "3":
+                        {
+                            row3.Visible = false;
+                            break;
+                        }
+                    case "4":
+                        {
+                            row4.Visible = false;
+                            break;
+                        }
+                    case "5":
+                        {
+                            row5.Visible = false;
+                            break;
+                        }
+                    case "6":
+                        {
+                            row6.Visible = false;
+                            break;
+                        }
+                    case "7":
+                        {
+                            row7.Visible = false;
+                            break;
+                        }
+                    case "8":
+                        {
+                            row8.Visible = false;
+                            break;
+                        }
+                    case "9":
+                        {
+                            row9.Visible = false;
+                            break;
+                        }
+                    case "t1":
+                        {
+                            tBox1Desc.Visible = false;
+                            break;
+                        }
+                    case "t2":
+                        {
+                            tBox2Desc.Visible = false;
+                            break;
+                        }
+                    default:
+                        {
+                            return;
+                        }
+                }
+            }
         }
 
         #endregion

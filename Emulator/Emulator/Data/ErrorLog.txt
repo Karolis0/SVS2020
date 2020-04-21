@@ -1,1 +1,13 @@
-﻿
+﻿[4/20/2020 5:45:55 PM] <Error: Conversion failed when converting the nvarchar value 'RCV' to data type int.> Used Sql: SELECT dbo.GetFirstReceivingLocation('3') Used arguments: 
+[4/20/2020 5:47:38 PM] <Error: Conversion failed when converting the nvarchar value 'RCV' to data type int.> Used Sql: SELECT dbo.GetFirstReceivingLocation('3') Used arguments: 
+[4/20/2020 5:47:57 PM] <Error: Conversion failed when converting the nvarchar value 'RCV' to data type int.> Used Sql: SELECT dbo.GetFirstReceivingLocation('3') Used arguments: 
+[4/20/2020 5:49:16 PM] <Error: Conversion failed when converting the nvarchar value 'RCV-5' to data type int.> Used Sql: SELECT dbo.GetFirstReceivingLocation('3') Used arguments: 
+[4/20/2020 5:49:24 PM] <Error: Conversion failed when converting the nvarchar value 'RCV-5' to data type int.> Used Sql: SELECT dbo.GetFirstReceivingLocation('3') Used arguments: 
+[4/20/2020 5:50:42 PM] <Error: Conversion failed when converting the varchar value 'RCV-5' to data type int.> Used Sql: SELECT dbo.ValidateReceivingLocation('3','RCV-5') Used arguments: 
+[4/20/2020 6:30:02 PM] <Error: No mapping exists from object type System.Windows.Forms.DataGridViewTextBoxCell to a known managed provider native type.> Used Sql: GetOrderedItemsByReceivingDocId Used arguments: @ReceivingDocId:DataGridViewTextBoxCell { ColumnIndex=0, RowIndex=1 } 
+[4/20/2020 6:30:49 PM] <Error: Error converting data type nvarchar to int.> Used Sql: GetOrderedItemsByReceivingDocId Used arguments: @ReceivingDocId:DataGridViewTextBoxCell { ColumnIndex=0, RowIndex=1 } 
+[4/20/2020 9:56:16 PM] <Error: Procedure or function 'GetItemIdByRcvDocIdForStore' expects parameter '@RcvDocId', which was not supplied.> Used Sql: GetItemIdByRcvDocIdForStore Used arguments: @ReceivingDocId:1 
+[4/20/2020 10:11:39 PM] <Error: Procedure or function 'SaveStoredItem' expects parameter '@Quantity', which was not supplied.> Used Sql: SaveStoredItem Used arguments: @PalletId:1 @ItemId:8 @Created:4/20/2020 10:11:39 PM @Updated:4/20/2020 10:11:39 PM 
+[4/21/2020 10:56:20 PM] <Error: Cannot insert the value NULL into column 'ZoneLocationId', table 'Bakalauras.dbo.StoredPallets'; column does not allow nulls. UPDATE fails.
+The statement has been terminated.> Used Sql: MovePallet Used arguments: @ToFZoneCode:3 @Whid:3 @PalletId:1 
+[4/21/2020 11:02:16 PM] <Error: Procedure or function 'MovePallet' expects parameter '@ToZoneId', which was not supplied.> Used Sql: MovePallet Used arguments: @ToFZoneCode:3 @Whid:3 @PalletId:1 

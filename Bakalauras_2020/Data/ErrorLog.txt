@@ -84,3 +84,4 @@ The statement has been terminated.> Used Sql: SaveRcvOrd Used arguments: @DocNo:
 The statement has been terminated.> Used Sql: SaveShipment Used arguments: @ShipmentId: @ShipmentNo:0000001 @PartnerId:2 @WarehouseId:3 @CreateDate:4/18/2020 @UpdateDate:4/18/2020 
 [4/18/2020 11:52:37 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @RcvOrdId:1 
 [4/18/2020 11:53:00 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @ShipmentId:1 
+[4/20/2020 9:04:18 PM] <Error: The process cannot access the file 'C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\Data\SqlLog.txt' because it is being used by another process.> Used Sql: GetWarehousesComboBox Used arguments: 
