@@ -85,3 +85,9 @@ The statement has been terminated.> Used Sql: SaveShipment Used arguments: @Ship
 [4/18/2020 11:52:37 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @RcvOrdId:1 
 [4/18/2020 11:53:00 PM] <Error: Could not find stored procedure 'GetShipmentById'.> Used Sql: GetShipmentById Used arguments: @ShipmentId:1 
 [4/20/2020 9:04:18 PM] <Error: The process cannot access the file 'C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\Data\SqlLog.txt' because it is being used by another process.> Used Sql: GetWarehousesComboBox Used arguments: 
+[4/27/2020 10:07:59 PM] <Error: Procedure or function 'UpdateShippingItem' expects parameter '@ShippingItemId', which was not supplied.> Used Sql: UpdateShippingItem Used arguments: @ShippingId:19 @Quantity:5 @Created:4/27/2020 10:07:59 PM @Updated:4/27/2020 10:07:59 PM @ItemId:8 @OutOrderId:1 
+[4/27/2020 10:08:24 PM] <Error: Procedure or function 'UpdateOutOrder' expects parameter '@OutOrderId', which was not supplied.> Used Sql: UpdateOutOrder Used arguments: @DocNo:1 @PartnerId:6 @PlannedShipment:5/1/2020 @State:1 @WarehouseId:3 @UpdateDate:4/27/2020 @RcvDocId:1 
+[4/27/2020 10:16:41 PM] <Error: Could not find stored procedure 'DeleteShipments'.> Used Sql: DeleteShipments Used arguments: @ShipmentId:7 
+[4/27/2020 10:52:21 PM] <Error: Could not find stored procedure 'ChangeParcelAssign'.> Used Sql: ChangeParcelAssign Used arguments: @OutOrderId:1 @ParcelId:2 
+[4/27/2020 11:42:24 PM] <Error: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.> Used Sql: GetWarehousesComboBox Used arguments: 
+[4/28/2020 12:15:17 AM] <Error: Could not find stored procedure 'SelectWorkOrders'.> Used Sql: SelectWorkOrders Used arguments: @Whid:3 

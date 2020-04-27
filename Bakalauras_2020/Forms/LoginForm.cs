@@ -27,6 +27,11 @@ namespace Bakalauras_2020.Forms
             this.MinimizeBox = false;
             lFailedLogin.Visible = false;
             tUsername.Focus();
+            Bitmap map = new Bitmap(Properties.Resources.LoginImg);
+            map.MakeTransparent(map.GetPixel(1,1));
+            pictureBox1.Image = map;
+
+
 #if DEBUG
             tUsername.Text = "ks";
             tPassword.Text = "ks";
@@ -52,8 +57,7 @@ namespace Bakalauras_2020.Forms
             }
             this.ShowInTaskbar = false;
             this.Hide();
-            Task parseUser = new Task(() => GlobalUser.ParseDataTable(dt));
-            parseUser.Start();
+            GlobalUser.ParseDataTable(dt);
             MainForm mainFrm = new MainForm();
             mainFrm.Show();
         }

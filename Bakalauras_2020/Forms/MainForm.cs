@@ -55,7 +55,7 @@ namespace Bakalauras_2020.Forms
                 Tip.IsBalloon = true;
                 Tip.ShowAlways = true;
 
-                Tip.SetToolTip(lUserInfo, $"ID: {GlobalUser.UserId}\nVartotojas: {GlobalUser.Username}\nVardas: {GlobalUser.Name}\nPavardė: {GlobalUser.Surname}\nSandėlio ID: {GlobalUser.CurrentWarehouseName}");
+                Tip.SetToolTip(lUserInfo, $"ID: {GlobalUser.UserId}\nVartotojas: {GlobalUser.Username}\nVardas: {GlobalUser.Name}\nPavardė: {GlobalUser.Surname}\nSandėlio ID: {GlobalUser.CurrentWarehouseId}\nSandėlio pavadinimas: {GlobalUser.CurrentWarehouseName}");
             }
             else
             {
@@ -124,17 +124,17 @@ namespace Bakalauras_2020.Forms
 
         private void išsiuntimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Shipment());
+            ShowChild(new OutOrder());
         }
 
         private void siuntosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Shipment());
+            ShowChild(new Parcels());
         }
 
         private void surinkimasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ShowChild(new WorkOrders());
         }
 
         private void tipaiToolStripMenuItem_Click(object sender, EventArgs e)

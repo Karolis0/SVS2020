@@ -27,45 +27,59 @@ namespace Bakalauras_2020.Utility
 
         public static void LogError(string errorMsg, string Command, object[] Args = null, string Elapsed = "")
         {
-            using (StreamWriter writer = File.AppendText(ErrorLogLoc))
+            try
             {
-                int i = 0;
-                string errorInput = string.Empty;
-                errorInput += "[" + DateTime.Now + "] <Error: " + errorMsg + ">" + " Used Sql: " + Command + " Used arguments: ";
-                if (Args != null)
-                { 
-                    if ((Args != null) && (Args.Length > 0))
+                using (StreamWriter writer = File.AppendText(ErrorLogLoc))
+                {
+                    int i = 0;
+                    string errorInput = string.Empty;
+                    errorInput += "[" + DateTime.Now + "] <Error: " + errorMsg + ">" + " Used Sql: " + Command + " Used arguments: ";
+                    if (Args != null)
                     {
-                        while (i < Args.Length)
+                        if ((Args != null) && (Args.Length > 0))
                         {
-                            errorInput += Args[i].ToString() + ":"  + Args[i + 1].ToString() + " ";
-                            i = i + 2;
+                            while (i < Args.Length)
+                            {
+                                errorInput += Args[i].ToString() + ":" + Args[i + 1].ToString() + " ";
+                                i = i + 2;
+                            }
                         }
                     }
+                    writer.WriteLine(errorInput);
                 }
-                writer.WriteLine(errorInput);
+            }
+            catch
+            {
+
             }
         }
 
         public static void LogSql(string Command, object[] Args = null, string Elapsed = "")
         {
-            using (StreamWriter writer = File.AppendText(SqlLogLoc))
+            try
             {
-                int i = 0;
-                string sqlInput = string.Empty;
-                sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,10}",Elapsed+"ms")} User: {string.Format("{0,8}", GlobalUser.Username)}] {Command}(";
-                if (Args != null)
+                using (StreamWriter writer = File.AppendText(SqlLogLoc))
                 {
-                    if ((Args != null) && (Args.Length > 0))
+                    int i = 0;
+                    string sqlInput = string.Empty;
+                    sqlInput += $"[{DateTime.Now}   Elapsed: {string.Format("{0,10}", Elapsed + "ms")} User: {string.Format("{0,8}", GlobalUser.Username)}] {Command}(";
+                    if (Args != null)
                     {
-                        while (i < Args.Length)
+                        if ((Args != null) && (Args.Length > 0))
                         {
-                            sqlInput += Args[i].ToString() + ":" + Args[i + 1].ToString() + " ";
-                            i = i + 2;
+                            while (i < Args.Length)
+                            {
+                                sqlInput += Args[i].ToString() + ":" + Args[i + 1].ToString() + " ";
+                                i = i + 2;
+                            }
                         }
                     }
+                    writer.WriteLine(sqlInput + ");");
                 }
-                writer.WriteLine(sqlInput + ");");
+            }
+            catch
+            {
+
             }
         }
 

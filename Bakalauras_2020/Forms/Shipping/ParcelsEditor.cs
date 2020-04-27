@@ -13,15 +13,15 @@ using System.Windows.Forms;
 
 namespace Bakalauras_2020.Forms.Receiving
 {
-    public partial class ShipmentEditor : Form
+    public partial class ParcelsEditor : Form
     {
-        public int ShipmentId = -1;
+        public int ParcelId = -1;
         private int SelectedPartnerId = -1;
-        public static readonly string SelectProcedure = "GetShipmentById";
-        public static readonly string SaveProcedure = "SaveShipment";
-        public static readonly string UpdateProcedure = "UpdateShipment";    
+        public static readonly string SelectProcedure = "GetParcelById";
+        public static readonly string SaveProcedure = "SaveParcel";
+        public static readonly string UpdateProcedure = "UpdateParcel";    
 
-        public ShipmentEditor()
+        public ParcelsEditor()
         {
             InitializeComponent();
             SetupForm();
@@ -32,7 +32,7 @@ namespace Bakalauras_2020.Forms.Receiving
             tCreateDate.Enabled = false;
             tUpdated.Enabled = false;
             tWarehouse.Enabled = false;
-            tShipmentId.Enabled = false;
+            tParcelId.Enabled = false;
             tPartner.ReadOnly = true;
             dView.MultiSelect = false;
             dView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -42,16 +42,16 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void DView_DoubleClick(object sender, EventArgs e)
         {
-            if (dView.DataSource != null && ((DataTable)dView.DataSource).Rows.Count > 0 && ShipmentId > 0)
+            if (dView.DataSource != null && ((DataTable)dView.DataSource).Rows.Count > 0 && ParcelId > 0)
             {
                 DataGridViewRow row = dView.SelectedRows[0];
                 if (row != null)
                 {
-                    bool Deselect = NullCheck.IsNullInt(row.Cells["ShipmentId"]) > 0 ? true : false;
-                    Sql.ExecuteCmd("ChangeShipmentAssign", new object[]
+                    bool Deselect = NullCheck.IsNullInt(row.Cells["ParcelId"]) > 0 ? true : false;
+                    Sql.ExecuteCmd("ChangeParcelAssign", new object[]
                     {
-                        "@RcvOrdId", NullCheck.IsNullInt(row.Cells["RcvOrderId"].Value),
-                        "@ShipmentId", Deselect ? (int?)null : (int?)ShipmentId
+                        "@OutOrderId", NullCheck.IsNullInt(row.Cells["OutOrderId"].Value),
+                        "@ParcelId", Deselect ? (int?)null : (int?)ParcelId
                     });
 
                     if (!Deselect)
@@ -77,30 +77,30 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void Save()
         {
-            if (ShipmentId == -1)
+            if (ParcelId == -1)
             {
                 Sql.ExecuteCmd(SaveProcedure, new object[] {
-                    "@ShipmentId", tShipmentId.Text,
-                    "@ShipmentNo", tShipmentNo.Text,
+                    "@ParcelId", tParcelId.Text,
+                    "@ParcelNo", tParcelNo.Text,
                     "@PartnerId", SelectedPartnerId,
                     "@WarehouseId", GlobalUser.CurrentWarehouseId,
                     "@CreateDate", DateTime.Now.ToShortDateString(),
                     "@UpdateDate", DateTime.Now.ToShortDateString()
                 });
-                ShipmentId = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateSaveShipment('{tShipmentNo.Text}')"));
-                tShipmentId.Text = NullCheck.IsNullString(ShipmentId);
-                if (ShipmentId > 0)
+                ParcelId = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateSaveParcel('{tParcelNo.Text}')"));
+                tParcelId.Text = NullCheck.IsNullString(ParcelId);
+                if (ParcelId > 0)
                 LoadData();
             }
             else
                 Sql.ExecuteCmd(UpdateProcedure, new object[] {
-                    "@ShipmentId", tShipmentId.Text,
-                    "@ShipmentNo", tShipmentNo.Text,
+                    "@ParcelId", tParcelId.Text,
+                    "@ParcelNo", tParcelNo.Text,
                     "@PartnerId", SelectedPartnerId,
                     "@WarehouseId", GlobalUser.CurrentWarehouseId,
                     "@UpdateDate", DateTime.Now.ToShortDateString()
                 });
-            LogAction(ShipmentId == -1 ? SaveProcedure : UpdateProcedure);
+            LogAction(ParcelId == -1 ? SaveProcedure : UpdateProcedure);
         }
 
         private void bSave_Click(object sender, EventArgs e)
@@ -133,14 +133,14 @@ namespace Bakalauras_2020.Forms.Receiving
 
         public void LoadData()
         {
-            DataTable dt = Sql.GetTable(SelectProcedure, new object[] { "@ShipmentId", ShipmentId });
+            DataTable dt = Sql.GetTable(SelectProcedure, new object[] { "@ParcelId", ParcelId });
             if (dt != null && dt.Rows.Count > 0)
             {
-                tShipmentId.Text = NullCheck.IsNullString(ShipmentId);
-                SelectedPartnerId = NullCheck.IsNullInt(dt.Rows[0]["PartnerId"]);
+                tParcelId.Text = NullCheck.IsNullString(ParcelId);
+                SelectedPartnerId = NullCheck.IsNullInt(dt.Rows[0]["CustomerId"]);
                 tPartner.Text = NullCheck.IsNullString(dt.Rows[0]["PartnerName"]);
                 tWarehouse.Text = NullCheck.IsNullString(dt.Rows[0]["WarehouseName"]);
-                tShipmentNo.Text = NullCheck.IsNullString(dt.Rows[0]["ShipmentNo"]);
+                tParcelNo.Text = NullCheck.IsNullString(dt.Rows[0]["ParcelNo"]);
                 tCreateDate.Text = NullCheck.IsNullDate(dt.Rows[0]["CreateDate"]).ToShortDateString();
                 tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();
                 LoadDView();
@@ -149,9 +149,9 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void LoadDView()
         {
-            DataTable dt = Sql.GetTable("GetRcvOrdersForShipmentEditor", new object[]
+            DataTable dt = Sql.GetTable("GetOutOrdersForParcelEditor", new object[]
             {
-                "@ShipmentId", ShipmentId
+                "@ParcelId", ParcelId
             });
 
             dView.DataSource = dt;
@@ -160,7 +160,7 @@ namespace Bakalauras_2020.Forms.Receiving
                 EditColumns();
                 foreach (DataGridViewRow row in dView.Rows)
                 {
-                    if (NullCheck.IsNullInt(row.Cells["ShipmentId"]) == ShipmentId)
+                    if (NullCheck.IsNullInt(row.Cells["ParcelId"]) == ParcelId)
                     {
                         row.DefaultCellStyle.BackColor = Color.Cyan;
                     }
@@ -179,15 +179,15 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Created"].HeaderText = "Sukūrimo data";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
 
-            dView.Columns["RcvOrderId"].Visible = false;
-            dView.Columns["ShipmentId"].Visible = false;
+            dView.Columns["OutOrderId"].Visible = false;
+            dView.Columns["ParcelId"].Visible = false;
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
             tWarehouse.Text = Sql.GetString($"SELECT dbo.GetWarehouseName({GlobalUser.CurrentWarehouseId})");
-            if (ShipmentId != -1)
+            if (ParcelId != -1)
             {
                 LoadData();
             }
@@ -210,8 +210,8 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             Sql.LogAction(new object[] {
                 "Procedure", Command,
-                "@Obj1", ShipmentId, "@Obj1Name", nameof(ShipmentId),
-                "@Obj2", tShipmentId.Text, "@Obj2Name", nameof(tShipmentId).Substring(1),
+                "@Obj1", ParcelId, "@Obj1Name", nameof(ParcelId),
+                "@Obj2", tParcelId.Text, "@Obj2Name", nameof(tParcelId).Substring(1),
                 "@Obj3", tWarehouse.Text, "@Obj3Name", nameof(tWarehouse).Substring(1),
                 "@Obj4", DateTime.Now.ToShortDateString(), "@Obj4Name", nameof(DateTime),
                 "@Obj5", DateTime.Now.ToShortDateString(), "@Obj5Name", nameof(DateTime)
@@ -225,7 +225,7 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void tPartner_MouseClick(object sender, MouseEventArgs e)
         {
-            SelectedPartnerId = PartnerMapper.SelectPartnerId(Supplier: true);
+            SelectedPartnerId = PartnerMapper.SelectPartnerId(Customer: true);
             tPartner.Text = Sql.GetString($"SELECT dbo.GetPartnerName('{SelectedPartnerId}')");
         }
     }

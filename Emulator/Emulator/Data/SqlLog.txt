@@ -329,3 +329,15 @@
 [4/21/2020 11:02:16 PM   Elapsed:       24ms User:       ks] SELECT dbo.GetPalletId('00000000001')();
 [4/21/2020 11:02:42 PM   Elapsed:        0ms User:       ks] SELECT dbo.GetPalletId('00000000001')();
 [4/21/2020 11:02:42 PM   Elapsed:        2ms User:       ks] MovePallet(@ToZoneId:3 @Whid:3 @PalletId:1 );
+[4/23/2020 2:34:15 PM   Elapsed:      631ms User:         ] GetUserData(@Username:ks @Password:ks );
+[4/23/2020 2:34:15 PM   Elapsed:      150ms User:       ks] GetWarehousesSelector();
+[4/23/2020 2:34:21 PM   Elapsed:        3ms User:       ks] SELECT dbo.GetWarehouseName(3)();
+[4/23/2020 2:34:25 PM   Elapsed:      351ms User:       ks] GetInProcessRcvDocs(@WhId:3 );
+[4/23/2020 2:34:25 PM   Elapsed:        0ms User:       ks] GetInProcessRcvDocs(@WhId:3 );
+[4/23/2020 2:34:30 PM   Elapsed:      191ms User:       ks] SELECT dbo.GetFirstReceivingLocation('3')();
+[4/23/2020 2:34:33 PM   Elapsed:      279ms User:       ks] SELECT dbo.ValidateReceivingLocation('3','RCV-5')();
+[4/23/2020 2:34:34 PM   Elapsed:      616ms User:       ks] GetOrderedItemsByReceivingDocId(@ReceivingDocId:4 );
+[4/23/2020 2:35:41 PM   Elapsed:       50ms User:         ] GetUserData(@Username:ks @Password:ks );
+[4/23/2020 2:35:41 PM   Elapsed:        3ms User:       ks] GetWarehousesSelector();
+[4/23/2020 2:35:43 PM   Elapsed:        2ms User:       ks] SELECT dbo.GetWarehouseName(3)();
+[4/23/2020 2:35:50 PM   Elapsed:       84ms User:       ks] GetStorageZones(@Whid:3 );
