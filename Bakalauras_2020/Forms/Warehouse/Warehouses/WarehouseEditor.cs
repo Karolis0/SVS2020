@@ -38,6 +38,10 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
         private void CWarehouseLocId_DropDown(object sender, EventArgs e)
         {
             int LocId = WarehouseLocMapper.SelectLocId();
+            if (LocId == -1)
+            {
+                return;
+            }
             if (!((DataTable)cWarehouseLocId.DataSource).AsEnumerable().Any(row => LocId == row.Field<int>("LocationId")))
             {
                 LoadWarehouseCombo();

@@ -34,6 +34,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             tUpdated.Enabled = false;
             tWarehouse.Enabled = false;
             tParent.Enabled = false;
+            tSpotVolume.ReadOnly = true;
         }
 
         private void Save()
@@ -81,14 +82,32 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             string errorMsg = string.Empty;
             if (string.IsNullOrEmpty(tFZoneCode.Text))
             {
-                tFZoneName.Invalidate();
-                errorMsg += "Negalimas vietovės kodas\n";
+                errorMsg += "Negalimas zonos kodas\n";
             }
 
             if (string.IsNullOrEmpty(tFZoneName.Text))
             {
-                tFZoneName.Invalidate();
                 errorMsg += "Negalimas zonos pavadinimas\n";
+            }
+
+            if (string.IsNullOrEmpty(tSpotWidth.Text))
+            {
+                errorMsg += "Negalimas zonos plotis\n";
+            }
+
+            if (string.IsNullOrEmpty(tSpotVolume.Text))
+            {
+                errorMsg += "Negalimas zonos tūris\n";
+            }
+
+            if (string.IsNullOrEmpty(tSpotHeight.Text))
+            {
+                errorMsg += "Negalimas zonos aukštis\n";
+            }
+
+            if (string.IsNullOrEmpty(tSpotLength.Text))
+            {
+                errorMsg += "Negalimas zonos ilgis\n";
             }
 
             int Exists = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateFZone('{tFZoneName.Text}', '{tFZoneCode.Text}')"));
@@ -171,6 +190,16 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             }
         }
 
+        private void RecalculateSpotVolume()
+        {
+            if (string.IsNullOrEmpty(tSpotLength.Text) || string.IsNullOrEmpty(tSpotWidth.Text) || string.IsNullOrEmpty(tSpotHeight.Text))
+            {
+                return;
+            }
+
+            tSpotVolume.Text = NullCheck.IsNullString(NullCheck.IsNullDecimal(tSpotLength.Text) * NullCheck.IsNullDecimal(tSpotWidth.Text) * NullCheck.IsNullDecimal(tSpotHeight.Text));
+        }
+
         private void LogAction(string Command)
         {
             Sql.LogAction(new object[] {
@@ -205,6 +234,21 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
         private void tSpotVolume_KeyPress(object sender, KeyPressEventArgs e)
         {
             tGeneral_KeyPress(sender, e);
+        }
+
+        private void tSpotWidth_TextChanged(object sender, EventArgs e)
+        {
+            RecalculateSpotVolume();
+        }
+
+        private void tSpotLength_TextChanged(object sender, EventArgs e)
+        {
+            RecalculateSpotVolume();
+        }
+
+        private void tSpotHeight_TextChanged(object sender, EventArgs e)
+        {
+            RecalculateSpotVolume();
         }
     }
 }

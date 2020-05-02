@@ -78,7 +78,7 @@ namespace Bakalauras_2020.Forms.Mappers
             dataGridView1.Columns["UnitCode"].HeaderText = "Matavimo vienetas";
             dataGridView1.Columns["Volume"].HeaderText = "Tūris";
             dataGridView1.Columns["WarehouseCode"].HeaderText = "Sandėlio kodas";
-            dataGridView1.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dataGridView1.Columns["CreateDate"].HeaderText = "Sukurta";
             dataGridView1.Columns["UpdateDate"].HeaderText = "Atnaujinta";
             dataGridView1.Columns["Barcode"].HeaderText = "Barkodas";
             dataGridView1.Columns["Height"].HeaderText = "Aukštis";

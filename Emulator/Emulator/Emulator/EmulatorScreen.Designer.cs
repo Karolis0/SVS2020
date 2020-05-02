@@ -146,19 +146,17 @@
             // 
             // tBox2Desc
             // 
-            this.tBox2Desc.AutoSize = true;
             this.tBox2Desc.Location = new System.Drawing.Point(3, 232);
             this.tBox2Desc.Name = "tBox2Desc";
-            this.tBox2Desc.Size = new System.Drawing.Size(41, 13);
+            this.tBox2Desc.Size = new System.Drawing.Size(62, 13);
             this.tBox2Desc.TabIndex = 12;
             this.tBox2Desc.Text = "label11";
             // 
             // tBox1Desc
             // 
-            this.tBox1Desc.AutoSize = true;
             this.tBox1Desc.Location = new System.Drawing.Point(2, 206);
             this.tBox1Desc.Name = "tBox1Desc";
-            this.tBox1Desc.Size = new System.Drawing.Size(41, 13);
+            this.tBox1Desc.Size = new System.Drawing.Size(63, 13);
             this.tBox1Desc.TabIndex = 13;
             this.tBox1Desc.Text = "label12";
             // 

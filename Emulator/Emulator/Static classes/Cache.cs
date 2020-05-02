@@ -6,35 +6,35 @@ using System.Threading.Tasks;
 
 namespace Emulator.Static_classes
 {
-    static class Parameters
+    static class Cache
     {
-        private static Dictionary<string, string> Params { get; set; }
+        private static Dictionary<string, string> cache { get; set; }
 
         public static void InitializeParams()
         {
-            Params = new Dictionary<string, string>();
+            cache = new Dictionary<string, string>();
         }
 
         public static void ResetPrams()
         {
-            Params.Clear();
+            cache.Clear();
         }
 
         public static void AddParameter(object KeyId, object KeyValue)
         {
-            if (Params.ContainsKey(KeyId.ToString()))
+            if (cache.ContainsKey(KeyId.ToString()))
             {
-                Params[KeyId.ToString()] = KeyValue.ToString();
+                cache[KeyId.ToString()] = KeyValue.ToString();
             }
             else
             {
-                Params.Add(KeyId.ToString(), KeyValue.ToString());
+                cache.Add(KeyId.ToString(), KeyValue.ToString());
             }
         }
 
         public static string ReturnValueByKey(object KeyId)
         {
-            return Params[KeyId.ToString()];
+            return cache[KeyId.ToString()];
         }
     }
 }

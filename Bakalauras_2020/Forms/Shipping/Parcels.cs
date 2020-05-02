@@ -1,5 +1,6 @@
 ﻿using Bakalauras_2020.Forms.Mappers;
 using Bakalauras_2020.Properties;
+using Bakalauras_2020.StaticClass;
 using Bakalauras_2020.Utility;
 using System;
 using System.Collections.Generic;
@@ -53,8 +54,25 @@ namespace Bakalauras_2020.Forms.Receiving
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        Sql.ExecuteCmd("StartRcvDocs", new object[] { "@OutOrderId", row["OutOrderID"]});
+                        DataTable relatedItemId = Sql.GetTable("StartOutOrderDocsAndGetOrderedItems", new object[] { "@OutOrderId", row["OutOrderID"]});
+                        GenerateWO(relatedItemId, NullCheck.IsNullInt(row["OutOrderID"]));
                     }
+                }
+            }
+        }
+
+        private void GenerateWO(DataTable dt, int OutOrderId)
+        {
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    Sql.ExecuteCmd("GenerateWO", new object[] {
+                    "@ItemId" , row["ItemId"],
+                    "@OutOrderId", OutOrderId,
+                    "@Whid", GlobalUser.CurrentWarehouseId,
+                    "@Created", DateTime.Now.ToShortDateString(),
+                    "@Quantity", Sql.GetString($"SELECT dbo.GetOrderedQuantity('{OutOrderId}','{row["ItemId"]}')")});
                 }
             }
         }
@@ -160,7 +178,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["ParcelNo"].HeaderText = "Siuntos numeris";
             dView.Columns["PartnerName"].HeaderText = "Tiekėjas";
             dView.Columns["WarehouseName"].HeaderText = "Sandėlis";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dView.Columns["CreateDate"].HeaderText = "Sukurta";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
         }
 

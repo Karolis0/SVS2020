@@ -16,7 +16,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
     public partial class LocationEditor : Form
     {
         public int LocationId = -1;
-        public static readonly string SelectProcedure = "SelectLocations";
+        public static readonly string SelectProcedure = "SelectLocationById";
         public static readonly string SaveProcedure = "SaveLocation";
         public static readonly string UpdateProcedure = "UpdateLocation";    
 

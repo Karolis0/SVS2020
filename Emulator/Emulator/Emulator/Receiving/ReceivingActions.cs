@@ -19,7 +19,7 @@ namespace Emulator.Emulator.Receiving
 
         public static DataTable GetReceivingItemList()
         {
-            return Sql.GetTable("GetOrderedItemsByReceivingDocId", new object[] { "@ReceivingDocId", Parameters.ReturnValueByKey("@RcvDocId") });
+            return Sql.GetTable("GetOrderedItemsByReceivingDocId", new object[] { "@ReceivingDocId", Cache.ReturnValueByKey("@RcvDocId") });
         }
 
         public static DataTable GetReceivingDocuments()
@@ -29,8 +29,8 @@ namespace Emulator.Emulator.Receiving
 
         public static void SavePalletToZone()
         {
-            string PalletBarcode = Parameters.ReturnValueByKey("@Barcode");
-            string ZoneCode = Parameters.ReturnValueByKey("@Location");
+            string PalletBarcode = Cache.ReturnValueByKey("@Barcode");
+            string ZoneCode = Cache.ReturnValueByKey("@Location");
 
             Sql.ExecuteCmd("SavePalletToZone", new object[]
             {
@@ -38,13 +38,14 @@ namespace Emulator.Emulator.Receiving
                 "@Whid", GlobalUser.CurrentWarehouseId,
                 "@Barcode", PalletBarcode,
                 "@Created", DateTime.Now,
-                "@Updated", DateTime.Now
+                "@Updated", DateTime.Now,
+                "@RcvDocId", Cache.ReturnValueByKey("@RcvDocId")
             });
         }
 
         public static void SaveItemsToZoneAndPallet(DataTable dt)
         {
-            string PalletId = NullCheck.IsNullString(Sql.GetString($"SELECT dbo.GetPalletId('{Parameters.ReturnValueByKey("@Barcode")}')"));
+            string PalletId = NullCheck.IsNullString(Sql.GetString($"SELECT dbo.GetPalletId('{Cache.ReturnValueByKey("@Barcode")}')"));
             DataTable Insert = ProcessDataTableQuantityById(dt);
             foreach (DataRow row in Insert.Rows)
             {
@@ -61,7 +62,7 @@ namespace Emulator.Emulator.Receiving
 
         public static void FinishReceivingDoc()
         {
-            Sql.ExecuteCmd("SetRcvDocFinished", new object[] { "@RcvDocId", Parameters.ReturnValueByKey("@RcvDocId") });
+            Sql.ExecuteCmd("SetRcvDocFinished", new object[] { "@RcvDocId", Cache.ReturnValueByKey("@RcvDocId") });
         }
 
         public static string GetSuggestedReceivingZone()
@@ -88,6 +89,30 @@ namespace Emulator.Emulator.Receiving
             }
 
             return clone;
+        }
+
+        public static void DeductSpotVolume(decimal Volume, string ZoneCode)
+        {
+            Sql.ExecuteCmd("DeductSpotVolume", new object[]
+            {
+                "@Volume", Volume,
+                "@ZoneCode", ZoneCode,
+                "@Whid", GlobalUser.CurrentWarehouseId
+            });
+        }
+
+        public static decimal CalculateTotalVolume(DataTable dt)
+        {
+            if (dt != null)
+            {
+                decimal Total = 0;
+                foreach (DataRow row in dt.Rows)
+                {
+                    Total += NullCheck.IsNullDecimal(row["Volume"]) * NullCheck.IsNullDecimal(row["Quantity"]);
+                }
+                return Total;
+            }
+            return decimal.Zero;
         }
     }
 }

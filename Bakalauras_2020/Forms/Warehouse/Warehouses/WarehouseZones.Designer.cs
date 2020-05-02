@@ -30,6 +30,12 @@
         {
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tZoneLength = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tZoneRemainingVolume = new System.Windows.Forms.TextBox();
+            this.tZoneVolume = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.tSpotWidth = new System.Windows.Forms.TextBox();
             this.tSpotHeight = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -46,17 +52,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lFZoneName = new System.Windows.Forms.Label();
-            this.tZoneRemainingVolume = new System.Windows.Forms.TextBox();
-            this.tZoneVolume = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tZoneLength = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
             // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.treeView1.Location = new System.Drawing.Point(0, 99);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(222, 352);
@@ -64,6 +66,9 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.tZoneLength);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.tZoneRemainingVolume);
@@ -91,16 +96,64 @@
             this.panel2.Size = new System.Drawing.Size(578, 352);
             this.panel2.TabIndex = 4;
             // 
+            // tZoneLength
+            // 
+            this.tZoneLength.Location = new System.Drawing.Point(423, 65);
+            this.tZoneLength.Name = "tZoneLength";
+            this.tZoneLength.Size = new System.Drawing.Size(110, 20);
+            this.tZoneLength.TabIndex = 21;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(310, 68);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(77, 13);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Zonos ilgis (m):";
+            // 
+            // tZoneRemainingVolume
+            // 
+            this.tZoneRemainingVolume.Location = new System.Drawing.Point(423, 117);
+            this.tZoneRemainingVolume.Name = "tZoneRemainingVolume";
+            this.tZoneRemainingVolume.Size = new System.Drawing.Size(110, 20);
+            this.tZoneRemainingVolume.TabIndex = 19;
+            // 
+            // tZoneVolume
+            // 
+            this.tZoneVolume.Location = new System.Drawing.Point(423, 91);
+            this.tZoneVolume.Name = "tZoneVolume";
+            this.tZoneVolume.Size = new System.Drawing.Size(110, 20);
+            this.tZoneVolume.TabIndex = 18;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(310, 120);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(109, 13);
+            this.label8.TabIndex = 17;
+            this.label8.Text = "Zonos likęs tūris (m3):";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(310, 94);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 13);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Zonos tūris (m3):";
+            // 
             // tSpotWidth
             // 
-            this.tSpotWidth.Location = new System.Drawing.Point(401, 39);
+            this.tSpotWidth.Location = new System.Drawing.Point(423, 39);
             this.tSpotWidth.Name = "tSpotWidth";
             this.tSpotWidth.Size = new System.Drawing.Size(110, 20);
             this.tSpotWidth.TabIndex = 15;
             // 
             // tSpotHeight
             // 
-            this.tSpotHeight.Location = new System.Drawing.Point(401, 13);
+            this.tSpotHeight.Location = new System.Drawing.Point(423, 13);
             this.tSpotHeight.Name = "tSpotHeight";
             this.tSpotHeight.Size = new System.Drawing.Size(110, 20);
             this.tSpotHeight.TabIndex = 14;
@@ -110,18 +163,18 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(310, 42);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.Size = new System.Drawing.Size(84, 13);
             this.label7.TabIndex = 13;
-            this.label7.Text = "Zonos plotis:";
+            this.label7.Text = "Zonos plotis (m):";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(310, 16);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.Size = new System.Drawing.Size(93, 13);
             this.label6.TabIndex = 12;
-            this.label6.Text = "Zonos aukštis:";
+            this.label6.Text = "Zonos aukštis (m):";
             // 
             // tUpdated
             // 
@@ -218,54 +271,6 @@
             this.lFZoneName.Size = new System.Drawing.Size(152, 13);
             this.lFZoneName.TabIndex = 0;
             this.lFZoneName.Text = "Funkcinės zonos pavadinimas:";
-            // 
-            // tZoneRemainingVolume
-            // 
-            this.tZoneRemainingVolume.Location = new System.Drawing.Point(401, 117);
-            this.tZoneRemainingVolume.Name = "tZoneRemainingVolume";
-            this.tZoneRemainingVolume.Size = new System.Drawing.Size(110, 20);
-            this.tZoneRemainingVolume.TabIndex = 19;
-            // 
-            // tZoneVolume
-            // 
-            this.tZoneVolume.Location = new System.Drawing.Point(401, 91);
-            this.tZoneVolume.Name = "tZoneVolume";
-            this.tZoneVolume.Size = new System.Drawing.Size(110, 20);
-            this.tZoneVolume.TabIndex = 18;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(310, 120);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(86, 13);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "Zonos likęs tūris:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(310, 94);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(62, 13);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "Zonos tūris:";
-            // 
-            // tZoneLength
-            // 
-            this.tZoneLength.Location = new System.Drawing.Point(401, 65);
-            this.tZoneLength.Name = "tZoneLength";
-            this.tZoneLength.Size = new System.Drawing.Size(110, 20);
-            this.tZoneLength.TabIndex = 21;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(310, 68);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(60, 13);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "Zonos ilgis:";
             // 
             // WarehouseZones
             // 

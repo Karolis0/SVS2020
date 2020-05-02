@@ -44,12 +44,14 @@ namespace Bakalauras_2020.Forms.Receiving
                 DataGridViewRow row = dView.SelectedRows[0];
                 if (row != null)
                 {
-                    bool Deselect = NullCheck.IsNullInt(row.Cells["RcvOrderId"]) > 0 ? true : false;
+                    bool Deselect = NullCheck.IsNullInt(row.Cells["RcvOrderId"].Value) > 0 ? true : false;
                     Sql.ExecuteCmd("ChangeRcvOrdAssign", new object[]
                     {
                         "@RcvDocId", NullCheck.IsNullInt(row.Cells["ReceivingDocId"].Value),
-                        "@RcvOrdId", Deselect ? (int?)null : (int?)DocId
+                        "@RcvOrdId", Deselect ? 0 : DocId
                     });
+
+                    row.Cells["RcvOrderId"].Value = Deselect ? 0 : DocId;
 
                     if (!Deselect)
                     {
@@ -148,7 +150,7 @@ namespace Bakalauras_2020.Forms.Receiving
             EditColumns();
             foreach (DataGridViewRow row in dView.Rows)
             {
-                if (NullCheck.IsNullInt(row.Cells["RcvOrderId"]) == DocId)
+                if (NullCheck.IsNullInt(row.Cells["RcvOrderId"].Value) == DocId)
                 {
                     row.DefaultCellStyle.BackColor = Color.Cyan;
                 }
@@ -164,7 +166,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["DocCode"].HeaderText = "Dokumento numeris";
             dView.Columns["PartnerName"].HeaderText = "Tiekėjas";
             dView.Columns["IOStateName"].HeaderText = "Būsena";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dView.Columns["CreateDate"].HeaderText = "Sukurta";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
 
             dView.Columns["ReceivingDocId"].Visible = false;

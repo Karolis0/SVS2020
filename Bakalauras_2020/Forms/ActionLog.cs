@@ -31,6 +31,7 @@ namespace Bakalauras_2020.Forms
             ModifyGrid(AccessGrid());
             ModifyPanel(AccessPanel());
             ModifyToolStrip(AccessToolStrip());
+            AccessGrid().Dock = DockStyle.Fill;
         }
 
         private void ModifyGrid(DataGridView dView)

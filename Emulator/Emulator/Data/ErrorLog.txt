@@ -11,3 +11,14 @@
 [4/21/2020 10:56:20 PM] <Error: Cannot insert the value NULL into column 'ZoneLocationId', table 'Bakalauras.dbo.StoredPallets'; column does not allow nulls. UPDATE fails.
 The statement has been terminated.> Used Sql: MovePallet Used arguments: @ToFZoneCode:3 @Whid:3 @PalletId:1 
 [4/21/2020 11:02:16 PM] <Error: Procedure or function 'MovePallet' expects parameter '@ToZoneId', which was not supplied.> Used Sql: MovePallet Used arguments: @ToFZoneCode:3 @Whid:3 @PalletId:1 
+[5/2/2020 10:22:31 PM] <Error: Invalid column name 'Quantity'.
+Invalid column name 'Quantity'.
+Invalid column name 'Quantity'.
+Invalid column name 'ShippingItemId'.> Used Sql: GetWorkOrdersByOutOrder Used arguments: @OutOrderId:4 
+[5/2/2020 10:25:11 PM] <Error: Invalid column name 'Quantity'.
+Invalid column name 'Quantity'.
+Invalid column name 'Quantity'.
+Invalid column name 'ShippingItemId'.> Used Sql: GetWorkOrdersByOutOrder Used arguments: @OutOrderId:4 
+[5/2/2020 11:24:43 PM] <Error: Unclosed quotation mark after the character string '3265.00000000)'.
+Incorrect syntax near '3265.00000000)'.> Used Sql: SELECT dbo.GetSuggestedStaging('3265.00000000) Used arguments: 
+[5/3/2020 12:09:35 AM] <Error: Could not find stored procedure 'FinishOutOrder'.> Used Sql: FinishOutOrder Used arguments: @OutOrderId:7 

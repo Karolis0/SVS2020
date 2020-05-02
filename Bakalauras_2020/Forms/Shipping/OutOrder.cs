@@ -102,7 +102,8 @@ namespace Bakalauras_2020.Forms.Receiving
                     "@Created", DateTime.Now,
                     "@Updated", DateTime.Now,
                     "@ItemId", NullCheck.IsNullInt(row.Cells["ItemId"].Value),
-                    "@OutOrderId", CurrentOutOrderId
+                    "@OutOrderId", CurrentOutOrderId,
+                    "@ShippingItemId", NullCheck.IsNullInt(row.Cells["ShippingItemId"].Value)
                 });
                 _handle = false;
                 if (NullCheck.IsNullInt(row.Cells["ShippingItemId"].Value) <= 0)
@@ -231,7 +232,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Volume"].HeaderText = "Tūris";
             dView.Columns["Width"].HeaderText = "Plotis";
             dView.Columns["Height"].HeaderText = "Aukštis";
-            dView.Columns["Created"].HeaderText = "Sukūrimo data";
+            dView.Columns["Created"].HeaderText = "Sukurta";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
         }
 
@@ -261,7 +262,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["PartnerName"].HeaderText = "Tiekėjas";
             dView.Columns["WarehouseName"].HeaderText = "Sandėlis";
             dView.Columns["ShippingPlanned"].HeaderText = "Numatomas išsiuntimas";
-            dView.Columns["Created"].HeaderText = "Sukūrimo data";
+            dView.Columns["Created"].HeaderText = "Sukurta";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
             dView.Columns["OOStateName"].HeaderText = "Būsena";
         }

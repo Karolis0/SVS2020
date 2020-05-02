@@ -231,7 +231,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["Volume"].HeaderText = "Tūris";
             dView.Columns["Width"].HeaderText = "Plotis";
             dView.Columns["Height"].HeaderText = "Aukštis";
-            dView.Columns["Created"].HeaderText = "Sukūrimo data";
+            dView.Columns["Created"].HeaderText = "Sukurta";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
         }
 
@@ -263,7 +263,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["TruckNo"].HeaderText = "Transporto priemonės numeris";
             dView.Columns["TrailerNo"].HeaderText = "Priekabos numeris";
             dView.Columns["Driver"].HeaderText = "Vairuotojas";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dView.Columns["CreateDate"].HeaderText = "Sukurta";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
             dView.Columns["IOStateName"].HeaderText = "Būsena";
         }

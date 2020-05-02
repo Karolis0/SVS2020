@@ -127,7 +127,7 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             dView.Columns["DocumentNo"].HeaderText = "Dokumento numeris";
             dView.Columns["WarehouseName"].HeaderText = "Sandėlis";
-            dView.Columns["Created"].HeaderText = "Sukūrimo data";
+            dView.Columns["Created"].HeaderText = "Sukurta";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
         }
 
@@ -163,12 +163,19 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private int GetSelectedItemId(DataGridView dView)
         {
-            if (dView.SelectedRows.Count <= 0)
+            try
             {
-                MessageBox.Show("Pasirinkite eilutę, kurią norite redaguoti!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                if (dView.SelectedRows.Count <= 0)
+                {
+                    MessageBox.Show("Pasirinkite eilutę, kurią norite redaguoti!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-            return NullCheck.IsNullInt(dView.SelectedRows[0].Cells[FormMainId].Value);
+                return NullCheck.IsNullInt(dView.SelectedRows[0].Cells[FormMainId].Value);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }

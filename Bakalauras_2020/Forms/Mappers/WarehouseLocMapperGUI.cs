@@ -66,7 +66,7 @@ namespace Bakalauras_2020.Forms.Mappers
             dataGridView1.Columns["FlatNumber"].HeaderText = "Buto numeris";
             dataGridView1.Columns["LocationId"].HeaderText = "Vietovės ID";
             dataGridView1.Columns["StreetName"].HeaderText = "Gatvės pavadinimas";
-            dataGridView1.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dataGridView1.Columns["CreateDate"].HeaderText = "Sukurta";
             dataGridView1.Columns["UpdateDate"].HeaderText = "Atnaujinta";
         }
 

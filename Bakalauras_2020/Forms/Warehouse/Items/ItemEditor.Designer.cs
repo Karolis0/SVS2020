@@ -148,9 +148,9 @@
             this.lCreateDate.AutoSize = true;
             this.lCreateDate.Location = new System.Drawing.Point(12, 302);
             this.lCreateDate.Name = "lCreateDate";
-            this.lCreateDate.Size = new System.Drawing.Size(78, 13);
+            this.lCreateDate.Size = new System.Drawing.Size(47, 13);
             this.lCreateDate.TabIndex = 9;
-            this.lCreateDate.Text = "Sūkurimo data:";
+            this.lCreateDate.Text = "Sukurta:";
             // 
             // lType
             // 

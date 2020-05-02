@@ -51,8 +51,10 @@ namespace Bakalauras_2020.Forms.Receiving
                     Sql.ExecuteCmd("ChangeParcelAssign", new object[]
                     {
                         "@OutOrderId", NullCheck.IsNullInt(row.Cells["OutOrderId"].Value),
-                        "@ParcelId", Deselect ? (int?)null : (int?)ParcelId
+                        "@ParcelId", Deselect ? 0 : ParcelId
                     });
+
+                    row.Cells["ParcelId"].Value = Deselect ? 0 : ParcelId;
 
                     if (!Deselect)
                     {
@@ -160,7 +162,7 @@ namespace Bakalauras_2020.Forms.Receiving
                 EditColumns();
                 foreach (DataGridViewRow row in dView.Rows)
                 {
-                    if (NullCheck.IsNullInt(row.Cells["ParcelId"]) == ParcelId)
+                    if (NullCheck.IsNullInt(row.Cells["ParcelId"].Value) == ParcelId)
                     {
                         row.DefaultCellStyle.BackColor = Color.Cyan;
                     }

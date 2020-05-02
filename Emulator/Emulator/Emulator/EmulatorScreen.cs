@@ -1,6 +1,8 @@
 ﻿using Bakalauras_2020.StaticClass;
 using Bakalauras_2020.Utility;
+using Emulator.Emulator.Picking;
 using Emulator.Emulator.Receiving;
+using Emulator.Emulator.Shipping;
 using Emulator.Emulator.Storing;
 using Emulator.Enums;
 using Emulator.Static_classes;
@@ -21,6 +23,7 @@ namespace Emulator.Emulator
         private ActiveMenuTypes activeMenu;
         Action processMethod;
         DataTable ItemList;
+        decimal TotalVolume = 0;
 
         public EmulatorScreen()
         {
@@ -34,13 +37,14 @@ namespace Emulator.Emulator
 
         private void PrepareScreen()
         {
-            Parameters.InitializeParams();
+            Cache.InitializeParams();
             activeMenu = ActiveMenuTypes.Login;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.KeyDown += EmulatorScreen_KeyDown;
+            this.tBoxInput2.PasswordChar = '*';
             if (GlobalUser.UserId == null)
             {
                 dView.Visible = false;
@@ -55,6 +59,7 @@ namespace Emulator.Emulator
                 tBoxInput1.Focus();
                 tBoxInput1.KeyDown += TBoxInput_KeyDown;
                 tBoxInput2.KeyDown += TBoxInput_KeyDown;
+                tBoxInput2.UseSystemPasswordChar = true;
                 processMethod = new Action(ValidateLogin);
             }
             else
@@ -69,6 +74,10 @@ namespace Emulator.Emulator
 
         private void EmulatorScreen_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Enter)
+            {
+                processMethod();
+            }
             if (e.KeyCode == Keys.Escape)
             {
                 if(GlobalUser.UserId == null)
@@ -108,6 +117,17 @@ namespace Emulator.Emulator
             {
                 processMethod();
             }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (GlobalUser.UserId == null)
+                {
+                    PrepareScreen();
+                }
+                else
+                {
+                    BackToMainMenu();
+                }
+            }
         }
 
         #endregion
@@ -139,6 +159,8 @@ namespace Emulator.Emulator
                 row6.TextAlign = ContentAlignment.MiddleCenter;
                 return;
             }
+            this.tBoxInput2.UseSystemPasswordChar = true;
+            this.tBoxInput2.PasswordChar = '\0';
             GlobalUser.ParseDataTable(dt);
             DisableInfo();
             ClearLabels();
@@ -207,7 +229,7 @@ namespace Emulator.Emulator
                 SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            Parameters.AddParameter("@Barcode", tBoxInput1.Text);
+            Cache.AddParameter("@Barcode", tBoxInput1.Text);
             CreateSelection();
         }
 
@@ -231,7 +253,7 @@ namespace Emulator.Emulator
         {
             ResetMenu();
             HideMenu();
-            Parameters.AddParameter("@Location", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            Cache.AddParameter("@Location", dViewDataShow.SelectedRows[0].Cells[0].Value);
             HideDataShow();
             SetTitle("Perkėlimas");
             EnableRows(5);
@@ -303,12 +325,12 @@ namespace Emulator.Emulator
         {
             ResetMenu();
             HideMenu();
-            Parameters.AddParameter("@RcvDocId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            Cache.AddParameter("@RcvDocId", dViewDataShow.SelectedRows[0].Cells[0].Value);
             HideDataShow();
             SetTitle("Priėmimas");
             EnableRows(3);
             SetRow3("Nuskenuokite barkodą", ContentAlignment.MiddleCenter);
-            EnableInput(true, false);
+            EnableInput(true, true);
             EnableRows(new string[] { "t1" });
             SetTextBoxLabel1("Barkodas");
             processMethod = new Action(ProcessBarcodeInput);
@@ -323,7 +345,7 @@ namespace Emulator.Emulator
                 SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            Parameters.AddParameter("@Barcode", tBoxInput1.Text);
+            Cache.AddParameter("@Barcode", tBoxInput1.Text);
             processMethod = new Action(ProcessWarehouseSpotInput);
             ClearInput();
             SetRow3("Nuskenuokite vietos kodą, į kurią padėsite", ContentAlignment.MiddleCenter);
@@ -356,10 +378,11 @@ namespace Emulator.Emulator
                 SetRow9("Vieta neskirta priėmimui", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            Parameters.AddParameter("@Location", tBoxInput1.Text);
+            Cache.AddParameter("@Location", tBoxInput1.Text);
             ClearInput();
             DisableRows(9,5);
             ItemList = ReceivingActions.GetReceivingItemList();
+            TotalVolume = ReceivingActions.CalculateTotalVolume(ItemList);
             if (ItemList != null && ItemList.Rows.Count > 0)
             {
                 CheckItemScan();
@@ -395,7 +418,7 @@ namespace Emulator.Emulator
             SetRow8($"Prekė: [{NullCheck.IsNullString(ItemList.Rows[0]["Name"])}]     Barkodas: [{NullCheck.IsNullString(ItemList.Rows[0]["Barcode"])}]", ContentAlignment.MiddleCenter, Color.Chocolate);
             EnableRows(new string[] { "t1" });
             SetTextBoxLabel1("Kiekis:");
-            Parameters.AddParameter("@ScanBarcode", NullCheck.IsNullString(ItemList.Rows[0]["Barcode"]));
+            Cache.AddParameter("@ScanBarcode", NullCheck.IsNullString(ItemList.Rows[0]["Barcode"]));
             EnableInput(input1:true);
             FocusInput1();
         }
@@ -409,7 +432,7 @@ namespace Emulator.Emulator
                 SetRow9("Netinkama įvestis", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
-            DataRow row = ItemList.AsEnumerable().Where(x => x.Field<string>("Barcode") == Parameters.ReturnValueByKey("@ScanBarcode")).FirstOrDefault();
+            DataRow row = ItemList.AsEnumerable().Where(x => x.Field<string>("Barcode") == Cache.ReturnValueByKey("@ScanBarcode")).FirstOrDefault();
             decimal RequestedAmount = NullCheck.IsNullDecimal(row["Quantity"]);
             if (ScannedAmount > RequestedAmount)
             {
@@ -449,12 +472,380 @@ namespace Emulator.Emulator
             DisableInfo();
             EnableRows(4);
             ReceivingActions.SavePalletToZone();
-            ReceivingActions.SaveItemsToZoneAndPallet(Sql.GetTable("GetItemIdByRcvDocIdForStore", new object[] { "@RcvDocId", Parameters.ReturnValueByKey("@RcvDocId") }));
+            ReceivingActions.SaveItemsToZoneAndPallet(Sql.GetTable("GetItemIdByRcvDocIdForStore", new object[] { "@RcvDocId", Cache.ReturnValueByKey("@RcvDocId") }));
+            ReceivingActions.DeductSpotVolume(TotalVolume, Cache.ReturnValueByKey("@Location"));
             ReceivingActions.FinishReceivingDoc();
             SetRow4("Prekių priėmimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
             EnableInput();
             this.Select();
         }
+        #endregion
+
+        #region Picking
+
+        private void InitializePicking()
+        {
+            activeMenu = ActiveMenuTypes.Picking;
+            ResetMenu();
+            ShowMenu(new string[] { "Surinkti prekes" });
+        }
+
+        private void SelectOutOrder()
+        {
+            EmptyMenu();
+            DataTable dt = PickingActions.GetOutOrderDocuments();
+            SetTitle("Pasirinkite dokumentą");
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[1].HeaderText = "Dokumento Nr";
+            dViewDataShow.Columns[2].HeaderText = "Tiekėjas";
+            dViewDataShow.Columns[3].HeaderText = "Sukurtas";
+            dViewDataShow.Columns[0].Visible = false;
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(StartPicking);
+        }
+
+        private void StartPicking()
+        {
+            ResetMenu();
+            HideMenu();
+            DisableInfo();
+            Cache.AddParameter("@OutOrderId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            HideDataShow();
+            SetTitle("Surinkimas");
+            EnableRows(3);
+            SetRow3("Nuskenuokite paletės barkodą", ContentAlignment.MiddleCenter);
+            EnableInput(input1: true);
+            EnableRows(new string[] { "t1" });
+            SetTextBoxLabel1("Barkodas");
+            processMethod = new Action(ProcessPalletBarcode);
+            FocusInput1();
+        }
+
+        private void ProcessPalletBarcode()
+        {
+            //@TODO: Add pallet type select procedure + implement save pattern in receiving
+            if (string.IsNullOrEmpty(tBoxInput1.Text))
+            {
+                EnableRows(9);
+                SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            Cache.AddParameter("@Barcode", tBoxInput1.Text);
+            EmptyMenu();
+            DataTable dt = PickingActions.GetPalletTypes();
+            SetTitle("Pasirinkite paletės tipą");
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[0].HeaderText = "Paletės tipo nr";
+            dViewDataShow.Columns[1].HeaderText = "Ilgis";
+            dViewDataShow.Columns[2].HeaderText = "Plotis";
+            dViewDataShow.Columns[3].HeaderText = "Aukštis";
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(ProcessPalletTypeForReceive);
+        }
+
+        private void ProcessPalletTypeForReceive()
+        {
+            Cache.AddParameter("@PalletType", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            ResetMenu();
+            HideMenu();
+            DisableInfo();
+            Cache.AddParameter("@OutOrderId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            HideDataShow();
+        }
+
+        private void ProcessPicking()
+        { 
+            DisableInfo();
+            ClearLabels();
+            EnableRows(3);
+            ItemList = PickingActions.GetWorkOrdersByOutOrder();
+            TotalVolume = PickingActions.CalculateTotalVolume(ItemList);
+            if (ItemList != null && ItemList.Rows.Count > 0)
+            {
+                ProcessWO();
+            }
+            else
+            {
+                DisableInfo();
+                EnableRows(5);
+                SetRow5("Nėra priskirtų surinkimo užsakymų", ContentAlignment.MiddleCenter, Color.Red);
+                processMethod = new Action(BackToMainMenu);
+            }
+        }
+
+        private void ProcessWO()
+        {
+            if (ItemList.Rows.Count > 0)
+            {
+                SetScanWO();
+                processMethod = new Action(ProcessWOScan);
+            }
+            else
+            {
+                FinalizePicking();
+            }
+        }
+
+        private void SetScanWO()
+        {   
+            ClearInput();
+            EnableInput(true);
+            ClearLabels();
+            DisableInfo();
+            EnableRows(new string[] { "4", "5", "8" });
+            SetRow4("Nuskenuokite prekę", ContentAlignment.MiddleCenter);
+            SetRow5($"Prekė: [{NullCheck.IsNullString(ItemList.Rows[0]["Name"])}]     Kodas: [{NullCheck.IsNullString(ItemList.Rows[0]["Code"])}]", ContentAlignment.MiddleCenter, Color.Chocolate);
+            EnableRows(new string[] { "t1" });
+            SetTextBoxLabel1("Barkodas:");
+            EnableInput(input1: true);
+            FocusInput1();
+        }
+
+        private void ProcessWOScan()
+        {
+            if(string.IsNullOrEmpty(tBoxInput1.Text))
+            {
+                EnableRows(9);
+                SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            else if (NullCheck.IsNullString(ItemList.Rows[0]["Barcode"]) != tBoxInput1.Text)
+            {
+                EnableRows(9);
+                SetRow9("Netinkamas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            DisableRows(9);
+            ProcessPickAmount();
+        }
+
+        private void ProcessPickAmount()
+        {
+            EnableBoxDescriptionRows(true, true);
+            SetTextBoxLabel2("Kiekis:");
+            EnableInput(true, true);
+            ReadOnlyInput(input1: true);
+            processMethod = new Action(ProcessPickQuantity);
+            FocusInput2();
+        }
+
+        private void ProcessPickQuantity()
+        {
+            decimal ScannedAmount = NullCheck.IsNullDecimal(tBoxInput2.Text);
+            if (ScannedAmount == Decimal.Zero)
+            {
+                EnableRows(9);
+                SetRow9("Netinkama įvestis", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            DataRow row = ItemList.AsEnumerable().Where(x => x.Field<string>("Barcode") == tBoxInput1.Text).FirstOrDefault();
+            decimal RequestedAmount = NullCheck.IsNullDecimal(row["Quantity"]);
+            if (ScannedAmount > RequestedAmount)
+            {
+                EnableRows(9);
+                SetRow9("Surinktas didesnis kiekis nei reikia surinkti", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            PickingActions.SetWOInProcess(NullCheck.IsNullInt(row["WOrderId"]));
+            DisableRows(9);
+            decimal LeftQty = RequestedAmount - ScannedAmount;
+            if (LeftQty == decimal.Zero)
+            {
+                PickingActions.CloseWO(NullCheck.IsNullInt(row["WOrderId"]));
+                ItemList.Rows.Remove(row);
+            }
+            else
+            {
+                row["Quantity"] = LeftQty;
+            }
+            ClearInput();
+            if (ItemList.Rows.Count > 0)
+            {
+                if (LeftQty == Decimal.Zero)
+                {
+                    SetScanWO();
+                }
+                processMethod = new Action(ProcessWOScan);
+            }
+            else
+            {
+                ClearInput();
+                EnableInput();
+                ProcessWO();
+            }
+        }
+
+        private void FinalizePicking()
+        {
+            ScanPutLocation();
+        }
+
+        private void ScanPutLocation()
+        {
+            DisableInfo();
+            ClearInput();
+            EnableInput(input1: true);
+            EnableRows(3);
+            SetRow3("Nuskenuokite vietą kur norite padėti paletę", ContentAlignment.MiddleCenter);
+            EnableRows(5);
+            SetRow5($"Siūloma vieta: {Sql.GetString($"SELECT dbo.GetSuggestedStaging('{TotalVolume}')")}");
+            EnableBoxDescriptionRows(row1: true);
+            SetTextBoxLabel1("Vieta:");
+            FocusInput1();
+            processMethod = new Action(PutCU);
+        }
+
+        private void PutCU()
+        {
+            if (string.IsNullOrEmpty(tBoxInput1.Text))
+            {
+                EnableRows(9);
+                SetRow9("Negalimas vietos kodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            else if (PickingActions.ZoneExists(tBoxInput1.Text) <= 0)
+            {
+                EnableRows(9);
+                SetRow9("Netinkamas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            Cache.AddParameter("@StageLocation", tBoxInput1.Text);
+            PickingActions.PutAwayCU();
+            PickingActions.PutAwayItems(Sql.GetTable("GetItemIdByOutOrderIdForStore", new object[] { "@OutOrderId", Cache.ReturnValueByKey("@OutOrderId") }));
+            PickingActions.DeductSpotVolume(TotalVolume, tBoxInput1.Text);
+            PickingActions.FinishOutOrderStatus();
+            DisableInfo();
+            EnableRows(5);
+            SetRow5("Baigtas prekių surinkimas", ContentAlignment.MiddleCenter);
+            ClearInput();
+            EnableInput();
+            this.Select();
+        }
+
+        #endregion
+
+        #region Shipping
+
+        private void InitializeLoading()
+        {
+            activeMenu = ActiveMenuTypes.Shipping;
+            ResetMenu();
+            ShowMenu(new string[] { "Pakrauti paletes" });
+        }
+
+        private void StartLoad()
+        {
+            EmptyMenu();
+            DataTable dt = ShippingActions.GetShipping();
+            SetTitle("Pasirinkite siuntą");
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[0].HeaderText = "Siuntos Id";
+            dViewDataShow.Columns[1].HeaderText = "Siuntos numeris";
+            dViewDataShow.Columns[2].HeaderText = "Sukurtas";
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(StartLoading);
+        }
+
+        private void StartLoading()
+        {
+            ResetMenu();
+            HideMenu();
+            Cache.AddParameter("@ShippingId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            Cache.AddParameter("@ShippingNo", dViewDataShow.SelectedRows[0].Cells[1].Value);
+            HideDataShow();
+            SetTitle("Pakrovimas");
+            ItemList = ShippingActions.GetRelatedCU();
+            EnableRows(3, 6);
+            SetRow3($"Siunta: {Cache.ReturnValueByKey("@ShippingNo")}", ContentAlignment.MiddleLeft);
+            SetRow6($"Nuskenuokite paletės barkodą", ContentAlignment.MiddleCenter);
+            EnableInput(true);
+            EnableBoxDescriptionRows(row1: true);
+            SetTextBoxLabel1("Barkodas:");
+            FocusInput1();
+            if (ItemList != null && ItemList.Rows.Count > 0)
+            {
+                ProcessLoading();
+            }
+            else
+            {
+                DisableInfo();
+                EnableRows(5);
+                SetRow5("Nėra nepakrautų palečių", ContentAlignment.MiddleCenter, Color.Red);
+                HideInput();
+                this.Select();
+                processMethod = new Action(StartLoad);
+            }
+        }
+
+        private void ProcessLoading()
+        {
+            if (ItemList.Rows.Count > 0)
+            {
+                ProcessCULoading();
+            }
+            else
+            {
+                FinalizeLoading();
+            }
+        }
+
+        private void ProcessCULoading()
+        {
+            EnableRows(4);
+            SetRow4($"Barkodas: {ItemList.Rows[0]["Barcode"]}");
+            processMethod = new Action(ProcessCUScan);
+        }
+
+        private void ProcessCUScan()
+        {
+            if (string.IsNullOrEmpty(tBoxInput1.Text))
+            {
+                EnableRows(9);
+                SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            else if (tBoxInput1.Text != NullCheck.IsNullString(ItemList.Rows[0]["Barcode"]))
+            {
+                EnableRows(9);
+                SetRow9("Blogas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            DisableRows(9);
+            LoadUnloadBarcode();
+        }
+
+        private void LoadUnloadBarcode()
+        {
+            string ScannedBarcode = NullCheck.IsNullString(tBoxInput1.Text);
+            DataRow row = ItemList.AsEnumerable().Where(x => x.Field<string>("Barcode") == ScannedBarcode).FirstOrDefault();
+            ShippingActions.LoadCU(NullCheck.IsNullInt(row["StoredPalletId"]));
+            ItemList.Rows.Remove(row);
+            ClearInput();
+            if (ItemList.Rows.Count > 0)
+            {
+                ProcessCULoading();
+            }
+            else
+            {
+                ProcessLoading();
+            }
+        }
+
+        private void FinalizeLoading()
+        {
+            ClearInput();
+            ClearLabels();
+            DisableInfo();
+            EnableRows(4);
+            SetRow4("Palečių krovimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
+            EnableInput();
+            processMethod = new Action(StartLoad);
+            this.Select();
+        }
+
         #endregion
 
         #region DataShow setup
@@ -653,7 +1044,7 @@ namespace Emulator.Emulator
 
         #endregion
 
-        #region MenuNavigation
+        #region Menu navigation
 
         private void DView_KeyDown(object sender, KeyEventArgs e)
         {
@@ -679,10 +1070,12 @@ namespace Emulator.Emulator
                                     }
                                 case 3:
                                     {
+                                        InitializePicking();
                                         break;
                                     }
                                 case 4:
                                     {
+                                        InitializeLoading();
                                         break;
                                     }
                             }
@@ -706,7 +1099,14 @@ namespace Emulator.Emulator
                     {
                         if (dView?.SelectedRows[0] != null)
                         {
-                            //switch (NullCheck.)
+                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            {
+                                case 1:
+                                    {
+                                        StartLoad();
+                                        break;
+                                    }
+                            }
                         }
                     }
                     else if (activeMenu == ActiveMenuTypes.Storing)
@@ -727,7 +1127,14 @@ namespace Emulator.Emulator
                     {
                         if (dView?.SelectedRows[0] != null)
                         {
-                            //switch (NullCheck.)
+                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            {
+                                case 1:
+                                    {
+                                        SelectOutOrder();
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }
@@ -766,6 +1173,12 @@ namespace Emulator.Emulator
         private void EnableRows(int row1, int row2, int row3, int row4, int row5)
         {
             EnableRows(new string[] { $"{row1}", $"{row2}", $"{row3}", $"{row4}", $"{row5}" });
+        }
+
+        private void EnableBoxDescriptionRows(bool row1 = false, bool row2 = false)
+        {
+            tBox1Desc.Visible = row1;
+            tBox2Desc.Visible = row2;
         }
 
         private void EnableRows(string[] rows)
@@ -840,6 +1253,12 @@ namespace Emulator.Emulator
         #endregion
 
         #region Input/Row disable
+
+        public void ReadOnlyInput(bool input1 = false, bool input2 = false)
+        {
+            tBoxInput1.ReadOnly = input1;
+            tBoxInput2.ReadOnly = input2;
+        }
 
         public void HideInput()
         {

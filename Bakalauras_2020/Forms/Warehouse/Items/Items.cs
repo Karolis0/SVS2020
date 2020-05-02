@@ -73,7 +73,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             dView.Columns["UnitCode"].HeaderText = "Matavimo vienetas";
             dView.Columns["Volume"].HeaderText = "Tūris";
             dView.Columns["WarehouseCode"].HeaderText = "Sandėlio kodas";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dView.Columns["CreateDate"].HeaderText = "Sukurta";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";   
             dView.Columns["Barcode"].HeaderText = "Barkodas";   
             dView.Columns["Height"].HeaderText = "Aukštis";   

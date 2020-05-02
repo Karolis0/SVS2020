@@ -123,8 +123,8 @@
             // 
             this.tDistOrders.AutoSize = false;
             this.tDistOrders.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.išsiuntimoUžsakymaiToolStripMenuItem,
             this.siuntosToolStripMenuItem,
+            this.išsiuntimoUžsakymaiToolStripMenuItem,
             this.surinkimasToolStripMenuItem});
             this.tDistOrders.Image = ((System.Drawing.Image)(resources.GetObject("tDistOrders.Image")));
             this.tDistOrders.ImageTransparentColor = System.Drawing.Color.Magenta;

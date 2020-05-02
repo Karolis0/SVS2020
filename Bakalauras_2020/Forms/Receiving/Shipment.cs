@@ -160,7 +160,7 @@ namespace Bakalauras_2020.Forms.Receiving
             dView.Columns["ShipmentNo"].HeaderText = "Siuntos numeris";
             dView.Columns["PartnerName"].HeaderText = "Tiekėjas";
             dView.Columns["WarehouseName"].HeaderText = "Sandėlis";
-            dView.Columns["CreateDate"].HeaderText = "Sukūrimo data";
+            dView.Columns["CreateDate"].HeaderText = "Sukurta";
             dView.Columns["UpdateDate"].HeaderText = "Atnaujinta";
         }
 

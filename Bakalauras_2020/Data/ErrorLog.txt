@@ -91,3 +91,24 @@ The statement has been terminated.> Used Sql: SaveShipment Used arguments: @Ship
 [4/27/2020 10:52:21 PM] <Error: Could not find stored procedure 'ChangeParcelAssign'.> Used Sql: ChangeParcelAssign Used arguments: @OutOrderId:1 @ParcelId:2 
 [4/27/2020 11:42:24 PM] <Error: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.> Used Sql: GetWarehousesComboBox Used arguments: 
 [4/28/2020 12:15:17 AM] <Error: Could not find stored procedure 'SelectWorkOrders'.> Used Sql: SelectWorkOrders Used arguments: @Whid:3 
+[4/28/2020 10:40:43 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:31:21 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:33:05 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:34:30 PM] <Error: Error converting data type nvarchar to decimal.> Used Sql: SaveWarehouseZone Used arguments: @FZoneCode:RCV-6 @FZoneName:Priėmimo vidinis korpusas @WarehouseId:3 @ParentId:1 @Created:5/2/2020 @Updated:5/2/2020 @SpotHeight:5 @SpotWidth:9 @SpotLength:8 @SpotVolume: 
+[5/2/2020 3:34:45 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:36:58 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@Whid', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:36:58 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@Whid', which was not supplied.> Used Sql: SelectFuncZones Used arguments: @WarehouseId:3 
+[5/2/2020 3:37:56 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 3:49:08 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 4:38:20 PM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 
+[5/2/2020 5:50:03 PM] <Error: Procedure or function 'ChangeRcvOrdAssign' expects parameter '@RcvOrdId', which was not supplied.> Used Sql: ChangeRcvOrdAssign Used arguments: @RcvDocId:6 @RcvOrdId: 
+[5/2/2020 6:49:11 PM] <Error: Procedure or function UpdateShippingItem has too many arguments specified.> Used Sql: UpdateShippingItem Used arguments: @ShippingId:21 @Quantity:1 @Created:5/2/2020 6:49:11 PM @Updated:5/2/2020 6:49:11 PM @ItemId:12 @OutOrderId:4 @ShippingItemId:21 
+[5/2/2020 7:08:12 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:12 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:08:13 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:11 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:08:13 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:12 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:08:14 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:12 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:08:14 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:11 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:08:14 PM] <Error: Could not find stored procedure 'GenerateWorkOrders'.> Used Sql: GenerateWorkOrders Used arguments: @ItemId:12 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/2/2020 7:11:37 PM] <Error: Cannot insert the value NULL into column 'WOrderId', table 'Bakalauras.dbo.WorkOrders'; column does not allow nulls. INSERT fails.
+The statement has been terminated.> Used Sql: GenerateWO Used arguments: @ItemId:12 @OutOrderId:4 @Whid:3 @Created:5/2/2020 
+[5/3/2020 12:22:59 AM] <Error: Procedure or function 'SelectFuncZones' expects parameter '@WarehouseId', which was not supplied.> Used Sql: SelectFuncZones Used arguments: 

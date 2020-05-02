@@ -40,7 +40,7 @@ namespace Bakalauras_2020.Utility
                         {
                             while (i < Args.Length)
                             {
-                                errorInput += Args[i].ToString() + ":" + Args[i + 1].ToString() + " ";
+                                errorInput += Args[i].ToString() + ":" + NullCheck.IsNullString(Args[i + 1]) + " ";
                                 i = i + 2;
                             }
                         }
@@ -48,7 +48,7 @@ namespace Bakalauras_2020.Utility
                     writer.WriteLine(errorInput);
                 }
             }
-            catch
+            catch(Exception e)
             {
 
             }
@@ -69,7 +69,7 @@ namespace Bakalauras_2020.Utility
                         {
                             while (i < Args.Length)
                             {
-                                sqlInput += Args[i].ToString() + ":" + Args[i + 1].ToString() + " ";
+                                sqlInput += Args[i].ToString() + ":" + NullCheck.IsNullString(Args[i + 1]) + " ";
                                 i = i + 2;
                             }
                         }
@@ -77,7 +77,7 @@ namespace Bakalauras_2020.Utility
                     writer.WriteLine(sqlInput + ");");
                 }
             }
-            catch
+            catch (Exception e)
             {
 
             }

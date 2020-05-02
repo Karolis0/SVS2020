@@ -19,10 +19,10 @@ namespace Emulator.Emulator.Storing
 
         public static void MovePallet()
         {
-            string PalletId = NullCheck.IsNullString(Sql.GetString($"SELECT dbo.GetPalletId('{Parameters.ReturnValueByKey("@Barcode")}')"));
+            string PalletId = NullCheck.IsNullString(Sql.GetString($"SELECT dbo.GetPalletId('{Cache.ReturnValueByKey("@Barcode")}')"));
 
             Sql.ExecuteCmd("MovePallet", new object[] {
-                "@ToZoneId", Parameters.ReturnValueByKey("@Location"),
+                "@ToZoneId", Cache.ReturnValueByKey("@Location"),
                 "@Whid", GlobalUser.CurrentWarehouseId,
                 "@PalletId", PalletId
             });
