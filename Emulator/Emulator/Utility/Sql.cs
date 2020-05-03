@@ -19,7 +19,7 @@ namespace Bakalauras_2020.Utility
         public static readonly string LogActionSql = "LogAction";
 
         //public static SqlConnection conn = new SqlConnection(@"server=192.168.5.61\MSSQL2012;User ID=Terra ERP;password=numKvA1s7vGl;database=Ryterna Modul TEST;Integrated Security=False;"/*Globals.ConnectionString*/);        
-        public static SqlConnection conn = new SqlConnection(@"Server = localhost\SQLEXPRESS; Database=Bakalauras;Trusted_Connection=True;");
+        public static SqlConnection conn = new SqlConnection(@"server=sql5059.site4now.net;User ID=DB_A5E207_Karolis101_admin;password=Bakalauras123;database=DB_A5E207_Karolis101;Integrated Security=False;"/*Globals.ConnectionString*/);
         public static SqlTransaction transaction = null;
 
         public static string ErrorLogLoc = "../../Data/ErrorLog.txt";
