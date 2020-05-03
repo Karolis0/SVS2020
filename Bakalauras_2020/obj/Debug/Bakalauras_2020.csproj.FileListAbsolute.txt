@@ -50,4 +50,3 @@ C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\obj\Debug\Bakalauras_2020.Form
 C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\obj\Debug\Bakalauras_2020.Forms.Receiving.OutOrder.resources
 C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\obj\Debug\Bakalauras_2020.Forms.Receiving.Parcels.resources
 C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\obj\Debug\Bakalauras_2020.Forms.Receiving.ParcelsEditor.resources
-C:\Users\Admin\Desktop\Bakalauras\Bakalauras_2020\obj\Debug\Bakalauras_2020.csprojAssemblyReference.cache
