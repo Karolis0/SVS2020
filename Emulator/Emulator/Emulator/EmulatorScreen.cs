@@ -212,6 +212,7 @@ namespace Emulator.Emulator
         {
             EmptyMenu();
             HideMenu();
+            DisableInfo();
             EnableInput(true);
             EnableRows(5);
             EnableRows(new string[] { "t1" });
@@ -219,6 +220,7 @@ namespace Emulator.Emulator
             SetRow5("Įveskite norimos paletės barkodą", ContentAlignment.MiddleCenter);
             SetTextBoxLabel1("Barkodas:");
             processMethod = new Action(ProcessMovePalletBarcode);
+            FocusInput1();
         }
 
         private void ProcessMovePalletBarcode()
@@ -227,6 +229,12 @@ namespace Emulator.Emulator
             {
                 EnableRows(9);
                 SetRow9("Negalimas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                return;
+            }
+            if(StoringActions.ValidatePallet(tBoxInput1.Text) <= 0)
+            {
+                EnableRows(9);
+                SetRow9("Paletė neegzistuoja sandėlyje", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
             Cache.AddParameter("@Barcode", tBoxInput1.Text);
@@ -253,7 +261,15 @@ namespace Emulator.Emulator
         {
             ResetMenu();
             HideMenu();
-            Cache.AddParameter("@Location", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            try
+            {
+                Cache.AddParameter("@Location", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            }
+            catch
+            {
+                CreateSelection();
+                    return;
+            }
             HideDataShow();
             SetTitle("Perkėlimas");
             EnableRows(5);
@@ -262,6 +278,7 @@ namespace Emulator.Emulator
             SetRow9("T / N", ContentAlignment.MiddleCenter, Color.Red);
             SetRow5($"Ar tikrai norite perkelti į zoną: {dViewDataShow.SelectedRows[0].Cells[2].Value} ({dViewDataShow.SelectedRows[0].Cells[1].Value})?", ContentAlignment.MiddleCenter, Color.Red);
             ClearInput();
+            FocusInput1();
             processMethod = new Action(ProcessYesNoStoringSelection);
         }
 
@@ -290,7 +307,7 @@ namespace Emulator.Emulator
             DisableInfo();
             StoringActions.MovePallet();
             EnableRows(5);
-            SetRow5("Prekių priėmimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
+            SetRow5("Paletės perkėlimas baigtas", ContentAlignment.MiddleCenter, Color.Red);
             EnableInput();
             this.Select();
         }
@@ -309,6 +326,7 @@ namespace Emulator.Emulator
         private void SelectDocument()
         {
             EmptyMenu();
+            DisableInfo();
             DataTable dt = ReceivingActions.GetReceivingDocuments();
             SetTitle("Pasirinkite dokumentą");
             dViewDataShow.DataSource = dt;
@@ -325,12 +343,20 @@ namespace Emulator.Emulator
         {
             ResetMenu();
             HideMenu();
-            Cache.AddParameter("@RcvDocId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            try
+            {
+                Cache.AddParameter("@RcvDocId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            }
+            catch
+            {
+                SelectDocument();
+                return;
+            }
             HideDataShow();
             SetTitle("Priėmimas");
             EnableRows(3);
             SetRow3("Nuskenuokite barkodą", ContentAlignment.MiddleCenter);
-            EnableInput(true, true);
+            EnableInput(input1: true);
             EnableRows(new string[] { "t1" });
             SetTextBoxLabel1("Barkodas");
             processMethod = new Action(ProcessBarcodeInput);
@@ -346,8 +372,44 @@ namespace Emulator.Emulator
                 return;
             }
             Cache.AddParameter("@Barcode", tBoxInput1.Text);
+            EmptyMenu();
+            DataTable dt = PickingActions.GetPalletTypes();
+            SetTitle("Pasirinkite paletės tipą");
+            dViewDataShow.DataSource = dt;
+            dViewDataShow.Columns[0].HeaderText = "Paletės tipo nr";
+            dViewDataShow.Columns[1].HeaderText = "Ilgis";
+            dViewDataShow.Columns[2].HeaderText = "Plotis";
+            dViewDataShow.Columns[3].HeaderText = "Aukštis";
+            dViewDataShow.Columns[4].Visible = false;
+            dViewDataShow.Focus();
+            dViewDataShow.Select();
+            ShowDataShow();
+            processMethod = new Action(ProcessPalletTypeForReceive);
+        }
+
+        private void ProcessPalletTypeForReceive()
+        {
+            try
+            {
+                Cache.AddParameter("@PalletType", dViewDataShow.SelectedRows[0].Cells[4].Value);
+            }
+            catch
+            {
+                ProcessBarcodeInput();
+            }
+            ResetMenu();
+            HideMenu();
+            DisableInfo();
+            HideDataShow();
+            ProcessLocationInput();
+        }
+
+        private void ProcessLocationInput()
+        { 
             processMethod = new Action(ProcessWarehouseSpotInput);
+            SetTitle("Priėmimas");
             ClearInput();
+            EnableBoxDescriptionRows(row1: true);
             SetRow3("Nuskenuokite vietos kodą, į kurią padėsite", ContentAlignment.MiddleCenter);
             SetTextBoxLabel1("Vieta:");
             EnableRows(5);
@@ -369,13 +431,6 @@ namespace Emulator.Emulator
             {
                 EnableRows(9);
                 SetRow9("Vieta neegzistuoja sandėlyje", ContentAlignment.MiddleCenter, Color.Red);
-                return;
-            }
-
-            if (!tBoxInput1.Text.Contains("RCV"))
-            {
-                EnableRows(9);
-                SetRow9("Vieta neskirta priėmimui", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
             Cache.AddParameter("@Location", tBoxInput1.Text);
@@ -493,6 +548,7 @@ namespace Emulator.Emulator
         private void SelectOutOrder()
         {
             EmptyMenu();
+            DisableInfo();
             DataTable dt = PickingActions.GetOutOrderDocuments();
             SetTitle("Pasirinkite dokumentą");
             dViewDataShow.DataSource = dt;
@@ -510,7 +566,15 @@ namespace Emulator.Emulator
             ResetMenu();
             HideMenu();
             DisableInfo();
-            Cache.AddParameter("@OutOrderId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            try
+            { 
+                Cache.AddParameter("@OutOrderId", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            }
+            catch
+            {
+                SelectOutOrder();
+                return;
+            }
             HideDataShow();
             SetTitle("Surinkimas");
             EnableRows(3);
@@ -540,19 +604,28 @@ namespace Emulator.Emulator
             dViewDataShow.Columns[1].HeaderText = "Ilgis";
             dViewDataShow.Columns[2].HeaderText = "Plotis";
             dViewDataShow.Columns[3].HeaderText = "Aukštis";
+            dViewDataShow.Columns[4].Visible = false;
             dViewDataShow.Select();
             ShowDataShow();
-            processMethod = new Action(ProcessPalletTypeForReceive);
+            processMethod = new Action(ProcessPalletTypeForPick);
         }
 
-        private void ProcessPalletTypeForReceive()
+        private void ProcessPalletTypeForPick()
         {
-            Cache.AddParameter("@PalletType", dViewDataShow.SelectedRows[0].Cells[0].Value);
+            try
+            {
+                Cache.AddParameter("@PalletType", dViewDataShow.SelectedRows[0].Cells[4].Value);
+            }
+            catch
+            {
+                ProcessPalletBarcode();
+                return;
+            }
             ResetMenu();
             HideMenu();
             DisableInfo();
-            Cache.AddParameter("@OutOrderId", dViewDataShow.SelectedRows[0].Cells[0].Value);
             HideDataShow();
+            ProcessPicking();
         }
 
         private void ProcessPicking()
@@ -690,7 +763,7 @@ namespace Emulator.Emulator
             EnableRows(3);
             SetRow3("Nuskenuokite vietą kur norite padėti paletę", ContentAlignment.MiddleCenter);
             EnableRows(5);
-            SetRow5($"Siūloma vieta: {Sql.GetString($"SELECT dbo.GetSuggestedStaging('{TotalVolume}')")}");
+            SetRow5($"Siūloma vieta: {Sql.GetString($"SELECT dbo.GetSuggestedStaging('{TotalVolume + NullCheck.IsNullDecimal(Cache.ReturnValueByKey("@PalletType"))}')")}");
             EnableBoxDescriptionRows(row1: true);
             SetTextBoxLabel1("Vieta:");
             FocusInput1();
@@ -738,6 +811,7 @@ namespace Emulator.Emulator
         private void StartLoad()
         {
             EmptyMenu();
+            DisableInfo();
             DataTable dt = ShippingActions.GetShipping();
             SetTitle("Pasirinkite siuntą");
             dViewDataShow.DataSource = dt;
@@ -753,8 +827,16 @@ namespace Emulator.Emulator
         {
             ResetMenu();
             HideMenu();
+            try
+            { 
             Cache.AddParameter("@ShippingId", dViewDataShow.SelectedRows[0].Cells[0].Value);
             Cache.AddParameter("@ShippingNo", dViewDataShow.SelectedRows[0].Cells[1].Value);
+            }
+            catch
+            {
+                StartLoad();
+                return;
+            }
             HideDataShow();
             SetTitle("Pakrovimas");
             ItemList = ShippingActions.GetRelatedCU();
@@ -991,6 +1073,7 @@ namespace Emulator.Emulator
         {
             SetTitle("Sandėlio valdymo sistema");
             activeMenu = ActiveMenuTypes.MainMenu;
+            HideDataShow();
             ShowMenu(new string[] { "Priėmimas", "Padėjimas", "Surinkimas", "Išvežimas" });
         }
 

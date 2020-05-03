@@ -27,5 +27,10 @@ namespace Emulator.Emulator.Storing
                 "@PalletId", PalletId
             });
         }
+
+        public static int ValidatePallet(string Barcode)
+        {
+            return NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateBarcode('{Barcode}')"));
+        }
     }
 }

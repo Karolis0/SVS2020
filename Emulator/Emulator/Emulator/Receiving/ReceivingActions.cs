@@ -67,7 +67,9 @@ namespace Emulator.Emulator.Receiving
 
         public static string GetSuggestedReceivingZone()
         {
-            return Sql.GetString($"SELECT dbo.GetFirstReceivingLocation('{GlobalUser.CurrentWarehouseId}')");
+            DataTable dt = GetReceivingItemList();
+            decimal TotalVolume = CalculateTotalVolume(dt);
+            return Sql.GetString($"SELECT dbo.GetFirstReceivingLocation('{GlobalUser.CurrentWarehouseId}','{TotalVolume + NullCheck.IsNullDecimal(Cache.ReturnValueByKey("@PalletType"))}')");
         }
 
         private static DataTable ProcessDataTableQuantityById(DataTable dt)

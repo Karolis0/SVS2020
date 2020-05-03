@@ -30,12 +30,6 @@ namespace Bakalauras_2020.Forms
             Bitmap map = new Bitmap(Properties.Resources.LoginImg);
             map.MakeTransparent(map.GetPixel(1,1));
             pictureBox1.Image = map;
-
-
-#if DEBUG
-            tUsername.Text = "ks";
-            tPassword.Text = "ks";
-#endif
         }
 
         private void bLogin_Click(object sender, EventArgs e)

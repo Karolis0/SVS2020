@@ -110,7 +110,7 @@ namespace Bakalauras_2020.Forms.Receiving
                 {
                     ((DataTable)dataGridView2.DataSource).Rows.Add();
                 }
-                row.Cells["ShippingItemId"].Value = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateDetSave('{NullCheck.IsNullInt(row.Cells["ItemId"].Value)}','{CurrentOutOrderId}')"));
+                row.Cells["ShippingItemId"].Value = NullCheck.IsNullInt(Sql.GetString($"SELECT dbo.ValidateOODetSave('{NullCheck.IsNullInt(row.Cells["ItemId"].Value)}','{CurrentOutOrderId}')"));
                 _handle = true;
             }
         }

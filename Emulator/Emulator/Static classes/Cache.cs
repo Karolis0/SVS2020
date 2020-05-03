@@ -34,7 +34,14 @@ namespace Emulator.Static_classes
 
         public static string ReturnValueByKey(object KeyId)
         {
-            return cache[KeyId.ToString()];
+            try
+            {
+                return cache[KeyId.ToString()];
+            }
+            catch
+            {
+                return "";
+            }
         }
     }
 }

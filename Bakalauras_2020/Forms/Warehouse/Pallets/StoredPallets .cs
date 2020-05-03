@@ -48,6 +48,7 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
             dView.Columns["Barcode"].HeaderText = "Paletės barkodas";
             dView.Columns["ZoneCode"].HeaderText = "Vietos kodas";
             dView.Columns["ZoneName"].HeaderText = "Vietos pavadinimas";
+            dView.Columns["PalletStatusName"].HeaderText = "Būsena";
             dView.Columns["WarehouseName"].HeaderText = "Sandėlio pavadinimas";
             dView.Columns["Created"].HeaderText = "Sukurta";
             dView.Columns["Updated"].HeaderText = "Atnaujinta";
