@@ -250,5 +250,22 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
         {
             RecalculateSpotVolume();
         }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            WarehouseZoneId = int.Parse(values[0]);
+            tFZoneCode.Text = values[1];
+            tFZoneName.Text = values[2];
+            tSpotHeight.Text = values[3];
+            tSpotLength.Text = values[4];
+            tSpotWidth.Text = values[5];
+            tSpotVolume.Text = values[6];
+            GlobalUser.CurrentWarehouseId = 3;
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
+        }
     }
 }

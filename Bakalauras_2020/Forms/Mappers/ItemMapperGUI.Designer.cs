@@ -48,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(572, 220);
             this.Controls.Add(this.dataGridView1);
             this.Name = "ItemMapperGUI";
-            this.Text = "WarehouseLocMapperGUI";
+            this.Text = "Prekių sąrašas";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

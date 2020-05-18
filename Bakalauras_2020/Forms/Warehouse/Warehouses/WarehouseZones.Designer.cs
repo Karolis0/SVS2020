@@ -280,7 +280,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.treeView1);
             this.Name = "WarehouseZones";
-            this.Text = "Items";
+            this.Text = "Sandėlio zonos";
             this.Controls.SetChildIndex(this.treeView1, 0);
             this.Controls.SetChildIndex(this.panel2, 0);
             this.panel2.ResumeLayout(false);

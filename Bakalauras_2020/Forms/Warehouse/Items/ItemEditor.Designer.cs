@@ -346,7 +346,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "ItemEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Prekių redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

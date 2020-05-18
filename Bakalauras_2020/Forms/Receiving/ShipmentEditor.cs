@@ -42,32 +42,39 @@ namespace Bakalauras_2020.Forms.Receiving
 
         private void DView_DoubleClick(object sender, EventArgs e)
         {
-            if (dView.DataSource != null && ((DataTable)dView.DataSource).Rows.Count > 0 && ShipmentId > 0)
+            try
             {
-                DataGridViewRow row = dView.SelectedRows[0];
-                if (row != null)
+                if (dView.DataSource != null && ((DataTable)dView.DataSource).Rows.Count > 0 && ShipmentId > 0)
                 {
-                    bool Deselect = NullCheck.IsNullInt(row.Cells["ShipmentId"].Value) > 0 ? true : false;
-                    Sql.ExecuteCmd("ChangeShipmentAssign", new object[]
+                    DataGridViewRow row = dView.SelectedRows[0];
+                    if (row != null)
                     {
+                        bool Deselect = NullCheck.IsNullInt(row.Cells["ShipmentId"].Value) > 0 ? true : false;
+                        Sql.ExecuteCmd("ChangeShipmentAssign", new object[]
+                        {
                         "@RcvOrdId", NullCheck.IsNullInt(row.Cells["RcvOrderId"].Value),
                         "@ShipmentId", Deselect ? 0 : ShipmentId
-                    });
+                        });
 
-                    row.Cells["ShipmentId"].Value = Deselect ? 0 : ShipmentId;
+                        row.Cells["ShipmentId"].Value = Deselect ? 0 : ShipmentId;
 
-                    if (!Deselect)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Cyan;
+                        if (!Deselect)
+                        {
+                            row.DefaultCellStyle.BackColor = Color.Cyan;
+                        }
+                        else
+                        {
+                            row.DefaultCellStyle.BackColor = Color.LightGreen;
+                        }
+
+                        dView.SelectedRows[0].Selected = false;
+
                     }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightGreen;
-                    }
-
-                    dView.SelectedRows[0].Selected = false;
-
                 }
+            }
+            catch
+            {
+
             }
         }
 
@@ -96,7 +103,7 @@ namespace Bakalauras_2020.Forms.Receiving
             }
             else
                 Sql.ExecuteCmd(UpdateProcedure, new object[] {
-                    "@ShipmentId", tShipmentId.Text,
+                    "@ShipmentId", ShipmentId,
                     "@ShipmentNo", tShipmentNo.Text,
                     "@PartnerId", SelectedPartnerId,
                     "@WarehouseId", GlobalUser.CurrentWarehouseId,
@@ -229,6 +236,20 @@ namespace Bakalauras_2020.Forms.Receiving
         {
             SelectedPartnerId = PartnerMapper.SelectPartnerId(Supplier: true);
             tPartner.Text = Sql.GetString($"SELECT dbo.GetPartnerName('{SelectedPartnerId}')");
+        }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            tShipmentId.Text = values[0];
+            tShipmentNo.Text = values[1];
+            tPartner.Text = values[2];
+            SelectedPartnerId = 1;
+            GlobalUser.CurrentWarehouseId = 3;
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
         }
     }
 }

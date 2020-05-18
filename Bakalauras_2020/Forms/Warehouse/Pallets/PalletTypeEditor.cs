@@ -83,6 +83,12 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 errorMsg += "Negalimas paletės plotis\n";
             }
 
+            if (string.IsNullOrEmpty(tVolume.Text))
+            {
+                tHeight.Invalidate();
+                errorMsg += "Negalimas paletės plotis\n";
+            }
+
             if (!string.IsNullOrEmpty(errorMsg))
             {
                 MessageBox.Show("Negalima išsaugoti sandėlio:\n" + errorMsg, "Klaida", MessageBoxButtons.OK);
@@ -169,6 +175,21 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
         private void tVolume_KeyPress(object sender, KeyPressEventArgs e)
         {
             tGeneral_KeyPress(sender, e);
+        }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            WarehouseId = int.Parse(values[0]);
+            tNumber.Text = values[1];
+            tHeight.Text = values[2];
+            tWidth.Text = values[3];
+            tLength.Text = values[4];
+            tVolume.Text = values[5];
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
         }
     }
 }

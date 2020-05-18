@@ -72,7 +72,7 @@
             this.Controls.Add(this.bCreate);
             this.Controls.Add(this.dataGridView1);
             this.Name = "WarehouseLocMapperGUI";
-            this.Text = "WarehouseLocMapperGUI";
+            this.Text = "Sandėlio adresų sąrašas";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

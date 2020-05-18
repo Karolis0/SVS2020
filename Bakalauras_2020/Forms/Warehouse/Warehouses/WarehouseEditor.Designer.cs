@@ -161,7 +161,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "WarehouseEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Sandėlio redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

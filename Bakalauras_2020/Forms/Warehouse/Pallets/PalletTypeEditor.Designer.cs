@@ -165,7 +165,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "PalletTypeEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Palečių tipų redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

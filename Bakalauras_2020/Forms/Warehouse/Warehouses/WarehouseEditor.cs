@@ -146,7 +146,8 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 tName.Text = NullCheck.IsNullString(dt.Rows[0]["WarehouseName"]);
                 cWarehouseLocId.SelectedValue = NullCheck.IsNullString(dt.Rows[0]["LocationId"]);
                 tCreateDate.Text = NullCheck.IsNullDate(dt.Rows[0]["CreateDate"]).ToShortDateString();
-                tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();            }
+                tUpdated.Text = NullCheck.IsNullDate(dt.Rows[0]["UpdateDate"]).ToShortDateString();
+            }
         }
 
         protected override void OnShown(EventArgs e)
@@ -182,6 +183,19 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 "@Obj5", DateTime.Now.ToShortDateString(), "@Obj5Name", nameof(DateTime),
                 "@Obj6", DateTime.Now.ToShortDateString(), "@Obj6Name", nameof(DateTime)
             });
+        }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            WarehouseId = int.Parse(values[0]);
+            tCode.Text = values[1];
+            tName.Text = values[2];
+            cWarehouseLocId.SelectedValue = values[3];
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
         }
     }
 }

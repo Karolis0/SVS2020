@@ -177,5 +177,18 @@ namespace Bakalauras_2020.Forms.Receiving
                 "@Obj11", DateTime.Now.ToShortDateString(), "@Obj11Name", nameof(DateTime)
             });
         }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            DocId = int.Parse(values[0]);
+            tDocNo.Text = values[1];
+            tSupplier.Text = values[2];
+            GlobalUser.CurrentWarehouseId = 3;
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
+        }
     }
 }

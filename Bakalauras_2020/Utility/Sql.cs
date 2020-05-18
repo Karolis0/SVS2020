@@ -50,7 +50,7 @@ namespace Bakalauras_2020.Utility
             }
             catch(Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Bakalauras_2020.Utility
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
         }
 

@@ -63,7 +63,7 @@
             this.bEdit.UseVisualStyleBackColor = true;
             this.bEdit.Click += new System.EventHandler(this.bEdit_Click);
             // 
-            // WarehouseLocMapperGUI
+            // PartnerMapperGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,8 +71,8 @@
             this.Controls.Add(this.bEdit);
             this.Controls.Add(this.bCreate);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "WarehouseLocMapperGUI";
-            this.Text = "WarehouseLocMapperGUI";
+            this.Name = "PartnerMapperGUI";
+            this.Text = "Partnerių sąrašas";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

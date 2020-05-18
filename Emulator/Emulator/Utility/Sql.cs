@@ -81,7 +81,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlDataAdapter sda = new SqlDataAdapter(CommandName, conn);
+                SqlDataAdapter sda = new SqlDataAdapter(string.Format($"{CommandName}"), conn);
                 sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                 if (UseTransaction) sda.SelectCommand.Transaction = transaction;
                 int i = 0;
@@ -114,7 +114,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlDataAdapter sda = new SqlDataAdapter(Query, conn);
+                SqlDataAdapter sda = new SqlDataAdapter(string.Format($"{Query}"), conn);
                 sda.SelectCommand.CommandType = CommandType.Text;
                 if (UseTransaction) sda.SelectCommand.Transaction = transaction;
                 DataTable dt = new DataTable();
@@ -137,7 +137,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand comm = new SqlCommand(SqlStatement, conn);
+                SqlCommand comm = new SqlCommand(string.Format($"{SqlStatement}"), conn);
                 comm.CommandType = CommandType.Text;
                 if (UseTransaction) comm.Transaction = transaction;
                 Stopwatch stopwatch = new Stopwatch();
@@ -159,7 +159,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand comm = new SqlCommand(CommandName, conn);
+                SqlCommand comm = new SqlCommand(string.Format($"{CommandName}"), conn);
                 comm.CommandType = CommandType.StoredProcedure;
                 if (UseTransaction) comm.Transaction = transaction;
                 int i = 0;
@@ -219,7 +219,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand comm = new SqlCommand(CommandName, conn);
+                SqlCommand comm = new SqlCommand(string.Format($"{CommandName}"), conn);
                 comm.CommandType = CommandType.StoredProcedure;
                 if (UseTransaction) comm.Transaction = transaction;
                 int i = 0;
@@ -252,7 +252,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand comm = new SqlCommand(CommandName, conn);
+                SqlCommand comm = new SqlCommand(string.Format($"{CommandName}"), conn);
                 if (UseTransaction) comm.Transaction = transaction;
                 int i = 0;
                 if ((Args != null) && (Args.Length > 0))
@@ -285,7 +285,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand cmd = new SqlCommand(CommandName, conn);
+                SqlCommand cmd = new SqlCommand(string.Format($"{CommandName}"), conn);
 
                 if (UseTransaction) cmd.Transaction = transaction;
 
@@ -335,7 +335,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlCommand cmd = new SqlCommand(CommandName, conn);
+                SqlCommand cmd = new SqlCommand(string.Format($"{CommandName}"), conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 if (UseTransaction) cmd.Transaction = transaction;
@@ -400,7 +400,7 @@ namespace Bakalauras_2020.Utility
             try
             {
                 OpenConn();
-                SqlDataAdapter sda = new SqlDataAdapter(Query, conn);
+                SqlDataAdapter sda = new SqlDataAdapter(string.Format($"{Query}"), conn);
                 if (conn.State == ConnectionState.Closed)
                 {
                     conn.Open();

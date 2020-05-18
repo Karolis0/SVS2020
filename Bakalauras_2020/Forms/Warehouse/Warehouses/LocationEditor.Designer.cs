@@ -220,7 +220,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "LocationEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Vietovės redagavimo langas";
             this.Load += new System.EventHandler(this.LocationEditor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

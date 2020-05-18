@@ -7,4 +7,6 @@ C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\obj\Debug\Emulator.csproj.Ge
 C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\obj\Debug\Emulator.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\obj\Debug\Emulator.exe
 C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\obj\Debug\Emulator.pdb
+C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\bin\Debug\Emulator.exe.CodeAnalysisLog.xml
+C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\bin\Debug\Emulator.exe.lastcodeanalysissucceeded
 C:\Users\Admin\Desktop\Bakalauras\Emulator\Emulator\obj\Debug\Emulator.csprojAssemblyReference.cache

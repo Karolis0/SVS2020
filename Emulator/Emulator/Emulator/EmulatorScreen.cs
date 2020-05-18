@@ -167,7 +167,6 @@ namespace Emulator.Emulator
             ClearInput();
             HideInput();
             SelectWarehouse();
-            
         }
 
 
@@ -191,7 +190,14 @@ namespace Emulator.Emulator
 
         private void AssignWarehouse()
         {
-            GlobalUser.SetWarehouseId(NullCheck.IsNullInt(dViewDataShow.SelectedRows[0].Cells["WarehouseId"].Value));
+            try
+            {
+                GlobalUser.SetWarehouseId(NullCheck.IsNullInt(dViewDataShow.SelectedRows[0].Cells["WarehouseId"].Value));
+            }
+            catch
+            {
+                SelectWarehouse();
+            }
             activeMenu = ActiveMenuTypes.MainMenu;
             HideDataShow();
             ShowMenu(new string[] { "Priėmimas", "Padėjimas", "Surinkimas", "Išvežimas" });
@@ -492,7 +498,7 @@ namespace Emulator.Emulator
             if (ScannedAmount > RequestedAmount)
             {
                 EnableRows(9);
-                SetRow9("Nuskenuotas didesnis kiekis nei užsakyta", ContentAlignment.MiddleCenter, Color.Red);
+                SetRow9("Įvestas didesnis kiekis nei užsakyta", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
             DisableRows(9);
@@ -733,7 +739,7 @@ namespace Emulator.Emulator
             {
                 row["Quantity"] = LeftQty;
             }
-            ClearInput();
+            ClearInput(input1:false);
             if (ItemList.Rows.Count > 0)
             {
                 if (LeftQty == Decimal.Zero)
@@ -781,7 +787,7 @@ namespace Emulator.Emulator
             else if (PickingActions.ZoneExists(tBoxInput1.Text) <= 0)
             {
                 EnableRows(9);
-                SetRow9("Netinkamas barkodas", ContentAlignment.MiddleCenter, Color.Red);
+                SetRow9("Vieta neegzistuoja", ContentAlignment.MiddleCenter, Color.Red);
                 return;
             }
             Cache.AddParameter("@StageLocation", tBoxInput1.Text);
@@ -1107,12 +1113,19 @@ namespace Emulator.Emulator
             dView.MultiSelect = false;
             dView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            for (int i = 0; i < MenuOptions.Length; i++)
+            try
             {
-                DataGridViewRow row = (DataGridViewRow)dView.Rows[0].Clone();
-                row.Cells[0].Value = i + 1;
-                row.Cells[1].Value = $"{i + 1}. {MenuOptions[i]}";
-                dView.Rows.Add(row);
+                for (int i = 0; i < MenuOptions.Length; i++)
+                {
+                    DataGridViewRow row = (DataGridViewRow)dView.Rows[0].Clone();
+                    row.Cells[0].Value = i + 1;
+                    row.Cells[1].Value = $"{i + 1}. {MenuOptions[i]}";
+                    dView.Rows.Add(row);
+                }
+            }
+            catch
+            {
+                BackToMainMenu();
             }
             dView.Rows.RemoveAt(0);
             dView.AllowUserToAddRows = false;
@@ -1131,96 +1144,103 @@ namespace Emulator.Emulator
 
         private void DView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                if (dView.Rows.Count > 0)
+                if (e.KeyCode == Keys.Enter)
                 {
-                    if (activeMenu == ActiveMenuTypes.MainMenu)
+                    if (dView.Rows.Count > 0)
                     {
-                        if (dView?.SelectedRows[0] != null)
+                        if (activeMenu == ActiveMenuTypes.MainMenu)
                         {
-                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            if (dView?.SelectedRows[0] != null)
                             {
-                                case 1:
-                                    {
-                                        InitializeReceiving();
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        InitializeStoring();
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        InitializePicking();
-                                        break;
-                                    }
-                                case 4:
-                                    {
-                                        InitializeLoading();
-                                        break;
-                                    }
+                                switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                                {
+                                    case 1:
+                                        {
+                                            InitializeReceiving();
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            InitializeStoring();
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            InitializePicking();
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            InitializeLoading();
+                                            break;
+                                        }
+                                }
                             }
                         }
-                    }
-                    else if (activeMenu == ActiveMenuTypes.Receiving)
-                    {
-                        if (dView?.SelectedRows[0] != null)
+                        else if (activeMenu == ActiveMenuTypes.Receiving)
                         {
-                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            if (dView?.SelectedRows[0] != null)
                             {
-                                case 1:
-                                    {
-                                        SelectDocument();
-                                        break;
-                                    }
+                                switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                                {
+                                    case 1:
+                                        {
+                                            SelectDocument();
+                                            break;
+                                        }
+                                }
                             }
                         }
-                    }
-                    else if (activeMenu == ActiveMenuTypes.Shipping)
-                    {
-                        if (dView?.SelectedRows[0] != null)
+                        else if (activeMenu == ActiveMenuTypes.Shipping)
                         {
-                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            if (dView?.SelectedRows[0] != null)
                             {
-                                case 1:
-                                    {
-                                        StartLoad();
-                                        break;
-                                    }
+                                switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                                {
+                                    case 1:
+                                        {
+                                            StartLoad();
+                                            break;
+                                        }
+                                }
                             }
                         }
-                    }
-                    else if (activeMenu == ActiveMenuTypes.Storing)
-                    {
-                        if (dView?.SelectedRows[0] != null)
+                        else if (activeMenu == ActiveMenuTypes.Storing)
                         {
-                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            if (dView?.SelectedRows[0] != null)
                             {
-                                case 1:
-                                    {
-                                        InputPalletBarcode();
-                                        break;
-                                    }
+                                switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                                {
+                                    case 1:
+                                        {
+                                            InputPalletBarcode();
+                                            break;
+                                        }
+                                }
                             }
                         }
-                    }
-                    else if (activeMenu == ActiveMenuTypes.Picking)
-                    {
-                        if (dView?.SelectedRows[0] != null)
+                        else if (activeMenu == ActiveMenuTypes.Picking)
                         {
-                            switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                            if (dView?.SelectedRows[0] != null)
                             {
-                                case 1:
-                                    {
-                                        SelectOutOrder();
-                                        break;
-                                    }
+                                switch (NullCheck.IsNullInt(dView.SelectedRows[0].Cells[0].Value))
+                                {
+                                    case 1:
+                                        {
+                                            SelectOutOrder();
+                                            break;
+                                        }
+                                }
                             }
                         }
                     }
                 }
+            }
+            catch
+            {
+                BackToMainMenu();
             }
         }
         #endregion
@@ -1362,10 +1382,10 @@ namespace Emulator.Emulator
             row9.Text = "";
         }
 
-        private void ClearInput()
+        private void ClearInput(bool input1 = true, bool input2 = true)
         {
-            tBoxInput1.Text = "";
-            tBoxInput2.Text = "";
+            tBoxInput1.Text = input1 ? "" : tBoxInput1.Text;
+            tBoxInput2.Text = input2 ? "" : tBoxInput2.Text;
         }
 
         private void DisableInfo()

@@ -220,7 +220,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "ShipmentEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Pristatymų redagavimo langas";
             this.Load += new System.EventHandler(this.ShipmentEditor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dView)).EndInit();
             this.ResumeLayout(false);

@@ -66,16 +66,16 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 "@Name", tItemName.Text,
                 "@Description", tItemDescription.Text,
                 "@TypeId", cItemType.SelectedValue,
-                "@NetWeight", tNetWeight.Text.Trim(),
-                "@BrutoWeight", tBrutoWeight.Text.Trim(),
-                "@Volume", tVolume.Text.Trim(),
+                "@NetWeight", tNetWeight.Text.Trim().Replace(',','.'),
+                "@BrutoWeight", tBrutoWeight.Text.Trim().Replace(',','.'),
+                "@Volume", tVolume.Text.Trim().Replace(',','.'),
                 "@MUId", cMU.SelectedValue,
                 "@CreateDate", DateTime.Now.ToShortDateString(),
                 "@UpdateDate", DateTime.Now.ToShortDateString(),
                 "@WhId", GlobalUser.CurrentWarehouseId,
                 "@Barcode", tBarcode.Text,
-                "@Width", tWidth.Text,
-                "@Height", tHeight.Text
+                "@Width", tWidth.Text.Replace(',','.'),
+                "@Height", tHeight.Text.Replace(',','.')
             });
             LogAction(ItemId == -1 ? SaveProcedure : UpdateProcedure);
             DialogResult = DialogResult.OK;
@@ -280,6 +280,28 @@ namespace Bakalauras_2020.Forms.Warehouse.Items
                 "@Obj14", DateTime.Now.ToShortDateString(), "@Obj14Name", nameof(DateTime),
                 "@Obj15", GlobalUser.CurrentWarehouseId, "@Obj15Name", "CurrentWarehouseId"
             });
+        }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            ItemId = int.Parse(values[0]);
+            tItemCode.Text = values[1];
+            tItemName.Text = values[2];
+            tItemDescription.Text = values[3];
+            cItemType.SelectedValue = 3;
+            tNetWeight.Text = values[5];
+            tBrutoWeight.Text = values[6];
+            tVolume.Text = values[7];
+            cMU.SelectedValue = 1;
+            tBarcode.Text = values[9];
+            tWidth.Text = values[10];
+            tHeight.Text = values[11];
+            GlobalUser.CurrentWarehouseId = 3;
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
         }
     }
 }

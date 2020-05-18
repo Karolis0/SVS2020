@@ -49,7 +49,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.dataGridView2);
             this.Name = "ReceivingDocs";
-            this.Text = "ReceivingDocs";
+            this.Text = "Priėmimo užsakymai";
             this.Controls.SetChildIndex(this.dataGridView2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);

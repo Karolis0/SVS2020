@@ -230,5 +230,18 @@ namespace Bakalauras_2020.Forms.Receiving
             SelectedPartnerId = PartnerMapper.SelectPartnerId(Customer: true);
             tPartner.Text = Sql.GetString($"SELECT dbo.GetPartnerName('{SelectedPartnerId}')");
         }
+
+        public void AssignTextBoxes(string[] values)
+        {
+            ParcelId = int.Parse(values[0]);
+            tParcelNo.Text = values[1];
+            tPartner.Text = values[2];
+            GlobalUser.CurrentWarehouseId = 3;
+        }
+
+        public void PerformSave()
+        {
+            bSave_Click(null, null);
+        }
     }
 }

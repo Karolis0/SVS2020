@@ -200,7 +200,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "OutOrderEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Išsiuntimo užsakymų redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

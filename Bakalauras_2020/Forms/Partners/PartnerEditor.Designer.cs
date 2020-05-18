@@ -166,7 +166,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "PartnerEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Partnerių redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

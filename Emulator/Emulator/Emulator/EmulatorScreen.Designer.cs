@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmulatorScreen));
             this.row1 = new System.Windows.Forms.Label();
             this.row3 = new System.Windows.Forms.Label();
             this.row4 = new System.Windows.Forms.Label();
@@ -197,8 +198,9 @@
             this.Controls.Add(this.row4);
             this.Controls.Add(this.row3);
             this.Controls.Add(this.row1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EmulatorScreen";
-            this.Text = "EmulatorScreen";
+            this.Text = "Emuliatorius";
             ((System.ComponentModel.ISupportInitialize)(this.dView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dViewDataShow)).EndInit();
             this.ResumeLayout(false);

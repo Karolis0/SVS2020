@@ -89,67 +89,106 @@ namespace Bakalauras_2020.Forms
 
         private void veiksmųIstorijaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new ActionLog());
+            if (GlobalUser.SuperUser)
+                ShowChild(new ActionLog());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void prekėsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Items());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new Items());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void sandėliaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Warehouses());
+            if (GlobalUser.UserLevel >= 5 || GlobalUser.SuperUser)
+                ShowChild(new Warehouses());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void sandėlioZonosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new WarehouseZones());
+            if (GlobalUser.UserLevel >= 5 || GlobalUser.SuperUser)
+                ShowChild(new WarehouseZones());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void priėmimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new ReceivingDocs());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new ReceivingDocs());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void priėmimoDokumentaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new ReceivingOrder());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new ReceivingOrder());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void pristatymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Shipment());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new Shipment());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void išsiuntimoUžsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new OutOrder());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new OutOrder());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void siuntosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new Parcels());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new Parcels());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void surinkimasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new WorkOrders());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new WorkOrders());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void tipaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new PalletType());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new PalletType());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void paletėsSandėlyjeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new StoredPallets());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new StoredPallets());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void prekėsAntPalečiųToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowChild(new StoredItems());
+            if (GlobalUser.UserLevel >= 3 || GlobalUser.SuperUser)
+                ShowChild(new StoredItems());
+            else
+                MessageBox.Show("Jūs neturite teisės peržiūrėti šio sąrašo!", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

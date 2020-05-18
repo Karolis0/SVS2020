@@ -36,8 +36,8 @@
             this.priėmimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tDistOrders = new System.Windows.Forms.ToolStripSplitButton();
-            this.išsiuntimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.siuntosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.išsiuntimoUžsakymaiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.surinkimasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tWarehouses = new System.Windows.Forms.ToolStripSplitButton();
@@ -51,7 +51,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tActions = new System.Windows.Forms.ToolStripSplitButton();
             this.veiksmųIstorijaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.klaidųSąrašasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sep4 = new System.Windows.Forms.ToolStripSeparator();
             this.tConfig = new System.Windows.Forms.ToolStripButton();
             this.lUserInfo = new System.Windows.Forms.Label();
@@ -133,19 +132,19 @@
             this.tDistOrders.Text = "Išsiuntimas";
             this.tDistOrders.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // išsiuntimoUžsakymaiToolStripMenuItem
-            // 
-            this.išsiuntimoUžsakymaiToolStripMenuItem.Name = "išsiuntimoUžsakymaiToolStripMenuItem";
-            this.išsiuntimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.išsiuntimoUžsakymaiToolStripMenuItem.Text = "Išsiuntimo užsakymai";
-            this.išsiuntimoUžsakymaiToolStripMenuItem.Click += new System.EventHandler(this.išsiuntimoUžsakymaiToolStripMenuItem_Click);
-            // 
             // siuntosToolStripMenuItem
             // 
             this.siuntosToolStripMenuItem.Name = "siuntosToolStripMenuItem";
             this.siuntosToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.siuntosToolStripMenuItem.Text = "Siuntos";
             this.siuntosToolStripMenuItem.Click += new System.EventHandler(this.siuntosToolStripMenuItem_Click);
+            // 
+            // išsiuntimoUžsakymaiToolStripMenuItem
+            // 
+            this.išsiuntimoUžsakymaiToolStripMenuItem.Name = "išsiuntimoUžsakymaiToolStripMenuItem";
+            this.išsiuntimoUžsakymaiToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.išsiuntimoUžsakymaiToolStripMenuItem.Text = "Išsiuntimo užsakymai";
+            this.išsiuntimoUžsakymaiToolStripMenuItem.Click += new System.EventHandler(this.išsiuntimoUžsakymaiToolStripMenuItem_Click);
             // 
             // surinkimasToolStripMenuItem
             // 
@@ -235,8 +234,7 @@
             // 
             this.tActions.AutoSize = false;
             this.tActions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.veiksmųIstorijaToolStripMenuItem,
-            this.klaidųSąrašasToolStripMenuItem});
+            this.veiksmųIstorijaToolStripMenuItem});
             this.tActions.Image = ((System.Drawing.Image)(resources.GetObject("tActions.Image")));
             this.tActions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tActions.Name = "tActions";
@@ -247,15 +245,9 @@
             // veiksmųIstorijaToolStripMenuItem
             // 
             this.veiksmųIstorijaToolStripMenuItem.Name = "veiksmųIstorijaToolStripMenuItem";
-            this.veiksmųIstorijaToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.veiksmųIstorijaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.veiksmųIstorijaToolStripMenuItem.Text = "Veiksmų istorija";
             this.veiksmųIstorijaToolStripMenuItem.Click += new System.EventHandler(this.veiksmųIstorijaToolStripMenuItem_Click);
-            // 
-            // klaidųSąrašasToolStripMenuItem
-            // 
-            this.klaidųSąrašasToolStripMenuItem.Name = "klaidųSąrašasToolStripMenuItem";
-            this.klaidųSąrašasToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.klaidųSąrašasToolStripMenuItem.Text = "Klaidų sąrašas";
             // 
             // sep4
             // 
@@ -291,7 +283,7 @@
             this.Controls.Add(this.tModuleButtons);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Pagrindinis meniu";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tModuleButtons.ResumeLayout(false);
             this.tModuleButtons.PerformLayout();
@@ -321,7 +313,6 @@
         private System.Windows.Forms.ToolStripMenuItem veiksmųIstorijaToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator sep4;
         private System.Windows.Forms.ToolStripButton tConfig;
-        private System.Windows.Forms.ToolStripMenuItem klaidųSąrašasToolStripMenuItem;
         private System.Windows.Forms.Label lUserInfo;
         private System.Windows.Forms.ToolStripMenuItem priėmimoDokumentaiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem paletėsToolStripMenuItem;

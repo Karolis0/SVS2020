@@ -306,5 +306,12 @@ namespace Bakalauras_2020.Forms.Receiving
 
             return NullCheck.IsNullInt(dView.SelectedRows[0].Cells[FormMainId].Value);
         }
+
+        public void PerformSave(DataGridViewRow row)
+        {
+            if (!ValidateRow(row))
+                return;
+            SaveRow(row);
+        }
     }
 }

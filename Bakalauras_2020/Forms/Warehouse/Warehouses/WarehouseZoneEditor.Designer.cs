@@ -268,7 +268,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "WarehouseZoneEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Sandėlio zonų redagavimo langas";
             this.ResumeLayout(false);
             this.PerformLayout();
 

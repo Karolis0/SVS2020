@@ -179,7 +179,7 @@
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bSave);
             this.Name = "ReceivingOrderEditor";
-            this.Text = "ItemEditor";
+            this.Text = "Priėmimo dokumentų redagavimo langas";
             ((System.ComponentModel.ISupportInitialize)(this.dView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
